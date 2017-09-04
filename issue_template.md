@@ -1,5 +1,7 @@
-**I'm opening this issue because:**
+**What's Wrong?**
 
-**What's going wrong?**
+**What do I Expect to Happen?**
 
-**supporting information:**
+**Suggested Fix**
+
+**Supporting Information**

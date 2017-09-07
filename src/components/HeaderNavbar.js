@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, NavItem, Dropdown, Button } from 'react-materialize';
+import { Navbar, NavItem } from 'react-materialize';
 import '../styles/HeaderNavbar.css';
 
 const HeaderNavbar = () => (

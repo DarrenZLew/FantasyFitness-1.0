@@ -1,18 +1,23 @@
 import React from 'react';
 import { Button, Row, Col } from 'react-materialize';
+import NumericInput from 'react-numeric-input';
 import '../styles/ScoreForm.css';
 
 const ScoreForm = ({ exercises }) => {
 	return (
-		<form className='container center'>
+		<form className='container center scoreForm-form'>
+			<Row>
+				<Col s={2} offset='s3'><h5>Activity</h5></Col>
+				<Col s={2}><h5>Current Value</h5></Col>
+				<Col s={2}><h5>New Value</h5></Col>
+			</Row>
 			{exercises.map((exercise, index) => {
-				const value = exercises[index].value.toString()
 				return (
-					<div key={exercise.name}>
-						<h3>{exercise.name}</h3>
-						{exercise.type === 'interval' && <IntegerButton value={value} />}
-						{exercise.type === 'timer' && <TimerButton value={value}/>}			
-					</div>
+					<Row key={exercise.name}>
+						<Col s={2} offset='s3'>{exercise.name}</Col>
+						{exercise.type === 'interval' && <IntegerExercise value={exercise.value}/>}
+						{exercise.type === 'timer' && <TimerExercise value={exercise.value}/>}
+					</Row>			
 				)
 			})}	
 			<Button className='exercise-save'>Save</Button>
@@ -20,49 +25,37 @@ const ScoreForm = ({ exercises }) => {
 	)
 }
 
-const IntegerButton = ({ value }) => (
+const IntegerExercise = ({ value }) => (
 	<div>
-		<Row>
-			<Button className='red exercise-minus'>--</Button>
-			<Button className='red exercise-minus'>-</Button>
-			<Button className='exercise-input'>{value}</Button>
-			<Button className='green exercise-plus'>+</Button>
-			<Button className='green exercise-plus'>++</Button>
-		</Row>
-		<Row className='exercise-current-value'>Current: {value}</Row>
+		<Col s={2}>{value}</Col>
+		<Col s={2} className='exercise-col-integer-input'><NumericInput style={false} className='exercise-integer-input' min={0} max={9999} defaultValue={0} /></Col>	
 	</div>
 )
 
-const TimerButton = ({ value }) => {
-	let hrs = Math.floor(value / 60)
-	let mins = value % 60
+const TimerExercise = ({ value }) => {
+	const currTime = convertMinsToHrsMins(value)
+	let h = <NumericInput style={false} className='exercise-timer-digit-input' min={0} max={99} placeholder={0}/>
+	let m = <NumericInput style={false} className='exercise-timer-digit-input' min={0} max={59} placeholder={0}/>
 
-	return(
+	return (
 		<div>
-			<Row>
-				<div className='exercise-timer-row'>
-					<span>Hrs</span>
-					<Button className='red exercise-hour'>-1</Button>
-					<Button className='green exercise-hour'>+1</Button>
-				</div>
-			</Row>
-			<Row>
-				<div className='exercise-timer-row'>
-					Mins
-					<Button className='red exercise-fifteen'>-15</Button>
-					<Button className='red exercise-five'>-5</Button>
-					<Button className='green exercise-five'>+5</Button>
-					<Button className='green exercise-fifteen'>+15</Button>
-				</div>
-			</Row>
-			<Row>
-				<span>Total Time </span>
-				<span>Hrs</span><Button>{hrs}</Button>
-				<span>Mins</span><Button>{mins}</Button>
-			</Row>
-			<Row>Current Total Time: {hrs} : {mins}</Row>
+			<Col s={2}>{currTime}</Col>
+			<Col s={2}>Hrs: {h}  Mins: {m}</Col>
 		</div>
 	)
 }
+
+
+
+const convertMinsToHrsMins = minutes => {
+	let h = Math.floor(minutes / 60)
+	let m = minutes % 60	
+	h = h < 10 ? '0' + h : h
+	m = m < 10 ? '0' + m : m
+	return (
+		'Hrs: ' + h + ' Min: ' + m
+	)
+}
+
 
 export default ScoreForm

@@ -27,7 +27,7 @@ class App extends Component {
 			type: 'timer' 
 		},
 		{	name: 'Cycling',
-			value: 0,
+			value: 370,
 			type: 'timer'  
 		}		 
 	]		

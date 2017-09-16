@@ -3,23 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-<<<<<<< HEAD
     "event-emitter": "^0.3.5",
     "material-ui": "^0.19.1",
-=======
->>>>>>> 7c383f04583e58056ecce7362672c8e2be48bb6b
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-numeric-input": "^2.2.0",
-<<<<<<< HEAD
     "react-redux": "^5.0.6",
     "react-scripts": "1.0.11",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
-=======
-    "react-scripts": "1.0.11",
+    "redux-thunk": "^2.2.0",
     "semantic-ui-react": "^0.73.0"
->>>>>>> 7c383f04583e58056ecce7362672c8e2be48bb6b
   },
   "scripts": {
     "start": "react-scripts start",

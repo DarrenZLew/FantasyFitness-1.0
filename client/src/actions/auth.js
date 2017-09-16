@@ -12,7 +12,7 @@ export const Types = {
 };
 
 /**
- * Authentication tokens will be stored on local storage. 
+ * Attempt to log in. Authentication tokens will be stored on local storage. 
  * React components will access the token via Redux
  * @param {object} 
  *  username: String

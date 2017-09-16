@@ -1,61 +1,128 @@
 import React from 'react';
-import { Button, Row, Col } from 'react-materialize';
-import NumericInput from 'react-numeric-input';
+import { Table, Form, Button, Checkbox, Icon, Popup } from 'semantic-ui-react';
 import '../styles/ScoreForm.css';
 
-const ScoreForm = ({ exercises }) => {
-	return (
-		<form className='container center scoreForm-form'>
-			<Row>
-				<Col s={2} offset='s3'><h5>Activity</h5></Col>
-				<Col s={2}><h5>Current Value</h5></Col>
-				<Col s={2}><h5>New Value</h5></Col>
-			</Row>
-			{exercises.map((exercise, index) => {
-				return (
-					<Row key={exercise.name}>
-						<Col s={2} offset='s3'>{exercise.name}</Col>
-						{exercise.type === 'interval' && <IntegerExercise value={exercise.value}/>}
-						{exercise.type === 'timer' && <TimerExercise value={exercise.value}/>}
-					</Row>			
-				)
-			})}	
-			<Button className='exercise-save'>Save</Button>
-		</form>
-	)
-}
-
-const IntegerExercise = ({ value }) => (
-	<div>
-		<Col s={2}>{value}</Col>
-		<Col s={2} className='exercise-col-integer-input'><NumericInput style={false} className='exercise-integer-input' min={0} max={9999} defaultValue={0} /></Col>	
-	</div>
+const ScoreForm = ({ exercises, bonuses, handleCheckedBox }) => (
+	<Form className='container center scoreForm-form'>
+		<TableExercises exercises={exercises}/>
+		<TableBonuses bonuses={bonuses} handleCheckedBox={handleCheckedBox}/>
+		<Button className='exercise-reset'>Reset</Button>
+		<Button className='exercise-submit'>Submit</Button>
+	</Form>
 )
 
-const TimerExercise = ({ value }) => {
-	const currTime = convertMinsToHrsMins(value)
-	let h = <NumericInput style={false} className='exercise-timer-digit-input' min={0} max={99} placeholder={0}/>
-	let m = <NumericInput style={false} className='exercise-timer-digit-input' min={0} max={59} placeholder={0}/>
+const TableExercises = ({ exercises }) => (
+	<Table selectable size='small'>
+		<Table.Header>
+			<Table.Row>
+				<Table.HeaderCell width={5}>
+					Activity
+					<Popup
+      			trigger={<Icon name='info circle'/>}
+			      content='Click on the exercise to learn more!'
+			      hideOnScroll
+    			/>
+    		</Table.HeaderCell>
+				<Table.HeaderCell width={3}>Current Value</Table.HeaderCell>
+				<Table.HeaderCell width={5}>New Value</Table.HeaderCell>
+			</Table.Row>
+		</Table.Header>
+		<Table.Body>
+			{exercises.map(exercise => {
+				const { name,value,units,type } = {...exercise}
+				return (
+					<Table.Row key={name}>
+						<Table.Cell>{name}</Table.Cell>	
+						{type === 'interval' && <Table.Cell><CurrIntegerExercise value={value} units={units}/></Table.Cell>}
+						{type === 'interval' && <Table.Cell><NewIntegerExercise value={value} units={units}/></Table.Cell>}
+						{type === 'timer' && <Table.Cell><CurrTimerExercise value={value}/></Table.Cell>}
+						{type === 'timer' && <Table.Cell><NewTimerExercise value={value}/></Table.Cell>}
+					</Table.Row>
+				)
+			})}	
+		</Table.Body>
+	</Table>
+)
 
+const TableBonuses = ({ bonuses, handleCheckedBox }) => (
+	<Table selectable size='small'>
+		<Table.Header>
+			<Table.Row>
+				<Table.HeaderCell colSpan='2'>
+					Bonus
+					<Popup
+      			trigger={<Icon name='info circle'/>}
+			      content='Click on the bonus to learn more!'
+			      hideOnScroll
+    			/>
+				</Table.HeaderCell>
+			</Table.Row>
+		</Table.Header>
+		<Table.Body>
+			{bonuses.map(bonus => {
+				const { mo,tu,we,th,fr,sa,su } = {...bonus}
+				return (
+					<Table.Row key={bonus.name}>
+						<Table.Cell width={3}>{bonus.name}</Table.Cell>
+						<Table.Cell>	
+							<Checkbox label='Mon' checked={mo} onChange={handleCheckedBox}/>
+							<Checkbox label='Tues' checked={tu}/>
+							<Checkbox label='Wed' checked={we}/>
+							<Checkbox label='Thurs' checked={th}/>
+							<Checkbox label='Fri' checked={fr}/>
+							<Checkbox label='Sat' checked={sa}/>
+							<Checkbox label='Sun' checked={su}/>
+						</Table.Cell>
+					</Table.Row>
+				)
+			})}
+		</Table.Body>
+	</Table>
+)
+
+const CurrIntegerExercise = ({ value, units }) => (<div>{value} {units}</div>)
+
+const NewIntegerExercise = ({ value, units }) => {
+	let step
+	switch (units) {
+		case 'Miles':
+			step = 0.1
+			break;
+		case 'Meters':
+			step = 0.5
+			break;
+		default:
+			step = 1		
+	} 
 	return (
-		<div>
-			<Col s={2}>{currTime}</Col>
-			<Col s={2}>Hrs: {h}  Mins: {m}</Col>
-		</div>
+		<Form.Input type='number' width={8} min={0} max={9999} step={step} defaultValue={value} />	
 	)
 }
 
+const CurrTimerExercise = ({ value }) => {
+	const currTime = convertMinsToHrsMins(value)
+	return (
+		<div>{currTime}</div>
+	)
+}
 
+const NewTimerExercise = ({ value }) => {
+	let h = <Form.Input type='number' label='Hrs' labelPosition='right' width={4} min={0} max={99} />
+	let m = <Form.Input type='number' label='Mins' labelPosition='right' width={4} min={0} max={59} />
+	
+	return (
+		<Form.Group>
+		 {h}{m}
+		</Form.Group>
+	)
+}
 
 const convertMinsToHrsMins = minutes => {
 	let h = Math.floor(minutes / 60)
 	let m = minutes % 60	
-	h = h < 10 ? '0' + h : h
-	m = m < 10 ? '0' + m : m
 	return (
-		'Hrs: ' + h + ' Min: ' + m
+		h + '  Hrs  ' + m + '  Min'
 	)
 }
-
 
 export default ScoreForm

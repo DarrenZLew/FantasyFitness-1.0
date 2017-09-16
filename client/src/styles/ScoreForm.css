@@ -2,18 +2,6 @@
 	margin-top: 20px;
 }
 
-.exercise-col-integer-input > .input-field {
-	margin-top: -10px;
-	text-align: center;
-	width: 100%;
-}
-
-.exercise-integer-input {
-	text-align: center;
-}
-
-
-input.exercise-timer-digit-input {
-	width: 10%;
-	text-align: center;
+.ui.checkbox {
+	margin-left: 50px;
 }

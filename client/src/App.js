@@ -6,13 +6,17 @@ import MenuHeader from './components/MenuHeader';
 import ScoreForm from './components/ScoreForm';
 import Login from './components/Login';
 import FourOFour from './components/404';
+import ProfileForm from './components/ProfileForm';
 
 class App extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
 			exercises: [],
-			bonuses: []
+			bonuses: [],
+			userAttributes: [],
+			preferences: []
+
 		}
 		this.handleCheckedBox = this.handleCheckedBox.bind(this)
 
@@ -101,10 +105,27 @@ class App extends Component {
 				su: false
 			}			
 		]		
-
+		const userAttributes = [
+			{	name: 'User Name',
+				value: 'GoodDeedsDeserveDoughnuts',
+				type: 'string'
+			},
+			{	name: 'Email',
+				value: 'rruenroeng@gmail.com',
+				type: 'string'
+			}			
+		]
+		const preferences = [
+			{	name: 'Distance',
+				mi: false,
+				km: true
+			}			
+		]
 		this.setState({
 			exercises: exercises,
-			bonuses: bonuses
+			bonuses: bonuses,
+			userAttributes: userAttributes,
+			preferences: preferences
 		})
 	}
 
@@ -120,6 +141,7 @@ class App extends Component {
 					<Switch>
 						<Route path='/score' render={() => <ScoreForm exercises={this.state.exercises} bonuses={this.state.bonuses} handleCheckedBox={this.handleCheckedBox}/>} />
 						<Route path='/login' render={() => <Login />} />
+						<Route path='/profile' render={() => <ProfileForm userAttributes={this.state.userAttributes} preferences={this.state.preferences} handleCheckedBox={this.handleCheckedBox}/>} />
 						<Route path='/404' component={FourOFour} />
 						<Redirect to='/404' />
 					</Switch>

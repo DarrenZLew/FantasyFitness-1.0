@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
+import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
+
 import MenuHeader from './components/MenuHeader';
 import ScoreForm from './components/ScoreForm';
+import Login from './components/Login';
+import FourOFour from './components/404';
 
 class App extends Component {
 	constructor(props) {
@@ -110,10 +114,17 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <MenuHeader />
-        <ScoreForm exercises={this.state.exercises} bonuses={this.state.bonuses} handleCheckedBox={this.handleCheckedBox}/>
-      </div>
+      <Router>
+				<div>
+        	<MenuHeader />
+					<Switch>
+						<Route path='/score' render={() => <ScoreForm exercises={this.state.exercises} bonuses={this.state.bonuses} handleCheckedBox={this.handleCheckedBox}/>} />
+						<Route path='/login' render={() => <Login />} />
+						<Route path='/404' component={FourOFour} />
+						<Redirect to='/404' />
+					</Switch>
+				</div>
+			</Router>
 
     )
   }

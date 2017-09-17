@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { Menu } from 'semantic-ui-react';
+import { withRouter, Link } from 'react-router-dom';
 import '../styles/HeaderNavbar.css';
 
-export default class MenuHeader extends Component {
+class MenuHeader extends Component {
   state = { activeItem: 'score form' }
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+  handleItemClick = (e, { name, to }) => {
+		this.props.history.push(to);
+		this.setState({ activeItem: name });
+	}
 
   render () {
   	const { activeItem } = this.state
@@ -13,14 +17,29 @@ export default class MenuHeader extends Component {
 		  <Menu color='blue' inverted pointing secondary>
 		    <Menu.Item name='Fantasy Fitness'/>
 		    <Menu.Menu position='right'>
-		    	<Menu.Item name='score form' active={activeItem === 'score form'} onClick={this.handleItemClick}/>
-		    	<Menu.Item name='team' active={activeItem === 'team'} onClick={this.handleItemClick}/>
-		    	<Menu.Item name='league' active={activeItem === 'league'} onClick={this.handleItemClick}/>
-		    	<Menu.Item name='rules' active={activeItem === 'rules'} onClick={this.handleItemClick}/>
-		    	<Menu.Item name='profile' active={activeItem === 'profile'} onClick={this.handleItemClick}/>
-		    	<Menu.Item name='sign in' active={activeItem === 'sign in'} onClick={this.handleItemClick}/>
+		    	<Menu.Item to='/score' name='score form' active={activeItem === 'score form'} onClick={this.handleItemClick}>
+						Score
+					</Menu.Item>
+		    	<Menu.Item to='/team' name='team' active={activeItem === 'team'} onClick={this.handleItemClick}>
+						Team
+					</Menu.Item>
+		    	<Menu.Item to='/league' name='league' active={activeItem === 'league'} onClick={this.handleItemClick}>
+						League
+					</Menu.Item>
+		    	<Menu.Item to='/rules' name='rules' active={activeItem === 'rules'} onClick={this.handleItemClick}>
+						Rules
+					</Menu.Item>
+		    	<Menu.Item to='/profile' name='profile' active={activeItem === 'profile'} onClick={this.handleItemClick}>
+						Profile
+					</Menu.Item>
+		    	<Menu.Item to='/login' name='sign in' active={activeItem === 'sign in'} onClick={this.handleItemClick}>
+						Sign In
+					</Menu.Item>
 		    </Menu.Menu>
 		  </Menu>
   	)
   }
 }
+
+// withRouter injects history props to trigger routing
+export default withRouter(MenuHeader);

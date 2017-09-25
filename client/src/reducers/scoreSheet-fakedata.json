@@ -1,0 +1,660 @@
+{
+	"activities": [
+		{
+			"name": "Push Ups",
+			"value": "10"
+		}, 		
+		{
+			"name": "HS Push Ups",
+			"value": "50"
+		}, 		
+		{
+			"name": "Pull Ups",
+			"value": "50"
+		}, 		
+		{
+			"name": "Air Squats",
+			"value": "5"
+		}, 		
+		{
+			"name": "Distance Swam",
+			"value": "3500"
+		},
+		{
+			"name": "Distance Ran",
+			"value": "1000"
+		},		 
+		{
+			"name": "Distance Cycled",
+			"value": "400"
+		},
+		{
+			"name": "Distance Rowed",
+			"value": "400"
+		},		
+		{
+			"name": "1-Minute Planks",
+			"value": "200"
+		},
+		{
+			"name": "Low Intensity",
+			"value": "5000"
+		},		
+		{
+			"name": "High Intensity",
+			"value": "7000"
+		},
+		{
+			"name": "Sports",
+			"value": "3500"
+		},
+		{
+			"name": "Nutrition Bonus",
+			"value": "1000"
+		},
+		{
+			"name": "Stretch Bonus",
+			"value": "1000"
+		},
+		{
+			"name": "Tabata Bonus",
+			"value": "1500"
+		}		
+	],
+	"users": [
+		{
+			"username": "Darren",
+			"id": 1,
+			"total": "80000",
+			"head2head": "30",
+			"activities": [
+				{	"name": "Push Ups",
+					"value": "20"
+				},
+				{	"name": "HS Push Ups",
+					"value": "20"
+				},				
+				{	"name": "Pull Ups",
+					"value": "0" 
+				},
+				{	"name": "Air Squats",
+					"value": "0" 
+				},
+				{	"name": "Distance Swam",
+					"value": "1000",
+					"units": "Miles"
+				},			
+				{	"name": "Distance Ran",
+					"value": "100",
+					"units": "Miles" 
+				},
+				{	"name": "Distance Cycled",
+					"value": "370",
+					"units": "Miles"
+				},
+				{	"name": "Distance Rowed",
+					"value": "20",
+					"units": "Meters"
+				},								
+				{	"name": "1-Minute Planks",
+					"value": "37"
+				},				
+				{	"name": "Low Intensity",
+					"value": {
+						"hr": "3",
+						"min": "45"
+					}
+				},				
+				{	"name": "High Intensity",
+					"value": {
+						"hr": "0",
+						"min": "30"
+					}
+				},				
+				{	"name": "Sports",
+					"value": {
+						"hr": "7",
+						"min": "0"
+					}
+				},
+				{	"name": "Nutrition",
+					"value": "3"
+				},
+				{	"name": "Stretching",
+					"value": "4"
+				},
+				{	"name": "Tabata",
+					"value": "3"
+				}	
+			]	
+		},
+		{
+			"username": "Ryan",
+			"id": 2,	
+			"total": "123456",
+			"head2head": "30",					
+			"activities": [
+				{	"name": "Push Ups",
+					"value": "203"
+				},
+				{	"name": "HS Push Ups",
+					"value": "20"
+				},					
+				{	"name": "Pull Ups",
+					"value": "20" 
+				},
+				{	"name": "Air Squats",
+					"value": "46" 
+				},
+				{	"name": "Distance Swam",
+					"value": "0",
+					"units": "Miles"
+				},			
+				{	"name": "Distance Ran",
+					"value": "5",
+					"units": "Miles" 
+				},
+				{	"name": "Distance Cycled",
+					"value": "456",
+					"units": "Miles"
+				},
+				{	"name": "Distance Rowed",
+					"value": "5",
+					"units": "Meters"
+				},								
+				{	"name": "1-Minute Planks",
+					"value": "10"
+				},				
+				{	"name": "Low Intensity",
+					"value": {
+						"hr": "1",
+						"min": "15"
+					}
+				},				
+				{	"name": "High Intensity",
+					"value": {
+						"hr": "2",
+						"min": "0"
+					}
+				},				
+				{	"name": "Sports",
+					"value": {
+						"hr": "10",
+						"min": "0"
+					}
+				},
+				{	"name": "Nutrition",
+					"value": "4"
+				},
+				{	"name": "Stretching",
+					"value": "4"
+				},
+				{	"name": "Tabata",
+					"value": "4"
+				}	
+			]	
+		},
+		{
+			"username": "Sanda",
+			"id": 3,
+			"total": "100000",
+			"head2head": "30",						
+			"activities": [
+				{	"name": "Push Ups",
+					"value": "2000"
+				},
+				{	"name": "HS Push Ups",
+					"value": "20"
+				},					
+				{	"name": "Pull Ups",
+					"value": "1000" 
+				},
+				{	"name": "Air Squats",
+					"value": "500" 
+				},
+				{	"name": "Distance Swam",
+					"value": "20",
+					"units": "Miles"
+				},			
+				{	"name": "Distance Ran",
+					"value": "50",
+					"units": "Miles" 
+				},
+				{	"name": "Distance Cycled",
+					"value": "30",
+					"units": "Miles"
+				},
+				{	"name": "Distance Rowed",
+					"value": "5",
+					"units": "Meters"
+				},								
+				{	"name": "1-Minute Planks",
+					"value": "0"
+				},				
+				{	"name": "Low Intensity",
+					"value": {
+						"hr": "0",
+						"min": "0"
+					}
+				},				
+				{	"name": "High Intensity",
+					"value": {
+						"hr": "0",
+						"min": "0"
+					}
+				},				
+				{	"name": "Sports",
+					"value": {
+						"hr": "0",
+						"min": "0"
+					}
+				},
+				{	"name": "Nutrition",
+					"value": "1"
+				},
+				{	"name": "Stretching",
+					"value": "2"
+				},
+				{	"name": "Tabata",
+					"value": "3"
+				}
+			]
+		},
+		{
+			"username": "Kate",
+			"id": 4,
+			"total": "116600",
+			"head2head": "16",
+			"activities": [
+				{	"name": "Push Ups",
+					"value": "68"
+				},
+				{	"name": "HS Push Ups",
+					"value": "0"
+				},				
+				{	"name": "Pull Ups",
+					"value": "0" 
+				},
+				{	"name": "Air Squats",
+					"value": "240" 
+				},
+				{	"name": "Distance Swam",
+					"value": "0",
+					"units": "Miles"
+				},			
+				{	"name": "Distance Ran",
+					"value": "38",
+					"units": "Miles" 
+				},
+				{	"name": "Distance Cycled",
+					"value": "0",
+					"units": "Miles"
+				},
+				{	"name": "Distance Rowed",
+					"value": "0",
+					"units": "Meters"
+				},								
+				{	"name": "1-Minute Planks",
+					"value": "16"
+				},				
+				{	"name": "Low Intensity",
+					"value": {
+						"hr": "5",
+						"min": "0"
+					}
+				},				
+				{	"name": "High Intensity",
+					"value": {
+						"hr": "0",
+						"min": "45"
+					}
+				},				
+				{	"name": "Sports",
+					"value": {
+						"hr": "6",
+						"min": "30"
+					}
+				},
+				{	"name": "Nutrition",
+					"value": "6"
+				},
+				{	"name": "Stretching",
+					"value": "6"
+				},
+				{	"name": "Tabata",
+					"value": "7"
+				}	
+			]	
+		},
+		{
+			"username": "Peterchu",
+			"id": 5,	
+			"total": "117760",
+			"head2head": "35",					
+			"activities": [
+				{	"name": "Push Ups",
+					"value": "880"
+				},
+				{	"name": "HS Push Ups",
+					"value": "20"
+				},					
+				{	"name": "Pull Ups",
+					"value": "470" 
+				},
+				{	"name": "Air Squats",
+					"value": "270" 
+				},
+				{	"name": "Distance Swam",
+					"value": "0",
+					"units": "Miles"
+				},			
+				{	"name": "Distance Ran",
+					"value": "7.5",
+					"units": "Miles" 
+				},
+				{	"name": "Distance Cycled",
+					"value": "35.5",
+					"units": "Miles"
+				},
+				{	"name": "Distance Rowed",
+					"value": "0",
+					"units": "Meters"
+				},								
+				{	"name": "1-Minute Planks",
+					"value": "35"
+				},				
+				{	"name": "Low Intensity",
+					"value": {
+						"hr": "2",
+						"min": "0"
+					}
+				},				
+				{	"name": "High Intensity",
+					"value": {
+						"hr": "0",
+						"min": "15"
+					}
+				},				
+				{	"name": "Sports",
+					"value": {
+						"hr": "1",
+						"min": "40"
+					}
+				},
+				{	"name": "Nutrition",
+					"value": "7"
+				},
+				{	"name": "Stretching",
+					"value": "7"
+				},
+				{	"name": "Tabata",
+					"value": "7"
+				}	
+			]	
+		},
+		{
+			"username": "Bry me a river",
+			"id": 6,
+			"total": "112210",
+			"head2head": "0",						
+			"activities": [
+				{	"name": "Push Ups",
+					"value": "110"
+				},
+				{	"name": "HS Push Ups",
+					"value": "0"
+				},					
+				{	"name": "Pull Ups",
+					"value": "40" 
+				},
+				{	"name": "Air Squats",
+					"value": "0" 
+				},
+				{	"name": "Distance Swam",
+					"value": "0",
+					"units": "Miles"
+				},			
+				{	"name": "Distance Ran",
+					"value": "8.5",
+					"units": "Miles" 
+				},
+				{	"name": "Distance Cycled",
+					"value": "0",
+					"units": "Miles"
+				},
+				{	"name": "Distance Rowed",
+					"value": "5",
+					"units": "Meters"
+				},								
+				{	"name": "1-Minute Planks",
+					"value": "0"
+				},				
+				{	"name": "Low Intensity",
+					"value": {
+						"hr": "1",
+						"min": "0"
+					}
+				},				
+				{	"name": "High Intensity",
+					"value": {
+						"hr": "0",
+						"min": "0"
+					}
+				},				
+				{	"name": "Sports",
+					"value": {
+						"hr": "7",
+						"min": "0"
+					}
+				},
+				{	"name": "Nutrition",
+					"value": "5"
+				},
+				{	"name": "Stretching",
+					"value": "0"
+				},
+				{	"name": "Tabata",
+					"value": "0"
+				}
+			]
+		},
+		{
+			"username": "JoeJoe JoeJoe",
+			"id": 7,
+			"total": "54200",
+			"head2head": "0",
+			"activities": [
+				{	"name": "Push Ups",
+					"value": "0"
+				},
+				{	"name": "HS Push Ups",
+					"value": "0"
+				},				
+				{	"name": "Pull Ups",
+					"value": "0" 
+				},
+				{	"name": "Air Squats",
+					"value": "0" 
+				},
+				{	"name": "Distance Swam",
+					"value": "0",
+					"units": "Miles"
+				},			
+				{	"name": "Distance Ran",
+					"value": "2",
+					"units": "Miles" 
+				},
+				{	"name": "Distance Cycled",
+					"value": "8.25",
+					"units": "Miles"
+				},
+				{	"name": "Distance Rowed",
+					"value": "0",
+					"units": "Meters"
+				},								
+				{	"name": "1-Minute Planks",
+					"value": "0"
+				},				
+				{	"name": "Low Intensity",
+					"value": {
+						"hr": "4",
+						"min": "0"
+					}
+				},				
+				{	"name": "High Intensity",
+					"value": {
+						"hr": "0",
+						"min": "0"
+					}
+				},				
+				{	"name": "Sports",
+					"value": {
+						"hr": "0",
+						"min": "0"
+					}
+				},
+				{	"name": "Nutrition",
+					"value": "0"
+				},
+				{	"name": "Stretching",
+					"value": "0"
+				},
+				{	"name": "Tabata",
+					"value": "0"
+				}	
+			]	
+		},
+		{
+			"username": "Scoop",
+			"id": 8,	
+			"total": "25300",
+			"head2head": "10",					
+			"activities": [
+				{	"name": "Push Ups",
+					"value": "455"
+				},
+				{	"name": "HS Push Ups",
+					"value": "0"
+				},					
+				{	"name": "Pull Ups",
+					"value": "145" 
+				},
+				{	"name": "Air Squats",
+					"value": "180" 
+				},
+				{	"name": "Distance Swam",
+					"value": "0",
+					"units": "Miles"
+				},			
+				{	"name": "Distance Ran",
+					"value": "22.5",
+					"units": "Miles" 
+				},
+				{	"name": "Distance Cycled",
+					"value": "0",
+					"units": "Miles"
+				},
+				{	"name": "Distance Rowed",
+					"value": "0",
+					"units": "Meters"
+				},								
+				{	"name": "1-Minute Planks",
+					"value": "10"
+				},				
+				{	"name": "Low Intensity",
+					"value": {
+						"hr": "0",
+						"min": "0"
+					}
+				},				
+				{	"name": "High Intensity",
+					"value": {
+						"hr": "0",
+						"min": "30"
+					}
+				},				
+				{	"name": "Sports",
+					"value": {
+						"hr": "2",
+						"min": "30"
+					}
+				},
+				{	"name": "Nutrition",
+					"value": "6"
+				},
+				{	"name": "Stretching",
+					"value": "6"
+				},
+				{	"name": "Tabata",
+					"value": "6"
+				}	
+			]	
+		},
+		{
+			"username": "Shannonigans",
+			"id": 9,
+			"total": "78800",
+			"head2head": "26",						
+			"activities": [
+				{	"name": "Push Ups",
+					"value": "41"
+				},
+				{	"name": "HS Push Ups",
+					"value": "0"
+				},					
+				{	"name": "Pull Ups",
+					"value": "0" 
+				},
+				{	"name": "Air Squats",
+					"value": "140" 
+				},
+				{	"name": "Distance Swam",
+					"value": "0",
+					"units": "Miles"
+				},			
+				{	"name": "Distance Ran",
+					"value": "6",
+					"units": "Miles" 
+				},
+				{	"name": "Distance Cycled",
+					"value": "0",
+					"units": "Miles"
+				},
+				{	"name": "Distance Rowed",
+					"value": "0",
+					"units": "Meters"
+				},								
+				{	"name": "1-Minute Planks",
+					"value": "26"
+				},				
+				{	"name": "Low Intensity",
+					"value": {
+						"hr": "1",
+						"min": "0"
+					}
+				},				
+				{	"name": "High Intensity",
+					"value": {
+						"hr": "4",
+						"min": "0"
+					}
+				},				
+				{	"name": "Sports",
+					"value": {
+						"hr": "0",
+						"min": "0"
+					}
+				},
+				{	"name": "Nutrition",
+					"value": "6"
+				},
+				{	"name": "Stretching",
+					"value": "5"
+				},
+				{	"name": "Tabata",
+					"value": "6"
+				}									
+			]	
+		}				
+	]
+}

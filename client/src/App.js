@@ -8,6 +8,7 @@ import Login from './components/Login';
 import FourOFour from './components/404';
 import ProfileForm from './components/ProfileForm';
 import HeadToHead from './components/HeadToHead';
+import ScoreSheet from './components/ScoreSheet';
 
 class App extends Component {
 // begin what will be removed with iss-19
@@ -141,7 +142,8 @@ class App extends Component {
 				<div>
         	<MenuHeader />
 					<Switch>
-						<Route path='/score' render={() => <ScoreForm />} />
+						<Route exact path='/score' render={() => <ScoreForm />} />
+						<Route exact path='/scoresheet' render={() => <ScoreSheet />} />
 						<Route path='/login' render={() => <Login />} />
 						<Route path='/matchups' render={() => <HeadToHead />} />
 						<Route path='/profile' render={() => <ProfileForm userAttributes={this.state.userAttributes} preferences={this.state.preferences} handleCheckedBox={this.handleCheckedBox}/>} />

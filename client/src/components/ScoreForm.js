@@ -13,6 +13,7 @@ class ScoreForm extends Component {
 	}
 
 	render() {
+		console.log(this.props)
 		const { handleSubmit, pristine, reset, submitting, initialValues } = this.props
 		return (
 		 	<Form className='container center scoreForm-form' onSubmit={handleSubmit(this.submit)} >

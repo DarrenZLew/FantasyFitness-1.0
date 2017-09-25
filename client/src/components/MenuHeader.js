@@ -20,8 +20,8 @@ class MenuHeader extends Component {
 		    	<Menu.Item to='/score' name='score form' active={activeItem === 'score form'} onClick={this.handleItemClick}>
 						Score
 					</Menu.Item>
-		    	<Menu.Item to='/team' name='team' active={activeItem === 'team'} onClick={this.handleItemClick}>
-						Team
+		    	<Menu.Item to='/scoresheet' name='score sheet' active={activeItem === 'score sheet'} onClick={this.handleItemClick}>
+						Score Sheet
 					</Menu.Item>
 		    	<Menu.Item to='/league' name='league' active={activeItem === 'league'} onClick={this.handleItemClick}>
 						League

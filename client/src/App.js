@@ -6,6 +6,7 @@ import MenuHeader from './components/MenuHeader';
 import ScoreForm from './components/ScoreForm';
 import Login from './components/Login';
 import FourOFour from './components/404';
+import ScoreSheet from './components/ScoreSheet';
 
 class App extends Component {
   
@@ -15,7 +16,8 @@ class App extends Component {
 				<div>
         	<MenuHeader />
 					<Switch>
-						<Route path='/score' render={() => <ScoreForm />} />
+						<Route exact path='/score' render={() => <ScoreForm />} />
+						<Route exact path='/scoresheet' render={() => <ScoreSheet />} />
 						<Route path='/login' render={() => <Login />} />
 						<Route path='/404' component={FourOFour} />
 						<Redirect to='/404' />

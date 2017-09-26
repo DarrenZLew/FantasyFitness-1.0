@@ -6,12 +6,12 @@ import { Card, Grid, Segment, Image, Container, Table, Header } from 'semantic-u
 
 const ExerciseTable = (props) => {
   const { exercises } = props;
-  const rows = exercises.map((ex) => {
-    const { exercise, amount, score } = ex;
+  const rows = exercises.map((ex, index) => {
+    const { name, value, score } = ex;
     return (
-      <Table.Row>
-        <Table.Cell>{exercise}</Table.Cell>
-        <Table.Cell>{amount}</Table.Cell>
+      <Table.Row key={index}>
+        <Table.Cell>{name}</Table.Cell>
+        <Table.Cell>{value}</Table.Cell>
         <Table.Cell>{score}</Table.Cell>
       </Table.Row>
     )
@@ -19,19 +19,16 @@ const ExerciseTable = (props) => {
 
   return (
     <Table basic='very' celled>
-    
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>Excercises</Table.HeaderCell>
-          <Table.HeaderCell>Amount</Table.HeaderCell>
+          <Table.HeaderCell>Value</Table.HeaderCell>
           <Table.HeaderCell>Score</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
-
       <Table.Body>
         {rows}
       </Table.Body>
-      
     </Table>
   )
 }
@@ -52,21 +49,22 @@ const HeadToHeadCard = (props) => {
       <Card.Content>
         <Grid>
           <Grid.Row columns={4}>
-            <Grid.Column width={5}>
-              <Segment textAlign='right' vertical>{userA.name}</Segment>
-              <Segment textAlign='right' vertical>{totalScoreA}</Segment>
+            <Grid.Column verticalAlign='middle' width={5}>
+              <Segment textAlign='right' vertical><strong>{userA.name}</strong></Segment>
+              <Segment textAlign='right' vertical><strong>{totalScoreA}</strong></Segment>
             </Grid.Column>
             <Grid.Column width={3} textAlign='center' verticalAlign='middle'>
               {/* TODO: replace image with user image */}
               <Image shape='circular' fluid src='https://react.semantic-ui.com/assets/images/wireframe/image.png'/>
             </Grid.Column>
+
             <Grid.Column width={3} textAlign='center' verticalAlign='middle'>
               {/* TODO: replace image with user image */}
               <Image shape='circular' fluid src='https://react.semantic-ui.com/assets/images/wireframe/image.png'/>
             </Grid.Column>
-            <Grid.Column textAlign='left' width={5}>
-              <Segment vertical>{userB.name}</Segment>
-              <Segment vertical>{totalScoreB}</Segment>
+            <Grid.Column verticalAlign='middle' textAlign='left' width={5}>
+              <Segment vertical><strong>{userB.name}</strong></Segment>
+              <Segment vertical><strong>{totalScoreB}</strong></Segment>
             </Grid.Column>
           </Grid.Row>
 
@@ -90,8 +88,8 @@ const HeadToHeadCard = (props) => {
 HeadToHeadCard.propTypes = {
   userA: PropTypes.shape({
     exercises: PropTypes.arrayOf(PropTypes.shape({
-      exercise: PropTypes.string,
-      amount: PropTypes.string,
+      name: PropTypes.string,
+      value: PropTypes.string,
       score: PropTypes.number,
     })),
     image: PropTypes.string,
@@ -99,8 +97,8 @@ HeadToHeadCard.propTypes = {
   }),
   userB: PropTypes.shape({
     exercises: PropTypes.arrayOf(PropTypes.shape({
-      exercise: PropTypes.string,
-      amount: PropTypes.string,
+      name: PropTypes.string,
+      value: PropTypes.string,
       score: PropTypes.number,
     })),
     image: PropTypes.string,

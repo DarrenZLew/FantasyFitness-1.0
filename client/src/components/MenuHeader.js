@@ -29,6 +29,9 @@ class MenuHeader extends Component {
 		    	<Menu.Item to='/rules' name='rules' active={activeItem === 'rules'} onClick={this.handleItemClick}>
 						Rules
 					</Menu.Item>
+					<Menu.Item to='/matchups' name='matchups' active={activeItem === 'matchups'} onClick={this.handleItemClick}>
+						Matchups
+					</Menu.Item>
 		    	<Menu.Item to='/profile' name='profile' active={activeItem === 'profile'} onClick={this.handleItemClick}>
 						Profile
 					</Menu.Item>

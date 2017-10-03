@@ -21,7 +21,7 @@ const ExerciseTable = (props) => {
     <Table basic='very' celled>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell>Excercises</Table.HeaderCell>
+          <Table.HeaderCell>Exercise</Table.HeaderCell>
           <Table.HeaderCell>Value</Table.HeaderCell>
           <Table.HeaderCell>Score</Table.HeaderCell>
         </Table.Row>

@@ -19,8 +19,19 @@ class ScoreForm extends Component {
 		 	<Form className='container center scoreForm-form' onSubmit={handleSubmit(this.submit)} >
 				<TableExercises exercises={this.props.initialValues.user.exercises} currValues={initialValues.user.exercises} />
 				<TableBonuses bonuses={this.props.initialValues.user.bonuses}/>
-				<Button type='button' className='exercise-reset' disabled={pristine || submitting} onClick={reset}>Reset</Button>
-				<Button type='submit' className='exercise-submit' disabled={pristine || submitting}>Submit</Button>
+				<Button 
+					type='button' 
+					className='exercise-reset' 
+					disabled={pristine || submitting} 
+					onClick={reset}>
+					Reset
+				</Button>
+				<Button 
+					type='submit' 
+					className='exercise-submit' 
+					disabled={pristine || submitting}>
+					Submit
+				</Button>
 			</Form>
 		)
 	}
@@ -38,56 +49,94 @@ const TableExercises = ({ exercises, currValues }) => (
 			      hideOnScroll
     			/>
     		</Table.HeaderCell>
-				<Table.HeaderCell width={3}>Current Value</Table.HeaderCell>
-				<Table.HeaderCell width={5}>New Value</Table.HeaderCell>
+				<Table.HeaderCell width={3}>
+					Current Value
+				</Table.HeaderCell>
+				<Table.HeaderCell width={5}>
+					New Value
+				</Table.HeaderCell>
 			</Table.Row>
 		</Table.Header>
 		<Table.Body>
-				{exercises.map((exercise, index) => {
-					const { name, units, type } = {...exercise}
-					let fieldName = []
-					if (type === 'timer') {
-						fieldName[0] = 'user.exercises[' + index + '].value.hr'
-						fieldName[1] = 'user.exercises[' + index + '].value.min'
-					} else if (type === 'interval') {
-						fieldName = 'user.exercises[' + index + '].value'
-					}
-					return (
-						<Table.Row key={index}>
-							<Table.Cell>{name}</Table.Cell>	
-							{type === 'interval' && <Table.Cell><CurrIntegerExercise currValue={currValues[index].value} units={units} /></Table.Cell>}
-							{type === 'interval' && <Table.Cell>
-																				<Field
-																					name={fieldName}
-																					component={NewIntegerExercise}
-																					type='number'
-																					units={units}
-																				/>
-																			</Table.Cell>
-							}
-							{type === 'timer' && <Table.Cell><CurrTimerExercise currHr={currValues[index].value.hr} currMin={currValues[index].value.min}/></Table.Cell>}
-							{type === 'timer' && <Table.Cell>
-																			<Form.Group>
-																				<Field
-																					name={fieldName[0]}
-																					component={NewTimerExercise}
-																					label='Hrs' 
+			{exercises.map((exercise, index) => {
+				const { name, units, type } = {...exercise}
+				let fieldName = []
+				if (type === 'timer') {
+					fieldName[0] = 'user.exercises[' + index + '].value.hr'
+					fieldName[1] = 'user.exercises[' + index + '].value.min'
+				} else if (type === 'interval') {
+					fieldName = 'user.exercises[' + index + '].value'
+				}
+				return (
+					<Table.Row key={index}>
+						<Table.Cell>
+							{name}
+						</Table.Cell>	
+						{type === 'interval' && 
+						<Table.Cell>
+							{currValues[index].value} {units}
+						</Table.Cell>
+						}
+						{type === 'interval' && 
+						<Table.Cell>
+							<Field
+								name={fieldName}
+								component={field => {
+																			let step
+																			switch (field.units) {
+																				case 'Miles':
+																					step = 0.1
+																					break;
+																				case 'Meters':
+																					step = 0.5
+																					break;
+																				default:
+																					step = 1		
+																			} 
+																			return (
+																				<Form.Input
+																					{...field.input} 
+																					type='number' 
+																					width={8} 
 																					min={0} 
-																					max={99}
-																				/>
-																				<Field
-																					name={fieldName[1]}
-																					component={NewTimerExercise}
-																					label='Mins'
-																					min={0} 
-																					max={59} 
-																				/>
-																			</Form.Group>
-																		</Table.Cell>
-							}
-						</Table.Row>
-					)
-				})}	
+																					max={9999} 
+																					step={step} 
+																				/>	
+																			)										
+																		}
+													}
+								type='number'
+								units={units}
+							/>
+						</Table.Cell>
+						}
+						{type === 'timer' && 
+						<Table.Cell>
+							{currValues[index].value.hr} Hrs {currValues[index].value.min} Min
+						</Table.Cell>
+						}
+						{type === 'timer' && 
+						<Table.Cell>
+							<Form.Group>
+								<Field
+									name={fieldName[0]}
+									component={NewTimerExercise}
+									label='Hrs' 
+									min={0} 
+									max={99}
+								/>
+								<Field
+									name={fieldName[1]}
+									component={NewTimerExercise}
+									label='Mins'
+									min={0} 
+									max={59} 
+								/>
+							</Form.Group>
+						</Table.Cell>}
+					</Table.Row>
+				)
+			})}	
 		</Table.Body>
 	</Table>
 )
@@ -120,7 +169,9 @@ const TableBonuses = ({ bonuses }) => (
 				}
 				return (
 					<Table.Row key={bonus.name}>
-						<Table.Cell width={3}>{bonus.name}</Table.Cell>
+						<Table.Cell width={3}>
+							{bonus.name}
+						</Table.Cell>
 						<Table.Cell>
 							<Field name={fieldName.mo} component={Bonus} type='checkbox' label='Mon' />	
 							<Field name={fieldName.tu} component={Bonus} type='checkbox' label='Tue' />	
@@ -146,34 +197,6 @@ const Bonus = field => (
 	/>
 )
 
-const CurrIntegerExercise = ({ currValue, units }) => <div>{currValue} {units}</div>
-
-const CurrTimerExercise = ({ currHr, currMin }) => <div>{currHr} Hrs {currMin} Min</div>
-
-const NewIntegerExercise = field => {
-	let step
-	switch (field.units) {
-		case 'Miles':
-			step = 0.1
-			break;
-		case 'Meters':
-			step = 0.5
-			break;
-		default:
-			step = 1		
-	} 
-	return (
-		<Form.Input
-			{...field.input} 
-			type='number' 
-			width={8} 
-			min={0} 
-			max={9999} 
-			step={step} 
-		/>	
-	)
-}
-
 const NewTimerExercise = field => (
 	<Form.Input 
 	 	{...field.input}
@@ -186,7 +209,7 @@ const NewTimerExercise = field => (
 	/>	
 )
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
 	return { 
 		initialValues: {
 			user: {
@@ -197,7 +220,7 @@ const mapStateToProps = (state) => {
 	}
 }	
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   const { score } = ScoreFormActions;
   return bindActionCreators({ score }, dispatch);
 }

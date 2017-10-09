@@ -10,6 +10,7 @@ import ProfileForm from './components/ProfileForm';
 import HeadToHead from './components/HeadToHead';
 
 class App extends Component {
+// begin what will be removed with iss-19
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -133,14 +134,14 @@ class App extends Component {
 	handleCheckedBox = event => {
 		console.log(event.target)
 	}
-
+// end iss-19 removal code
   render() {
     return (
       <Router>
 				<div>
         	<MenuHeader />
 					<Switch>
-						<Route path='/score' render={() => <ScoreForm exercises={this.state.exercises} bonuses={this.state.bonuses} handleCheckedBox={this.handleCheckedBox}/>} />
+						<Route path='/score' render={() => <ScoreForm />} />
 						<Route path='/login' render={() => <Login />} />
 						<Route path='/matchups' render={() => <HeadToHead />} />
 						<Route path='/profile' render={() => <ProfileForm userAttributes={this.state.userAttributes} preferences={this.state.preferences} handleCheckedBox={this.handleCheckedBox}/>} />

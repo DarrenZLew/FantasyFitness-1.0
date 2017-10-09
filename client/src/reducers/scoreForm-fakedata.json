@@ -1,0 +1,96 @@
+{
+	"exercises": [
+		{	"name": "Push Ups",
+			"value": "20",
+			"type": "interval"
+		},
+		{	"name": "Pull Ups",
+			"value": "0", 
+			"type": "interval"
+		},
+		{	"name": "Air Squats",
+			"value": "0", 
+			"type": "interval"
+		},
+		{	"name": "Distance Swam",
+			"value": "1000",
+			"units": "Miles",
+			"type": "interval"
+		},			
+		{	"name": "Distance Ran",
+			"value": "100",
+			"units": "Miles", 
+			"type": "interval"
+		},
+		{	"name": "Distance Cycled",
+			"value": "370",
+			"units": "Miles",
+			"type": "interval"
+		},
+		{	"name": "Distance Rowed",
+			"value": "20",
+			"units": "Meters",
+			"type": "interval"
+		},								
+		{	"name": "1-Minute Planks",
+			"value": "37",
+			"type": "interval"
+		},				
+		{	"name": "Low Intensity",
+			"value": {
+				"hr": "3",
+				"min": "45"
+			},
+			"type": "timer"
+		},				
+		{	"name": "High Intensity",
+			"value": {
+				"hr": "0",
+				"min": "30"
+			},
+			"type": "timer"
+		},				
+		{	"name": "Sports",
+			"value": {
+				"hr": "7",
+				"min": "0"
+			},
+			"type": "timer"
+		}
+	],
+	"bonuses": [
+		{	"name": "Nutrition",
+			"value": {
+				"mo": true,
+				"tu": true,
+				"we": true,
+				"th": true,
+				"fr": true,
+				"sa": true,
+				"su": true				
+			}
+		},
+		{	"name": "Stretching",
+			"value": {
+				"mo": true,
+				"tu": true,
+				"we": "",
+				"th": "",
+				"fr": true,
+				"sa": "",
+				"su": ""
+			}
+		},
+		{	"name": "Tabata",
+			"value": {
+				"mo": "",
+				"tu": "",
+				"we": "",
+				"th": "",
+				"fr": "",
+				"sa": "",
+				"su": true				
+			}
+		}	
+	]		
+}

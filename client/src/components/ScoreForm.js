@@ -105,10 +105,9 @@ const TableExercises = ({ exercises, currValues }) => (
 																			)										
 																		}
 													}
-								type='number'
 								units={units}
 							/>
-						</Table.Cell>
+ 						</Table.Cell>
 						}
 						{type === 'timer' && 
 						<Table.Cell>

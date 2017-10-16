@@ -11,7 +11,6 @@ export default combineReducers({
   scoreForm,
   form: formReducer,
   scoreSheet,
-  headToHead,
-  form: formReducer
+  headToHead
 });
 

@@ -1,42 +1,51 @@
 {
 	"exercises": [
 		{	"name": "Push Ups",
+			"points": "10",
 			"value": "20",
 			"type": "interval"
 		},
 		{	"name": "Pull Ups",
+			"points": "50",
 			"value": "0", 
 			"type": "interval"
 		},
 		{	"name": "Air Squats",
+			"points": "5",			
 			"value": "0", 
 			"type": "interval"
 		},
 		{	"name": "Distance Swam",
+			"points": "3500",			
 			"value": "1000",
 			"units": "Miles",
 			"type": "interval"
 		},			
 		{	"name": "Distance Ran",
+			"points": "1000",
 			"value": "100",
 			"units": "Miles", 
 			"type": "interval"
 		},
 		{	"name": "Distance Cycled",
+			"points": "400",
 			"value": "370",
 			"units": "Miles",
 			"type": "interval"
 		},
 		{	"name": "Distance Rowed",
+			"points": "400",
 			"value": "20",
 			"units": "Meters",
 			"type": "interval"
 		},								
 		{	"name": "1-Minute Planks",
+			"points": "200",
 			"value": "37",
 			"type": "interval"
 		},				
 		{	"name": "Low Intensity",
+			"points": "5000",
 			"value": {
 				"hr": "3",
 				"min": "45"
@@ -44,6 +53,7 @@
 			"type": "timer"
 		},				
 		{	"name": "High Intensity",
+			"points": "7000",
 			"value": {
 				"hr": "0",
 				"min": "30"
@@ -51,6 +61,7 @@
 			"type": "timer"
 		},				
 		{	"name": "Sports",
+			"points": "3500",
 			"value": {
 				"hr": "7",
 				"min": "0"
@@ -60,6 +71,7 @@
 	],
 	"bonuses": [
 		{	"name": "Nutrition",
+			"points": "1000",
 			"value": {
 				"mo": true,
 				"tu": true,
@@ -71,6 +83,7 @@
 			}
 		},
 		{	"name": "Stretching",
+			"points": "1000",
 			"value": {
 				"mo": true,
 				"tu": true,
@@ -82,6 +95,7 @@
 			}
 		},
 		{	"name": "Tabata",
+			"points": "1500",
 			"value": {
 				"mo": "",
 				"tu": "",

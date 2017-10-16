@@ -16,9 +16,9 @@ class ProfileForm extends Component {
 		console.log(this.props)
 		const { handleSubmit, pristine, reset, submitting, initialValues } = this.props
 		return (
-			<Form className='container center scoreForm-form' onSubmit = {handleSubmit(this.submit)} >
+			<Form className='container center profileForm-form' onSubmit = {handleSubmit(this.submit)} >
 				<TableUserAttributes userAttributes={this.props.initialValues.user.userAttributes} currValues={initialValues.user.userAttributes}/>
-				<TablePreferences preferences={this.props.initialvalues.user.preferences}/>
+				<TablePreferences preferences={this.props.initialValues.user.preferences}/>
 				<Button 
 					type='button'
 					className='profle-reset'
@@ -115,7 +115,6 @@ const TableUserAttributes = ({ userAttributes,currValues }) => (
 							/>
 						</Table.Cell>		
 						}
-					}
 					</Table.Row>
 				)
 			})}	
@@ -139,7 +138,7 @@ const TablePreferences = ({ preferences }) => (
 		</Table.Header>
 		<Table.Body>
 			{preferences.map((preference, index ) => {
-				const name = 'user.bonuses[' + index + '].value.'
+				const name = 'user.preferences[' + index + '].value.'
 				const fieldName = {
 					'mi': name + 'mi',
 					'km': name + 'km'
@@ -171,7 +170,7 @@ const mapStateToProps = state => {
 	return { 
 		initialValues: {
 			user: {
-				exercises:state.profileForm.user.userAttributes, 
+				userAttributes:state.profileForm.user.userAttributes, 
 				preferences: state.profileForm.user.preferences
 			}
 		}

@@ -1,0 +1,21 @@
+{ 
+	"userAttributes": [
+			{	"name": "User Name'",
+				"value": "GoodDeedsDeserveDoughnuts",
+				"type": "string"
+			},
+			{	"name": "Email",
+				"value": "rruenroeng@gmail.com",
+				"type": "email"
+			}			
+		],
+	"preferences": [
+			{	"name": "Distance",
+				"value": {
+					"mi": false,
+					"km": true
+				}
+			}
+		]
+}			
+		

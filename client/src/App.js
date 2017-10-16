@@ -114,7 +114,7 @@ class App extends Component {
 			},
 			{	name: 'Email',
 				value: 'rruenroeng@gmail.com',
-				type: 'string'
+				type: 'email'
 			}			
 		]
 		const preferences = [

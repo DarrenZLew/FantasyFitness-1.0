@@ -8,17 +8,17 @@ import '../styles/ProfileForm.css';
 
 class ProfileForm extends Component {
 
-	submit = {values} => {
+	submit = (values) => {
 		console.log(values)
 	}
 
 	render() {
 		console.log(this.props)
-		const { handleSubmit, pristine reset submitting, initialValues } = this.props
+		const { handleSubmit, pristine, reset, submitting, initialValues } = this.props
 		return (
 			<Form className='container center scoreForm-form' onSubmit = {handleSubmit(this.submit)} >
 				<TableUserAttributes userAttributes={this.props.initialValues.user.userAttributes} currValues={initialValues.user.userAttributes}/>
-				<TablePreferences preferences={this.props.initialvalues.preferences}/>
+				<TablePreferences preferences={this.props.initialvalues.user.preferences}/>
 				<Button 
 					type='button'
 					className='profle-reset'
@@ -29,8 +29,7 @@ class ProfileForm extends Component {
 						<Button 
 					type='submit'
 					className='profile-submit'
-					disabled={pristine || submitting}
-					onClick={submit}>
+					disabled={pristine || submitting}>
 					Submit
 				</Button>
 			</Form>
@@ -93,9 +92,9 @@ const TableUserAttributes = ({ userAttributes,currValues }) => (
 							/>
 						</Table.Cell>
 						}
-						{Type === 'email' &&
+						{type === 'email' &&
 						<Table.Cell> 
-							{CurrValues[index].value}
+							{currValues[index].value}
 						</Table.Cell>
 						}
 						{type === 'email' &&
@@ -151,8 +150,8 @@ const TablePreferences = ({ preferences }) => (
 							{preference.name}
 						</Table.Cell>
 						<Table.Cell>	
-							<Field name={fieldName.mi} component={preference} type='checkbox' label="mi" />{handleCheckedBox}/>
-							<Field name={fieldName.km} component={preference} type='checkbox' label="km" />{handleCheckedBox}/>
+							<Field name={fieldName.mi} component={Preference} type='checkbox' label="mi" />
+							<Field name={fieldName.km} component={Preference} type='checkbox' label="km" />
 						</Table.Cell>
 					</Table.Row>
 				)
@@ -160,7 +159,7 @@ const TablePreferences = ({ preferences }) => (
 		</Table.Body>
 	</Table>
 )
-const preference = field => (
+const Preference = field => (
 	<Checkbox
 		{...field.input}
 		value={field.input.value ? 'on' : 'off'}
@@ -187,4 +186,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
 	form: 'profileForm', 
 	enableReinitialize: true
-})(ScoreForm))
+})(ProfileForm))

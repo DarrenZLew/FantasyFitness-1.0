@@ -166,7 +166,7 @@ const TableBonuses = ({ bonuses }) => (
 		<Table.Header>
 			<Table.Row>
 				<Table.HeaderCell>
-					Bonus
+					Daily Bonuses
 					<Popup
       			trigger={<Icon name='info circle'/>}
 			      content='Click on the bonus to learn more!'

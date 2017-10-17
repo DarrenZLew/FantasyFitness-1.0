@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Table, Container } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
 
 class ScoreSheet extends Component {
 	render() {

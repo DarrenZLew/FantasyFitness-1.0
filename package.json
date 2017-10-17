@@ -1,0 +1,20 @@
+{
+  "name": "fantasy-fitness",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd server && npm start",
+    "heroku-postbuild": "cd client && npm install && npm run build"    
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DarrenZLew/FantasyFitness-1.0.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DarrenZLew/FantasyFitness-1.0/issues"
+  },
+  "homepage": "https://github.com/DarrenZLew/FantasyFitness-1.0#readme"
+}

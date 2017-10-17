@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
+    "start-dev": "NODE_ENV=development nodemon app.js"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
@@ -14,5 +14,8 @@
     "jade": "~1.11.0",
     "morgan": "~1.8.1",
     "serve-favicon": "~2.4.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.1"
   }
 }

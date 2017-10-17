@@ -62,13 +62,27 @@ const TableExercises = ({ exercises, currValues }) => (
 		</Table.Header>
 		<Table.Body>
 			{exercises.map((exercise, index) => {
-				const { name, points, units, type } = {...exercise}
+				let { name, points, units, type } = {...exercise}
 				let fieldName = []
 				if (type === 'timer') {
 					fieldName[0] = 'user.exercises[' + index + '].value.hr'
 					fieldName[1] = 'user.exercises[' + index + '].value.min'
+					points = points + ' per hour'
 				} else if (type === 'interval') {
 					fieldName = 'user.exercises[' + index + '].value'
+					switch(units) {
+						case 'Miles':
+							points = points + ' per mile'
+							break
+						case 'Meters':
+							points = points + ' per meter'
+							break
+						case 'Kilometers':
+							points = points + ' per kilometer'
+							break
+						default:
+							break
+					}
 				}
 				return (
 					<Table.Row key={index}>
@@ -151,7 +165,7 @@ const TableBonuses = ({ bonuses }) => (
 	<Table selectable size='small'>
 		<Table.Header>
 			<Table.Row>
-				<Table.HeaderCell colSpan='1'>
+				<Table.HeaderCell>
 					Bonus
 					<Popup
       			trigger={<Icon name='info circle'/>}
@@ -183,7 +197,7 @@ const TableBonuses = ({ bonuses }) => (
 							{bonus.name}
 						</Table.Cell>
 						<Table.Cell width={2}>
-							{bonus.points}
+							{bonus.points} per day
 						</Table.Cell>
 						<Table.Cell>
 							<Field name={fieldName.mo} component={Bonus} type='checkbox' label='Mon' />	

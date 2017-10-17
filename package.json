@@ -2,9 +2,8 @@
   "name": "fantasy-fitness",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "start": "cd server && npm start",
+    "start": "cd server && NODE_ENV=production npm start",
     "heroku-postbuild": "cd client && npm install && npm run build"    
   },
   "repository": {

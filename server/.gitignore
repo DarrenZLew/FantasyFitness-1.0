@@ -1,2 +1,5 @@
 # dependencies
 /node_modules
+
+# set up database on local machines in config/index.json
+/config/index.json

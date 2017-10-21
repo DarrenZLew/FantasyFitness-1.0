@@ -123,15 +123,21 @@ const Bonuses = () => {
 	return (
 		<div>
 			<Header as='h3'>Bonuses</Header>
-			<p><a href="https://docs.google.com/document/d/1uEJovqycT35N2RyBuYhBo9Siv-ea1ISXGNYHVE_Xu68/edit" target="_blank">Tabata Challenges:</a> 1500 per day</p>
+			<p><a href="https://docs.google.com/document/d/1uEJovqycT35N2RyBuYhBo9Siv-ea1ISXGNYHVE_Xu68/edit" target="_blank">Tabata Challenges:</a> 1500 points per day</p>
 			<List as='ol'>
 				<List.Item as='li' value='-'>You can only complete the tabata challenge once per day. It is meant to be a good way to top off your exercise for the day since it only takes 4 minutes.</List.Item>
 				<List.Item as='li' value='-'>Tabata challenges consist of 8 rounds of 20 seconds on and 10 seconds recovery.</List.Item>
 				<List.Item as='li' value='-'>Check out the Appendix for more information on movements (or come up with your own!)</List.Item>
 			</List>
+			<p><a href="https://docs.google.com/document/d/1LSzUkVwbQ_qUfRJEW-Ydw3zv3Fu2TjSI0qWcZ3miRGo/edit" target="_blank">Nutrition:</a> 1000 points per day</p>
+			<List as='ol'>
+				<List.Item as='li' value='-'>You can complete this once per day.</List.Item>
+				<List.Item as='li' value='-'>There are four different nutrition challenges. These will be cycled throughout the season.</List.Item>
+				<List.Item as='li' value='-'>Check out the nutrition link for details on each nutrition challenge.</List.Item>
+			</List>
 			<p>Stretching: 1000 points per day</p>
 			<List as='ol'> 
-				<List.Item as='li' value='-'>You can only do this once per day.</List.Item> 
+				<List.Item as='li' value='-'>You can complete this once per day.</List.Item> 
 				<List.Item as='li' value='-'>Generally you should try to do this after your workout.</List.Item> 
 				<List.Item as='li' value='-'>You must stretch for at least 10 minutes to earn this bonus.</List.Item>
 				<List.Item as='li' value='-'>If yoga is part of your workout that day, then you can count this bonus for the day without spending an extra 10 minutes stretching just to earn the bonus.</List.Item>

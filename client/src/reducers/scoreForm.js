@@ -4,8 +4,10 @@ import { ScoreFormActions } from '../actions';
 const initialState = {
 	user: {
 		exercises: data.exercises,
-		bonuses: data.bonuses
-	}
+		bonuses: data.bonuses,
+		challenge: data.challenge
+	},
+	double: data.double
 }
 
 export default (state = initialState, action) => {

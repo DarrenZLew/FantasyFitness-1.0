@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 import MenuHeader from './components/MenuHeader';
-import ScoreForm from './components/ScoreForm';
+import ScoreForm from './components/scoreForm/ScoreForm';
 import Login from './components/Login';
 import FourOFour from './components/404';
 import ScoreSheet from './components/ScoreSheet';

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Divider, List, Header } from 'semantic-ui-react';
+
 const DefineFF = () => {
 	return (
 		<div>

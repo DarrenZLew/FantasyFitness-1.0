@@ -31,7 +31,7 @@ const Exercises = ({ exercises, currValues, double }) => (
 				let fieldName = []
 				if (name === double.name) {
 					points *= 2
-					points = points + ' (Double)'
+					name = <span>{name}<br/><strong>DOUBLE POINTS</strong></span>
 				}
 				if (type === 'timer') {
 					fieldName[0] = 'user.exercises[' + index + '].value.hr'
@@ -56,7 +56,7 @@ const Exercises = ({ exercises, currValues, double }) => (
 				return (
 					<Table.Row key={index}>
 						<Table.Cell>
-							{name}
+							{name} 
 						</Table.Cell>
 						<Table.Cell>
 							{points}

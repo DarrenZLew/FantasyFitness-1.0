@@ -7,6 +7,7 @@ import ScoreForm from './components/scoreForm/ScoreForm';
 import Login from './components/Login';
 import FourOFour from './components/404';
 import ScoreSheet from './components/ScoreSheet';
+import Rules from './components/Rules';
 import ProfileForm from './components/ProfileForm';
 import HeadToHead from './components/HeadToHead';
 
@@ -147,6 +148,7 @@ class App extends Component {
 						<Route path='/login' render={() => <Login />} />
 						<Route path='/matchups' render={() => <HeadToHead />} />
 						<Route path='/profile' render={() => <ProfileForm userAttributes={this.state.userAttributes} preferences={this.state.preferences} handleCheckedBox={this.handleCheckedBox}/>} />
+						<Route path='/rules' component={Rules} />
 						<Route path='/404' component={FourOFour} />
 						<Redirect to='/404' />
 					</Switch>

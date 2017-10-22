@@ -18,8 +18,8 @@ class ScoreForm extends Component {
 		const { handleSubmit, pristine, reset, submitting, initialValues, double } = this.props
 		return (
 		 	<Form className='container center' style={{marginTop: '20px'}} onSubmit={handleSubmit(this.submit)} >
-				<Exercises exercises={this.props.initialValues.user.exercises} currValues={initialValues.user.exercises} double={double} />
 				<Challenge challenge={this.props.initialValues.user.challenge} currValues={initialValues.user.challenge} />
+				<Exercises exercises={this.props.initialValues.user.exercises} currValues={initialValues.user.exercises} double={double} />
 				<Bonuses bonuses={this.props.initialValues.user.bonuses} double={double} />
 				<Button 
 					type='button' 

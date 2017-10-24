@@ -3,3 +3,5 @@
 
 # set up database on local machines in config/index.json
 /config/index.json
+
+/npm-debug.log

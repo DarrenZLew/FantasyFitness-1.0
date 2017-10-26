@@ -27,6 +27,10 @@ class App extends Component {
 	}
 
 	componentDidMount() {
+		fetch('/api')
+			.then(res => res.json())
+			.then(res => console.log(res))
+			.catch(err => console.log(err))
 		// Exercise array with inital value of each exercise
 		const exercises = [
 			{	name: 'Push Ups',

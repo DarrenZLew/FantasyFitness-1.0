@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Form, Button, Checkbox, Icon, Popup } from 'semantic-ui-react';
+import { Table, Form, Button, Icon, Popup } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { ProfileFormActions } from '../actions';
 import { Field, reduxForm } from 'redux-form';
@@ -11,22 +11,19 @@ class ProfileForm extends Component {
 	submit = (values) => {
 		console.log(values)
 	}
-
-	render() {
-		console.log(this.props)
+    render() {
 		const { handleSubmit, pristine, reset, submitting, initialValues } = this.props
 		return (
-			<Form className='container center profileForm-form' onSubmit = {handleSubmit(this.submit)} >
+			<Form className='container center profileForm-form' onSubmit={handleSubmit(this.submit)} >
 				<TableUserAttributes userAttributes={this.props.initialValues.user.userAttributes} currValues={initialValues.user.userAttributes}/>
-				<TablePreferences preferences={this.props.initialValues.user.preferences}/>
 				<Button 
 					type='button'
 					className='profle-reset'
 					disabled={pristine || submitting}
 					onClick={reset}>
-					reset
+					Reset
 				</Button>
-						<Button 
+				<Button 
 					type='submit'
 					className='profile-submit'
 					disabled={pristine || submitting}>
@@ -36,7 +33,6 @@ class ProfileForm extends Component {
 		)
 	}
 }
-
 const TableUserAttributes = ({ userAttributes,currValues }) => (
 	<Table selectable size='small'>
 		<Table.Header>
@@ -60,118 +56,55 @@ const TableUserAttributes = ({ userAttributes,currValues }) => (
 		<Table.Body>
 			{userAttributes.map((userAttributes, index) => {
 				const { name, type } = {...userAttributes}
-				let fieldName = []
-				if (type === 'string') {
-					fieldName = 'user.userAttributes[' + index + '].value'
+				let fieldName = 'user.userAttributes[' + index + '].value'
+				let fieldFormatText = ""
+				if (type==='TextArea') {
+					fieldFormatText=(field,type) => {
+						return (
+										<Form.TextArea
+											{...field.input}
+											type={type}
+										/>	
+									)
+								}
 				}
+				else {
+					console.log(type)
+					fieldFormatText=(field,type) => {
+						return (
+										<Form.Input
+											{...field.input}
+											type={type}
+										/>	
+									)
+								}
+				}				
 				return (
 					<Table.Row key={index}>
 						<Table.Cell>
-							{name}
-						</Table.Cell>	
-						{type === 'string' && 
+					 		{name}
+						</Table.Cell> 
 						<Table.Cell>
 							{currValues[index].value} 
-						</Table.Cell>
-						}
-						{type === 'string' && 
+						</Table.Cell> 
 						<Table.Cell>
 							<Field
 								name={fieldName}
-								component={field => {
-														return (
-															<Form.Input
-																{...field.input}
-																type='string'
-																width={8}
-															/>	
-														)
-													}
-											}
-								type='string'									
+								component={fieldFormatText}									
 							/>
 						</Table.Cell>
-						}
-						{type === 'email' &&
-						<Table.Cell> 
-							{currValues[index].value}
-						</Table.Cell>
-						}
-						{type === 'email' &&
-						<Table.Cell>
-							<Field
-								name={fieldName}
-								component={field => {
-														return (
-															<Form.Input
-																{...field.input}
-																type='email'
-																width={8}
-															/>
-														)
-													}
-											}
-								type='email'
-							/>
-						</Table.Cell>		
-						}
-					</Table.Row>
+				</Table.Row>
 				)
 			})}	
 		</Table.Body>
 	</Table>
 )
 
-const TablePreferences = ({ preferences }) => (
-	<Table selectable size='small'>
-		<Table.Header>
-			<Table.Row>
-				<Table.HeaderCell colSpan='2'>
-					Setting
-					<Popup
-      			trigger={<Icon name='info circle'/>}
-			      content='Click on the setting to learn more!'
-			      hideOnScroll
-    			/>
-				</Table.HeaderCell>
-			</Table.Row>
-		</Table.Header>
-		<Table.Body>
-			{preferences.map((preference, index ) => {
-				const name = 'user.preferences[' + index + '].value.'
-				const fieldName = {
-					'mi': name + 'mi',
-					'km': name + 'km'
-				}
-				return (
-					<Table.Row key={preference.name}>
-						<Table.Cell width={3}>
-							{preference.name}
-						</Table.Cell>
-						<Table.Cell>	
-							<Field name={fieldName.mi} component={Preference} type='checkbox' label="mi" />
-							<Field name={fieldName.km} component={Preference} type='checkbox' label="km" />
-						</Table.Cell>
-					</Table.Row>
-				)
-			})}
-		</Table.Body>
-	</Table>
-)
-const Preference = field => (
-	<Checkbox
-		{...field.input}
-		value={field.input.value ? 'on' : 'off'}
-		onChange={(e, { checked }) => field.input.onChange(checked)}
-		label={field.label} 		
-	/>
-)
 const mapStateToProps = state => {
 	return { 
 		initialValues: {
 			user: {
-				userAttributes:state.profileForm.user.userAttributes, 
-				preferences: state.profileForm.user.preferences
+				userAttributes:state.profileForm.user.userAttributes
 			}
 		}
 	}
@@ -179,8 +112,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   const { saveProfile } = ProfileFormActions;
-  return bindActionCreators({ saveProfile }, dispatch);
-}
+  return bindActionCreators({ saveProfile }, dispatch);}
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
 	form: 'profileForm', 

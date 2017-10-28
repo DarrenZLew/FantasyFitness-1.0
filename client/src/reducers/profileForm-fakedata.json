@@ -1,20 +1,29 @@
 { 
 	"userAttributes": [
+			{	"name": "First Name",
+				"value": "Ryan",
+				"type": "text"
+			},
+			{	"name": "Last Name",
+				"value": "Ryan",
+				"type": "text"
+			},
 			{	"name": "User Name",
 				"value": "GoodDeedsDeserveDoughnuts",
-				"type": "string"
+				"type": "text"
 			},
 			{	"name": "Email",
 				"value": "rruenroeng@gmail.com",
 				"type": "email"
+			},
+			{	"name": "Bio",
+				"value": "Stuff and Stuff",
+				"type": "TextArea"
 			}			
 		],
 	"preferences": [
 			{	"name": "Distance",
-				"value": {
-					"mi": false,
-					"km": true
-				}
+				"value": "mi"
 			}
 		]
 }			

@@ -59,16 +59,14 @@ const Bonuses = ({ bonuses, double, newValues }) => (
 	</Table>
 )
 
-const Bonus = field => {
-	return (
-		<Checkbox
-			{...field.input}
-			value={field.input.value ? 'on' : 'off'}
-			onChange={(e, { checked }) => field.input.onChange(checked)}
-			label={field.label}
-			style={field.style}
-		/>
-	)
-}
+const Bonus = field => (
+	<Checkbox
+		{...field.input}
+		value={field.input.value ? 'on' : 'off'}
+		onChange={(e, { checked }) => field.input.onChange(checked)}
+		label={field.label}
+		style={field.style}
+	/>
+)
 
 export default Bonuses

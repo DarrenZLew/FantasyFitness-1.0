@@ -1,8 +1,8 @@
 import React from 'react';
-import { Table, Form, Icon, Popup, Checkbox } from 'semantic-ui-react';
+import { Table, Icon, Popup, Checkbox } from 'semantic-ui-react';
 import { Field } from 'redux-form';
 
-const Bonuses = ({ bonuses }) => (
+const Bonuses = ({ bonuses, currValues, double, newValues }) => (
 	<Table selectable size='small'>
 		<Table.Header>
 			<Table.Row>
@@ -22,32 +22,35 @@ const Bonuses = ({ bonuses }) => (
 		</Table.Header>
 		<Table.Body>
 			{bonuses.map((bonus, index) => {
-				const name = 'user.bonuses[' + index + '].value.'
-				const fieldName = {
-					'mo': name + 'mo',
-					'tu': name + 'tu',
-					'we': name + 'we',
-					'th': name + 'th',
-					'fr': name + 'fr',
-					'sa': name + 'sa',
-					'su':	name + 'su'
-				}
+				let { name, points } = {...bonus}
+				if (name === double.name) {
+					points *= 2
+					name = <span>{name}<br/><strong style={{color: 'red'}}>DOUBLE POINTS</strong></span>
+				}	
+				const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+				let style = days.map(day => ({marginLeft: '50px', padding: '10px'}))
+				const fieldDay = bonus.value.map((currDayValue, indexDay) => {
+					const fieldName = 'user.bonuses[' + index + '].value[' + indexDay + ']'
+					if (typeof newValues !== 'undefined') {
+						const newDayValue = newValues[index].value[indexDay]
+						if ((currDayValue === true && newDayValue !== true) || (currDayValue === "" && newDayValue === true)) {
+							style[indexDay] = Object.assign({}, style[indexDay], {backgroundColor: 'yellow'})
+						}	
+					}
+					return (
+						<Field name={fieldName} component={Bonus} type='checkbox' key={fieldName} label={days[indexDay]} style={style[indexDay]} /> 
+					)
+				})
 				return (
 					<Table.Row key={bonus.name}>
 						<Table.Cell width={3}>
-							{bonus.name}
+							{name}
 						</Table.Cell>
 						<Table.Cell width={2}>
-							{bonus.points} per day
+							{points} per day
 						</Table.Cell>
 						<Table.Cell>
-							<Field name={fieldName.mo} component={Bonus} type='checkbox' label='Mon' />	
-							<Field name={fieldName.tu} component={Bonus} type='checkbox' label='Tue' />	
-							<Field name={fieldName.we} component={Bonus} type='checkbox' label='Wed' />	
-							<Field name={fieldName.th} component={Bonus} type='checkbox' label='Thurs' />	
-							<Field name={fieldName.fr} component={Bonus} type='checkbox' label='Fri' />	
-							<Field name={fieldName.sa} component={Bonus} type='checkbox' label='Sat' />	
-							<Field name={fieldName.su} component={Bonus} type='checkbox' label='Sun' />	
+							{fieldDay}
 						</Table.Cell>
 					</Table.Row>
 				)
@@ -56,14 +59,16 @@ const Bonuses = ({ bonuses }) => (
 	</Table>
 )
 
-const Bonus = field => (
-	<Checkbox
-		{...field.input}
-		value={field.input.value ? 'on' : 'off'}
-		onChange={(e, { checked }) => field.input.onChange(checked)}
-		label={field.label}
-		style={{marginLeft: '50px'}}
-	/>
-)
+const Bonus = field => {
+	return (
+		<Checkbox
+			{...field.input}
+			value={field.input.value ? 'on' : 'off'}
+			onChange={(e, { checked }) => field.input.onChange(checked)}
+			label={field.label}
+			style={field.style}
+		/>
+	)
+}
 
 export default Bonuses

@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, Icon, Popup, Checkbox } from 'semantic-ui-react';
 import { Field } from 'redux-form';
 
-const Bonuses = ({ bonuses, currValues, double, newValues }) => (
+const Bonuses = ({ bonuses, double, newValues }) => (
 	<Table selectable size='small'>
 		<Table.Header>
 			<Table.Row>

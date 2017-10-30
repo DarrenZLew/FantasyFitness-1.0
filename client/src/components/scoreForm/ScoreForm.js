@@ -27,7 +27,7 @@ class ScoreForm extends Component {
 		 	<Form className='container center' style={{marginTop: '20px'}} onSubmit={handleSubmit(this.submit)} >
 				<Challenge challenge={this.props.initialValues.user.challenge} currValues={initialValues.user.challenge} newValues={newValueChallenge} />
 				<Exercises exercises={this.props.initialValues.user.exercises} currValues={initialValues.user.exercises} double={double} newValues={newValueExercises} />
-				<Bonuses bonuses={this.props.initialValues.user.bonuses} currValues={initialValues.user.bonuses} double={double} newValues={newValueBonuses} />
+				<Bonuses bonuses={this.props.initialValues.user.bonuses} double={double} newValues={newValueBonuses} />
 				<Button 
 					type='button' 
 					className='exercise-reset' 

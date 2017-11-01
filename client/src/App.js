@@ -1,16 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import { Grid } from 'semantic-ui-react';
-
+import { BrowserRouter as Router} from 'react-router-dom';
 import MenuHeader from './components/MenuHeader';
-import ScoreForm from './components/scoreForm/ScoreForm';
-import Login from './components/Login';
-import FourOFour from './components/404';
-import ScoreSheet from './components/ScoreSheet';
-import Rules from './components/Rules';
-import ProfileForm from './components/ProfileForm';
-import HeadToHead from './components/HeadToHead';
 
 class App extends Component {
 // begin what will be removed with iss-19

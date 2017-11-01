@@ -32,30 +32,26 @@ class MenuHeader extends Component {
   		<Grid>
 				<Grid.Row only='computer'>
 					<Grid.Column>
-					  <Menu color='blue' inverted pointing secondary>
+				  	<Menu color='blue' inverted pointing secondary>
 					    <Menu.Item name='Fantasy Fitness' />
-							<Menu.Menu position='right'>
-								<MenuItemsRouting activeItem={activeItem} handleItemClick={this.handleItemClick} />	
-							</Menu.Menu>
-					  </Menu>
-						<Grid.Column>
-							<RoutingPaths />	
-						</Grid.Column>					  					  
-					</Grid.Column>
+							<MenuItemsRouting activeItem={activeItem} handleItemClick={this.handleItemClick} />	
+						</Menu>	
+						<RoutingPaths />
+					</Grid.Column>					
 				</Grid.Row>
 			  <Grid.Row only='tablet mobile'>
 			  	<Grid.Column>
-			  		<Menu color='blue' inverted pointing secondary>
+			  		<Menu color='blue' inverted>
 			  			<Menu.Item name='Fantasy Fitness' />
 			  			<Menu.Menu position='right'>
-			  				<Menu.Item name='content' onClick={this.toggleVisibility}>
-			  					<Icon name='content' />
+			  				<Menu.Item onClick={this.toggleVisibility}>
+			  					<Icon name='sidebar' />
 			  				</Menu.Item>
 			  			</Menu.Menu>
 			  		</Menu>
 		  			<Sidebar.Pushable as={Segment}>
 		  				<Sidebar as={Menu} animation='overlay' width='wide' visible={visible} vertical inverted>
-								<MenuItemsRouting activeItem={activeItem} handleItemClick={this.handleItemClick} />		
+								<MenuItemsRouting activeItem={activeItem} handleItemClick={this.handleItemClick} style={{padding: '20px', fontSize: '1em'}}/>		
 		  				</Sidebar>
 		  				<Sidebar.Pusher dimmed={dimmed}>
 		  					<Segment>
@@ -70,30 +66,30 @@ class MenuHeader extends Component {
   }
 }
 
-const MenuItemsRouting = ({activeItem, handleItemClick}) => (
-	<div>
-		<Menu.Item to='/score' name='score form' active={activeItem === 'score form'} onClick={handleItemClick}>
+const MenuItemsRouting = ({activeItem, handleItemClick, style}) => (
+	<Menu.Menu position='right'>	
+		<Menu.Item to='/score' name='score form' active={activeItem === 'score form'} onClick={handleItemClick} style={style}>
 			Score
 		</Menu.Item>
-		<Menu.Item to='/scoresheet' name='score sheet' active={activeItem === 'score sheet'} onClick={handleItemClick}>
+		<Menu.Item to='/scoresheet' name='score sheet' active={activeItem === 'score sheet'} onClick={handleItemClick} style={style}>
 			Score Sheet
 		</Menu.Item>
-		<Menu.Item to='/league' name='league' active={activeItem === 'league'} onClick={handleItemClick}>
+		<Menu.Item to='/league' name='league' active={activeItem === 'league'} onClick={handleItemClick} style={style}>
 			League
 		</Menu.Item>
-		<Menu.Item to='/matchups' name='matchups' active={activeItem === 'matchups'} onClick={handleItemClick}>
+		<Menu.Item to='/matchups' name='matchups' active={activeItem === 'matchups'} onClick={handleItemClick} style={style}>
 			Matchups
 		</Menu.Item>
-		<Menu.Item to='/rules' name='rules' active={activeItem === 'rules'} onClick={handleItemClick}>
+		<Menu.Item to='/rules' name='rules' active={activeItem === 'rules'} onClick={handleItemClick} style={style}>
 			Rules
 		</Menu.Item>					
-		<Menu.Item to='/profile' name='profile' active={activeItem === 'profile'} onClick={handleItemClick}>
+		<Menu.Item to='/profile' name='profile' active={activeItem === 'profile'} onClick={handleItemClick} style={style}>
 			Profile
 		</Menu.Item>
-		<Menu.Item to='/login' name='sign in' active={activeItem === 'sign in'} onClick={handleItemClick}>
+		<Menu.Item to='/login' name='sign in' active={activeItem === 'sign in'} onClick={handleItemClick} style={style}>
 			Sign In
 		</Menu.Item>
-	</div>
+	</Menu.Menu>
 )
 
 const RoutingPaths = () => (

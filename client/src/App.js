@@ -2,14 +2,23 @@ import React, { Component } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import MenuHeader from './components/MenuHeader';
-import ScoreForm from './components/ScoreForm';
+import ScoreForm from './components/scoreForm/ScoreForm';
 import Login from './components/Login';
 import FourOFour from './components/404';
 import ScoreSheet from './components/ScoreSheet';
+import Rules from './components/Rules';
 import ProfileForm from './components/ProfileForm';
 import HeadToHead from './components/HeadToHead';
 
 class App extends Component {
+
+	componentDidMount() {
+		fetch('/api')
+			.then(res => res.json())
+			.then(res => console.log(res))
+			.catch(err => console.log(err))
+	}
+
   render() {
     return (
       <Router>
@@ -21,6 +30,7 @@ class App extends Component {
 						<Route path='/login' render={() => <Login />} />
 						<Route path='/matchups' render={() => <HeadToHead />} />
 						<Route path='/profile' render={() => <ProfileForm />} />
+						<Route path='/rules' component={Rules} />
 						<Route path='/404' component={FourOFour} />
 						<Redirect to='/404' />
 					</Switch>

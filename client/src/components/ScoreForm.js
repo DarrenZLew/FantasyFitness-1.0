@@ -41,13 +41,16 @@ const TableExercises = ({ exercises, currValues }) => (
 	<Table selectable size='small'>
 		<Table.Header>
 			<Table.Row>
-				<Table.HeaderCell width={5}>
+				<Table.HeaderCell width={3}>
 					Activity
 					<Popup
       			trigger={<Icon name='info circle'/>}
 			      content='Click on the exercise to learn more!'
 			      hideOnScroll
     			/>
+    		</Table.HeaderCell>
+    		<Table.HeaderCell width={3}>
+    			Points
     		</Table.HeaderCell>
 				<Table.HeaderCell width={3}>
 					Current Value
@@ -59,19 +62,36 @@ const TableExercises = ({ exercises, currValues }) => (
 		</Table.Header>
 		<Table.Body>
 			{exercises.map((exercise, index) => {
-				const { name, units, type } = {...exercise}
+				let { name, points, units, type } = {...exercise}
 				let fieldName = []
 				if (type === 'timer') {
 					fieldName[0] = 'user.exercises[' + index + '].value.hr'
 					fieldName[1] = 'user.exercises[' + index + '].value.min'
+					points = points + ' per hour'
 				} else if (type === 'interval') {
 					fieldName = 'user.exercises[' + index + '].value'
+					switch(units) {
+						case 'Miles':
+							points = points + ' per mile'
+							break
+						case 'Meters':
+							points = points + ' per meter'
+							break
+						case 'Kilometers':
+							points = points + ' per kilometer'
+							break
+						default:
+							break
+					}
 				}
 				return (
 					<Table.Row key={index}>
 						<Table.Cell>
 							{name}
-						</Table.Cell>	
+						</Table.Cell>
+						<Table.Cell>
+							{points}
+						</Table.Cell>
 						{type === 'interval' && 
 						<Table.Cell>
 							{currValues[index].value} {units}
@@ -144,14 +164,18 @@ const TableBonuses = ({ bonuses }) => (
 	<Table selectable size='small'>
 		<Table.Header>
 			<Table.Row>
-				<Table.HeaderCell colSpan='2'>
-					Bonus
+				<Table.HeaderCell>
+					Daily Bonuses
 					<Popup
       			trigger={<Icon name='info circle'/>}
 			      content='Click on the bonus to learn more!'
 			      hideOnScroll
     			/>
 				</Table.HeaderCell>
+				<Table.HeaderCell>
+					Points
+				</Table.HeaderCell>
+				<Table.HeaderCell></Table.HeaderCell>
 			</Table.Row>
 		</Table.Header>
 		<Table.Body>
@@ -170,6 +194,9 @@ const TableBonuses = ({ bonuses }) => (
 					<Table.Row key={bonus.name}>
 						<Table.Cell width={3}>
 							{bonus.name}
+						</Table.Cell>
+						<Table.Cell width={2}>
+							{bonus.points} per day
 						</Table.Cell>
 						<Table.Cell>
 							<Field name={fieldName.mo} component={Bonus} type='checkbox' label='Mon' />	
@@ -192,7 +219,7 @@ const Bonus = field => (
 		{...field.input}
 		value={field.input.value ? 'on' : 'off'}
 		onChange={(e, { checked }) => field.input.onChange(checked)}
-		label={field.label} 		
+		label={field.label}
 	/>
 )
 

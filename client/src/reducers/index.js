@@ -12,6 +12,6 @@ export default combineReducers({
   form: formReducer,
   scoreSheet,
   headToHead,
-  profileForm,
+  profileForm
 });
 

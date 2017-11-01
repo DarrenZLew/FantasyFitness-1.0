@@ -57,28 +57,7 @@ const TableUserAttributes = ({ userAttributes,currValues }) => (
 			{userAttributes.map((userAttributes, index) => {
 				const { name, fieldtype } = {...userAttributes}
 				let fieldName = 'user.userAttributes[' + index + '].value'
-				let fieldFormatText = ""
-				// if (fieldtype==='TextArea') {
-				// 	fieldFormatText=(field,fieldtype) => {
-				// 		return (
-				// 						<Form.TextArea
-				// 							{...field.input}
-				// 							type={fieldtype}
-				// 						/>	
-				// 					)
-				// 				}
-				// }
-				// else {
-				// 	console.log(fieldtype)
-				// 	fieldFormatText=(field,fieldtype) => {
-				// 		return (
-				// 						<Form.Input
-				// 							{...field.input}
-				// 							type={fieldtype}
-				// 						/>	
-				// 					)
-				// 				}
-				// }				
+				let fieldFormatText = ""				
 				return (
 					<Table.Row key={index}>
 						<Table.Cell>

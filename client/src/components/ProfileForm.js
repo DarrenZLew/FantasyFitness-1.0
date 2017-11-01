@@ -57,7 +57,6 @@ const TableUserAttributes = ({ userAttributes,currValues }) => (
 			{userAttributes.map((userAttributes, index) => {
 				const { name, fieldtype } = {...userAttributes}
 				let fieldName = 'user.userAttributes[' + index + '].value'
-				let fieldFormatText = ""				
 				return (
 					<Table.Row key={index}>
 						<Table.Cell>

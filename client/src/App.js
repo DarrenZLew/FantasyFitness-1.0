@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-
->>>>>>> master
 import MenuHeader from './components/MenuHeader';
 import ScoreForm from './components/ScoreForm';
 import Login from './components/Login';

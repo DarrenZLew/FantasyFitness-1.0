@@ -55,30 +55,30 @@ const TableUserAttributes = ({ userAttributes,currValues }) => (
 		</Table.Header>
 		<Table.Body>
 			{userAttributes.map((userAttributes, index) => {
-				const { name, type } = {...userAttributes}
+				const { name, fieldtype } = {...userAttributes}
 				let fieldName = 'user.userAttributes[' + index + '].value'
 				let fieldFormatText = ""
-				if (type==='TextArea') {
-					fieldFormatText=(field,type) => {
-						return (
-										<Form.TextArea
-											{...field.input}
-											type={type}
-										/>	
-									)
-								}
-				}
-				else {
-					console.log(type)
-					fieldFormatText=(field,type) => {
-						return (
-										<Form.Input
-											{...field.input}
-											type={type}
-										/>	
-									)
-								}
-				}				
+				// if (fieldtype==='TextArea') {
+				// 	fieldFormatText=(field,fieldtype) => {
+				// 		return (
+				// 						<Form.TextArea
+				// 							{...field.input}
+				// 							type={fieldtype}
+				// 						/>	
+				// 					)
+				// 				}
+				// }
+				// else {
+				// 	console.log(fieldtype)
+				// 	fieldFormatText=(field,fieldtype) => {
+				// 		return (
+				// 						<Form.Input
+				// 							{...field.input}
+				// 							type={fieldtype}
+				// 						/>	
+				// 					)
+				// 				}
+				// }				
 				return (
 					<Table.Row key={index}>
 						<Table.Cell>
@@ -86,18 +86,44 @@ const TableUserAttributes = ({ userAttributes,currValues }) => (
 						</Table.Cell> 
 						<Table.Cell>
 							{currValues[index].value} 
-						</Table.Cell> 
-						<Table.Cell>
-							<Field
-								name={fieldName}
-								component={fieldFormatText}									
-							/>
 						</Table.Cell>
+						{fieldtype === 'TextArea' && 
+							<Table.Cell>
+								<Field
+									name={fieldName}
+									component={ProfileFieldTextArea}
+									type={fieldtype}									
+								/>
+							</Table.Cell>
+						}
+						{fieldtype !== 'TextArea' &&
+							<Table.Cell>
+								<Field
+									name={fieldName}
+									component={ProfileFieldInput}
+									type={fieldtype}									
+								/>
+							</Table.Cell>
+						}						 
 				</Table.Row>
 				)
 			})}	
 		</Table.Body>
 	</Table>
+)
+
+const ProfileFieldInput = field => (
+	<Form.Input
+		{...field.input}
+		type={field.type}
+	/>	
+)
+
+const ProfileFieldTextArea = field => (
+	<Form.TextArea
+		{...field.input}
+		type={field.type}
+	/>	
 )
 
 const mapStateToProps = state => {

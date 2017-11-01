@@ -2,23 +2,23 @@
 	"userAttributes": [
 			{	"name": "First Name",
 				"value": "Ryan",
-				"type": "text"
+				"fieldtype": "text"
 			},
 			{	"name": "Last Name",
 				"value": "Ryan",
-				"type": "text"
+				"fieldtype": "text"
 			},
 			{	"name": "User Name",
 				"value": "GoodDeedsDeserveDoughnuts",
-				"type": "text"
+				"fieldtype": "text"
 			},
 			{	"name": "Email",
 				"value": "rruenroeng@gmail.com",
-				"type": "email"
+				"fieldtype": "email"
 			},
 			{	"name": "Bio",
 				"value": "Stuff and Stuff",
-				"type": "TextArea"
+				"fieldtype": "TextArea"
 			}			
 		],
 	"preferences": [

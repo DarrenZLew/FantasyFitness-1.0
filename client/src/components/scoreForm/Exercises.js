@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, Form, Icon, Popup } from 'semantic-ui-react';
 import { Field } from 'redux-form';
 
-const Exercises = ({ exercises, currValues, double }) => (
+const Exercises = ({ exercises, currValues, double, newValues }) => (
 	<Table selectable size='small'>
 		<Table.Header>
 			<Table.Row>
@@ -14,14 +14,17 @@ const Exercises = ({ exercises, currValues, double }) => (
 			      hideOnScroll
     			/>
     		</Table.HeaderCell>
-    		<Table.HeaderCell width={3}>
+    		<Table.HeaderCell width={4}>
     			Points
     		</Table.HeaderCell>
 				<Table.HeaderCell width={3}>
 					Current Value
 				</Table.HeaderCell>
-				<Table.HeaderCell width={5}>
+				<Table.HeaderCell width={3}>
 					New Value
+				</Table.HeaderCell>
+				<Table.HeaderCell>
+					Net Change
 				</Table.HeaderCell>
 			</Table.Row>
 		</Table.Header>
@@ -29,6 +32,8 @@ const Exercises = ({ exercises, currValues, double }) => (
 			{exercises.map((exercise, index) => {
 				let { name, points, units, type } = {...exercise}
 				let fieldName = []
+				let netChange = 'N/A'
+				let netChangeStyle = {}
 				if (name === double.name) {
 					points *= 2
 					name = <span>{name}<br/><strong style={{color: 'red'}}>DOUBLE POINTS</strong></span>
@@ -53,6 +58,38 @@ const Exercises = ({ exercises, currValues, double }) => (
 							break
 					}
 				}
+				if (typeof newValues !== 'undefined') {
+					if (type === 'timer') {
+						let newValueHr = parseInt(newValues[index].value.hr, 10)
+						let newValueMin = parseInt(newValues[index].value.min, 10)
+						if (Number.isNaN(newValueHr)) {
+							newValueHr = 0
+						}
+						if (Number.isNaN(newValueMin)) {
+							newValueMin = 0
+						}
+						const newTotalMin = newValueHr * 60 + newValueMin
+						const currTotalMin = currValues[index].value.hr * 60 + currValues[index].value.min
+						netChange = Math.abs(newTotalMin - currTotalMin) + ' Mins'
+						if (newTotalMin > currTotalMin) {
+							netChangeStyle = {color: 'green'}
+							netChange = '+ ' + netChange
+						} else if (newTotalMin < currTotalMin) {
+							netChangeStyle = {color: 'red'}
+							netChange = '- ' + netChange
+						} 
+					} else if (type === 'interval') {
+						netChange = newValues[index].value - currValues[index].value
+						netChange = netChange.toFixed(1).replace(/[.]0$/, "")
+						if (netChange > 0) {
+							netChangeStyle = {color: 'green'}
+							netChange = '+ ' + netChange
+						} else if (netChange < 0) {
+							netChangeStyle = {color: 'red'}
+							netChange = '- ' + Math.abs(netChange)
+						}		
+					}
+				}
 				return (
 					<Table.Row key={index}>
 						<Table.Cell>
@@ -70,30 +107,7 @@ const Exercises = ({ exercises, currValues, double }) => (
 						<Table.Cell>
 							<Field
 								name={fieldName}
-								component={field => {
-															let step
-															switch (field.units) {
-																case 'Miles':
-																	step = 0.1
-																	break;
-																case 'Meters':
-																	step = 0.5
-																	break;
-																default:
-																	step = 1		
-															} 
-															return (
-																<Form.Input
-																	{...field.input}
-																	type='number' 
-																	width={8} 
-																	min={0} 
-																	max={9999} 
-																	step={step} 
-																/>	
-															)										
-														}
-													}
+								component={NewIntervalExercise}
 								units={units}
 							/>
 						</Table.Cell>
@@ -122,6 +136,9 @@ const Exercises = ({ exercises, currValues, double }) => (
 								/>
 							</Form.Group>
 						</Table.Cell>}
+						<Table.Cell style={netChangeStyle}>
+							{netChange}
+						</Table.Cell>
 					</Table.Row>
 				)
 			})}	
@@ -129,13 +146,38 @@ const Exercises = ({ exercises, currValues, double }) => (
 	</Table>
 )
 
+const NewIntervalExercise = field => {
+	let step
+	switch (field.units) {
+		case 'Miles':
+			step = 0.1
+			break;
+		case 'Meters':
+		case 'Kilometers':
+			step = 0.5
+			break;
+		default:
+			step = 1		
+	} 
+	return (
+		<Form.Input
+			{...field.input}
+			type='number' 
+			width={8} 
+			min={0} 
+			max={9999} 
+			step={step} 
+		/>	
+	)										
+}
+
 const NewTimerExercise = field => (
 	<Form.Input 
 	 	{...field.input}
 		type='number' 
 		label={field.label} 
 		labelPosition='right' 
-		width={4} 
+		// width={4} 
 		min={field.min} 
 		max={field.max}
 	/>	

@@ -2,75 +2,75 @@
 	"exercises": [
 		{	"name": "Push Ups",
 			"points": 10,
-			"value": "20",
+			"value": 20,
 			"type": "interval"
 		},
 		{ "name": "HS Push Ups",
 			"points": 50,
-			"value": "30",
+			"value": 30,
 			"type": "interval"
 
 		},
 		{	"name": "Pull Ups",
 			"points": 50,
-			"value": "10", 
+			"value": 10, 
 			"type": "interval"
 		},
 		{	"name": "Air Squats",
 			"points": 5,			
-			"value": "0", 
+			"value": 0, 
 			"type": "interval"
 		},
 		{	"name": "Distance Swam",
 			"points": 3500,			
-			"value": "1000",
+			"value": 1000,
 			"units": "Miles",
 			"type": "interval"
 		},			
 		{	"name": "Distance Ran",
 			"points": 1000,
-			"value": "100",
+			"value": 100,
 			"units": "Miles", 
 			"type": "interval"
 		},
 		{	"name": "Distance Cycled",
 			"points": 400,
-			"value": "370",
+			"value": 370,
 			"units": "Miles",
 			"type": "interval"
 		},
 		{	"name": "Distance Rowed",
 			"points": 400,
-			"value": "20",
+			"value": 20,
 			"units": "Meters",
 			"type": "interval"
 		},								
 		{	"name": "One Minute Planks",
 			"points": 200,
-			"value": "37",
+			"value": 37,
 			"type": "interval"
 		},				
 		{	"name": "Low Intensity",
 			"points": 5000,
 			"value": {
-				"hr": "3",
-				"min": "45"
+				"hr": 3,
+				"min": 45
 			},
 			"type": "timer"
 		},				
 		{	"name": "High Intensity",
 			"points": 7000,
 			"value": {
-				"hr": "0",
-				"min": "30"
+				"hr": 0,
+				"min": 30
 			},
 			"type": "timer"
 		},				
 		{	"name": "Sports",
 			"points": 3500,
 			"value": {
-				"hr": "7",
-				"min": "0"
+				"hr": 7,
+				"min": 0
 			},
 			"type": "timer"
 		}
@@ -78,48 +78,24 @@
 	"bonuses": [
 		{	"name": "Nutrition",
 			"points": 1000,
-			"value": {
-				"mo": true,
-				"tu": true,
-				"we": true,
-				"th": true,
-				"fr": true,
-				"sa": true,
-				"su": true				
-			}
+			"value": ["", true, true, true, true, true, true]
 		},
 		{	"name": "Stretching",
 			"points": 1000,
-			"value": {
-				"mo": true,
-				"tu": true,
-				"we": "",
-				"th": "",
-				"fr": true,
-				"sa": "",
-				"su": ""
-			}
+			"value": [true, "", true, "", true, true, true]
 		},
 		{	"name": "Tabata",
 			"points": 1500,
-			"value": {
-				"mo": "",
-				"tu": "",
-				"we": "",
-				"th": "",
-				"fr": "",
-				"sa": "",
-				"su": true				
-			}
+			"value": [true, true, "", true, "", "", ""]
 		}	
 	],
 	"challenge": {
 			"name": "Archer Push Ups",
 			"points": 20,
-			"value": "15",
+			"value": 15,
 			"type": "interval"  			
 	},
 	"double": {
-		"name": "Distance Swam"
+		"name": "Tabata"
 	}			
 }

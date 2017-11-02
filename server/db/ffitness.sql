@@ -1,14 +1,10 @@
 CREATE TABLE "users" (
-	"id" serial NOT NULL,
+	"id" serial PRIMARY KEY NOT NULL,
 	"name" TEXT NOT NULL,
 	"email" TEXT NOT NULL,
 	"hash" TEXT NOT NULL,
 	"salt" TEXT NOT NULL,
-	"bio" TEXT NOT NULL,
-	"security" TEXT NOT NULL,
-	CONSTRAINT users_pk PRIMARY KEY ("id")
-) WITH (
-  OIDS=FALSE
+	"bio" TEXT
 );
 
 

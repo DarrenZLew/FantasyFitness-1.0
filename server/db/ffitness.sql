@@ -1,3 +1,8 @@
+DROP DATABASE IF EXISTS ffitness;
+CREATE DATABASE ffitness;
+
+\c ffitness;
+
 CREATE TABLE "users" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"name" TEXT NOT NULL,

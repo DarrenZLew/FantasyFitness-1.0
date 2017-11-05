@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "cd server && NODE_ENV=production npm start",
+    "start": "cd server && npm install && NODE_ENV=production npm start",
     "heroku-postbuild": "cd client && npm install && npm run build"    
   },
   "repository": {

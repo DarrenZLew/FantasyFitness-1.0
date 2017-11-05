@@ -11,33 +11,18 @@ if (process.env.NODE_ENV === 'production') {
 }
 let	db = pgp(connection);
 
-function getUser(req, res, next) {
-	let userID = parseInt(req.params.userid);
-	db.one('SELECT * FROM users WHERE id = $1', userID)
-		.then(function (data) {
-			res.status(200)
-				.json({
-					status: 'success',
-					user: data,
-				})
-		})
-		.catch(function (err) {
-			return next(err)
+let unSafeUserKeys = ['hash', 'salt'];
+function getUser(userid) {
+	return db.one('SELECT * FROM users WHERE id = $1', userid)
+		.then(function (user) {
+			unSafeUserKeys.forEach((key) => delete user[key]);
+			return user;
 		});
 }
 
-function setUser(req, res, next) {
-	let userID = parseInt(req.params.userid);
-	db.none('UPDATE users SET bio=$1 ', req.body.bio)
-		.then(function (data) {
-			res.status(200)
-				.json({
-					status: 'success',
-				})
-		})
-		.catch(function (err) {
-			return next(err)
-		});
+function setUser(userid, userData) {
+	return db.none('UPDATE users SET bio=$2 WHERE id = $1',
+		[userid, userData.bio]);
 }
 
 module.exports = {

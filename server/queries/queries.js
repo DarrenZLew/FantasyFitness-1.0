@@ -38,10 +38,9 @@ function getUserActivities(args) {
 }
 
 function recordUserActivity(args) {
-
 	return db.one(`INSERT INTO user_activity_day ("user", activity, day, amount) VALUES
 		($[userID], $[activity], $[day], $[amount]) ON CONFLICT ON CONSTRAINT single_user_activity_day
-		DO UPDATE set amount = user_activity_day.amount + $[amount] RETURNING amount`, args);
+		DO UPDATE set amount = $[amount] RETURNING amount`, args);
 }
 
 module.exports = {

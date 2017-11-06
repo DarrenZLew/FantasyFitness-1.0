@@ -12,20 +12,41 @@ if (process.env.NODE_ENV === 'production') {
 let	db = pgp(connection);
 
 let unSafeUserKeys = ['hash', 'salt'];
-function getUser(userid) {
-	return db.one('SELECT * FROM users WHERE id = $1', userid)
+function getUser(userID) {
+	return db.one('SELECT * FROM users WHERE id = $1', userID)
 		.then(function (user) {
 			unSafeUserKeys.forEach((key) => delete user[key]);
 			return user;
 		});
 }
 
-function setUser(userid, userData) {
+function setUser(userID, userData) {
 	return db.none('UPDATE users SET bio=$2 WHERE id = $1',
-		[userid, userData.bio]);
+		[userID, userData.bio]);
+}
+
+function getUserActivities(args) {
+	let {startDay, endDay, activity} = args;
+	let query = 'SELECT * FROM user_activity_day where "user" = $[userID]';
+	if(endDay)
+		query += ' and day <= $[endDay]::date';
+	if(startDay)
+		query += ' and day >= $[startDay]::date';
+	if(activity)
+		query += ' and activity = $[activity]';
+	return db.any(query, args);
+}
+
+function recordUserActivity(args) {
+
+	return db.one(`INSERT INTO user_activity_day ("user", activity, day, amount) VALUES
+		($[userID], $[activity], $[day], $[amount]) ON CONFLICT ON CONSTRAINT single_user_activity_day
+		DO UPDATE set amount = user_activity_day.amount + $[amount] RETURNING amount`, args);
 }
 
 module.exports = {
   getUser: getUser,
-  setUser: setUser
+  setUser: setUser,
+  getUserActivities: getUserActivities,
+  recordUserActivity: recordUserActivity
 };

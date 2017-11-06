@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, Grid, Sidebar, Icon, Segment } from 'semantic-ui-react';
+import { Menu, Grid, Sidebar, Icon, Segment, Button } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import '../styles/HeaderNavbar.css';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
@@ -19,7 +19,7 @@ class MenuHeader extends Component {
   	dimmed: false 
   }
 
-  toggleVisibility = () => this.setState({ visible:!this.state.visible, dimmed: !this.state.dimmed})
+  toggleMobileMenu = () => this.setState({ visible:!this.state.visible, dimmed: !this.state.dimmed})
 
   handleItemClick = (e, { name, to }) => {
 		this.props.history.push(to);
@@ -34,29 +34,27 @@ class MenuHeader extends Component {
 					<Grid.Column>
 				  	<Menu color='blue' inverted pointing secondary>
 					    <Menu.Item name='Fantasy Fitness' />
-							<MenuItemsRouting activeItem={activeItem} handleItemClick={this.handleItemClick} />	
+							<MenuItemsRouting activeItem={activeItem} handleItemClick={this.handleItemClick} mobile={false} />	
 						</Menu>	
 						<RoutingPaths />
 					</Grid.Column>					
 				</Grid.Row>
 			  <Grid.Row only='tablet mobile'>
 			  	<Grid.Column>
-			  		<Menu color='blue' inverted>
-			  			<Menu.Item name='Fantasy Fitness' />
-			  			<Menu.Menu position='right'>
-			  				<Menu.Item onClick={this.toggleVisibility}>
-			  					<Icon name='sidebar' />
-			  				</Menu.Item>
-			  			</Menu.Menu>
-			  		</Menu>
-		  			<Sidebar.Pushable as={Segment}>
-		  				<Sidebar as={Menu} animation='overlay' width='wide' visible={visible} vertical inverted>
-								<MenuItemsRouting activeItem={activeItem} handleItemClick={this.handleItemClick} style={{padding: '20px', fontSize: '1em'}}/>		
+		  			<Sidebar.Pushable>
+		  				<Sidebar as={Menu} animation='slide along' width='thin' visible={visible} vertical inverted >
+								<MenuItemsRouting activeItem={activeItem} handleItemClick={this.handleItemClick} mobile={true} handleToggleMobileMenu={this.toggleMobileMenu} style={{padding: '20px', fontSize: '1em'}}/>		
 		  				</Sidebar>
-		  				<Sidebar.Pusher dimmed={dimmed}>
-		  					<Segment>
-		  						<RoutingPaths />
-								</Segment> 			
+		  				<Sidebar.Pusher dimmed={dimmed} >
+					  		<Menu color='blue' inverted>
+					  			<Menu.Item name='Fantasy Fitness' />
+					  			<Menu.Menu position='right'>
+					  				<Menu.Item onClick={this.toggleMobileMenu}>
+					  					<Icon name='sidebar' />
+					  				</Menu.Item>
+					  			</Menu.Menu>
+					  		</Menu>		  						
+	  						<RoutingPaths />
 		  				</Sidebar.Pusher>
 		  			</Sidebar.Pushable>			  		
 			  	</Grid.Column>
@@ -66,8 +64,14 @@ class MenuHeader extends Component {
   }
 }
 
-const MenuItemsRouting = ({activeItem, handleItemClick, style}) => (
-	<Menu.Menu position='right'>	
+const MenuItemsRouting = ({activeItem, handleItemClick, mobile, handleToggleMobileMenu, style}) => (
+	<Menu.Menu position='right' >	
+		{mobile && 
+			<Menu.Item onClick={handleToggleMobileMenu} style={{padding: '10px', marginBottom: '15px'}}>
+				Close
+				<Icon name='remove' />
+			</Menu.Item>
+		}
 		<Menu.Item to='/score' name='score form' active={activeItem === 'score form'} onClick={handleItemClick} style={style}>
 			Score
 		</Menu.Item>
@@ -98,7 +102,7 @@ const RoutingPaths = () => (
 		<Route exact path='/scoresheet' render={() => <ScoreSheet />} />
 		<Route path='/login' render={() => <Login />} />
 		<Route path='/matchups' render={() => <HeadToHead />} />
-		<Route path='/profile' render={() => <ProfileForm userAttributes={this.state.userAttributes} preferences={this.state.preferences} handleCheckedBox={this.handleCheckedBox}/>} />
+		<Route path='/profile' render={() => <ProfileForm />} />
 		<Route path='/rules' component={Rules} />
 		<Route path='/404' component={FourOFour} />
 		<Redirect to='/404' />

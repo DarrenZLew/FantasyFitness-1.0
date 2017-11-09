@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Menu, Grid, Sidebar, Icon, Segment, Button } from 'semantic-ui-react';
+import { Menu, Grid, Sidebar, Icon } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
-import '../styles/HeaderNavbar.css';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import ScoreForm from '../components/scoreForm/ScoreForm';
 import Login from '../components/Login';
@@ -23,7 +22,7 @@ class MenuHeader extends Component {
 
   handleItemClick = (e, { name, to }) => {
 		this.props.history.push(to);
-		this.setState({ activeItem: name });
+		this.setState({ activeItem: name, visible: false, dimmed: false });
 	}
 
   render () {

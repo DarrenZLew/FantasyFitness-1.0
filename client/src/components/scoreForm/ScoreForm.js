@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Table, Form, Button, Checkbox, Icon, Popup } from 'semantic-ui-react';
+import { Form, Button} from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { ScoreFormActions } from '../../actions';
-import { Field, reduxForm } from 'redux-form';
+import { reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import Exercises from './Exercises';
 import Challenge from './Challenge';
@@ -16,11 +16,18 @@ class ScoreForm extends Component {
 
 	render() {
 		const { handleSubmit, pristine, reset, submitting, initialValues, double } = this.props
+		let newValueExercises, newValueChallenge, newValueBonuses
+		if (typeof this.props.formValues !== 'undefined') {
+			newValueChallenge = this.props.formValues.challenge
+			newValueExercises = this.props.formValues.exercises
+			newValueBonuses = this.props.formValues.bonuses			
+		}
+
 		return (
 		 	<Form className='container center' style={{marginTop: '20px'}} onSubmit={handleSubmit(this.submit)} >
-				<Challenge challenge={this.props.initialValues.user.challenge} currValues={initialValues.user.challenge} />
-				<Exercises exercises={this.props.initialValues.user.exercises} currValues={initialValues.user.exercises} double={double} />
-				<Bonuses bonuses={this.props.initialValues.user.bonuses} double={double} />
+				<Challenge challenge={this.props.initialValues.user.challenge} currValues={initialValues.user.challenge} newValues={newValueChallenge} />
+				<Exercises exercises={this.props.initialValues.user.exercises} currValues={initialValues.user.exercises} double={double} newValues={newValueExercises} />
+				<Bonuses bonuses={this.props.initialValues.user.bonuses} double={double} newValues={newValueBonuses} />
 				<Button 
 					type='button' 
 					className='exercise-reset' 
@@ -48,7 +55,8 @@ const mapStateToProps = state => {
 				challenge: state.scoreForm.user.challenge
 			}
 		},
-		double: state.scoreForm.double
+		double: state.scoreForm.double,
+		formValues: selector(state, 'user')
 	}
 }	
 
@@ -56,6 +64,8 @@ const mapDispatchToProps = dispatch => {
   const { score } = ScoreFormActions;
   return bindActionCreators({ score }, dispatch);
 }
+
+const selector = formValueSelector('scoreForm')
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
 	form: 'scoreForm', 

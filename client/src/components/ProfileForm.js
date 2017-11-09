@@ -1,17 +1,39 @@
-import React from 'react';
-import { Table, Form, Button, Checkbox, Icon, Popup } from 'semantic-ui-react';
+import React, { Component } from 'react';
+import { Table, Form, Button, Icon, Popup } from 'semantic-ui-react';
+import { bindActionCreators } from 'redux';
+import { ProfileFormActions } from '../actions';
+import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
 import '../styles/ProfileForm.css';
 
-const ProfileForm = ({ userAttributes, preferences, handleCheckedBox }) => (
-	<Form className='container center scoreForm-form'>
-		<TableUserAttributes userAttributes={userAttributes}/>
-		<TablePreferences preferences={preferences} handleCheckedBox={handleCheckedBox}/>
-		<Button className='profle-reset'>Reset</Button>
-		<Button className='profile-submit'>Submit</Button>
-	</Form>
-)
+class ProfileForm extends Component {
 
-const TableUserAttributes = ({ userAttributes }) => (
+	submit = (values) => {
+		console.log(values)
+	}
+    render() {
+		const { handleSubmit, pristine, reset, submitting, initialValues } = this.props
+		return (
+			<Form className='container center profileForm-form' onSubmit={handleSubmit(this.submit)} >
+				<TableUserAttributes userAttributes={this.props.initialValues.user.userAttributes} currValues={initialValues.user.userAttributes}/>
+				<Button 
+					type='button'
+					className='profle-reset'
+					disabled={pristine || submitting}
+					onClick={reset}>
+					Reset
+				</Button>
+				<Button 
+					type='submit'
+					className='profile-submit'
+					disabled={pristine || submitting}>
+					Submit
+				</Button>
+			</Form>
+		)
+	}
+}
+const TableUserAttributes = ({ userAttributes,currValues }) => (
 	<Table selectable size='small'>
 		<Table.Header>
 			<Table.Row>
@@ -23,57 +45,81 @@ const TableUserAttributes = ({ userAttributes }) => (
 			      hideOnScroll
     			/>
     		</Table.HeaderCell>
-				<Table.HeaderCell width={3}>Current Value</Table.HeaderCell>
-				<Table.HeaderCell width={5}>New Value</Table.HeaderCell>
+				<Table.HeaderCell width={3}>
+					Current Value
+				</Table.HeaderCell>
+				<Table.HeaderCell width={5}>
+					New Value
+				</Table.HeaderCell>
 			</Table.Row>
 		</Table.Header>
 		<Table.Body>
-			{userAttributes.map(userAttributes => {
-				const { name,value,type } = {...userAttributes}
+			{userAttributes.map((userAttributes, index) => {
+				const { name, fieldtype } = {...userAttributes}
+				let fieldName = 'user.userAttributes[' + index + '].value'
 				return (
-					<Table.Row key={name}>
-						<Table.Cell>{name}</Table.Cell>	
-						{type === 'string' && <Table.Cell><div>{value} </div></Table.Cell>}
-						{type === 'string' && <Table.Cell><NewValue value={value} /></Table.Cell>}
-					</Table.Row>
+					<Table.Row key={index}>
+						<Table.Cell>
+					 		{name}
+						</Table.Cell> 
+						<Table.Cell>
+							{currValues[index].value} 
+						</Table.Cell>
+						{fieldtype === 'TextArea' && 
+							<Table.Cell>
+								<Field
+									name={fieldName}
+									component={ProfileFieldTextArea}
+									type={fieldtype}									
+								/>
+							</Table.Cell>
+						}
+						{fieldtype !== 'TextArea' &&
+							<Table.Cell>
+								<Field
+									name={fieldName}
+									component={ProfileFieldInput}
+									type={fieldtype}									
+								/>
+							</Table.Cell>
+						}						 
+				</Table.Row>
 				)
 			})}	
 		</Table.Body>
 	</Table>
 )
 
-const TablePreferences = ({ preferences, handleCheckedBox }) => (
-	<Table selectable size='small'>
-		<Table.Header>
-			<Table.Row>
-				<Table.HeaderCell colSpan='2'>
-					Setting
-					<Popup
-      			trigger={<Icon name='info circle'/>}
-			      content='Click on the setting to learn more!'
-			      hideOnScroll
-    			/>
-				</Table.HeaderCell>
-			</Table.Row>
-		</Table.Header>
-		<Table.Body>
-			{preferences.map(preference => {
-				const { mi,km } = {...preference}
-				return (
-					<Table.Row key={preference.name}>
-						<Table.Cell width={3}>{preference.name}</Table.Cell>
-						<Table.Cell>	
-							<Checkbox label='Mi' checked={mi} onChange={handleCheckedBox}/>
-							<Checkbox label='KM' checked={km}/>
-						</Table.Cell>
-					</Table.Row>
-				)
-			})}
-		</Table.Body>
-	</Table>
+const ProfileFieldInput = field => (
+	<Form.Input
+		{...field.input}
+		type={field.type}
+	/>	
 )
 
-const CurrValue = ({ value }) => (<div>{value} </div>)
-const NewValue = ({ value }) => (<Form.Input type='text' width={24} defaultValue={value} />)	
+const ProfileFieldTextArea = field => (
+	<Form.TextArea
+		{...field.input}
+		type={field.type}
+	/>	
+)
 
-export default ProfileForm
+const mapStateToProps = state => {
+	return { 
+		initialValues: {
+			user: {
+				userAttributes:state.profileForm.user.userAttributes
+			}
+		}
+	}
+}
+
+const mapDispatchToProps = dispatch => {
+  const { saveProfile } = ProfileFormActions;
+  return bindActionCreators({ saveProfile }, dispatch);}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
+	form: 'profileForm', 
+	enableReinitialize: true
+})(ProfileForm))

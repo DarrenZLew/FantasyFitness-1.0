@@ -1,21 +1,45 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Table } from 'semantic-ui-react';
+import { Table, Icon } from 'semantic-ui-react';
+import { ScoreSheetActions } from '../actions';
+import { bindActionCreators } from 'redux';
 
 class ScoreSheet extends Component {
+
+	handleSort = e => {
+		e.preventDefault()
+		if (e.target.id !== 'sortIcon') {
+			this.props.sortScoreSheet(e.target.id)
+		}
+	}
+
 	render() {
 		const { activities, users } = this.props
 		return (
 			<div style={{overflowX: 'scroll'}}>
-				<Table style={{width: '80%', margin: '2% auto'}} celled size='large' definition textAlign='center' unstackable>
+				<Table style={{margin: '2% auto'}} celled size='large' definition textAlign='center'>
 						<Table.Header>
 							<Table.Row>
 								<Table.HeaderCell />
-								{activities.map(activity => <Table.HeaderCell key={activity.name} verticalAlign='top'>
-																							{activity.name}<br />
-																						</Table.HeaderCell>)}
-								<Table.HeaderCell>Head to Head</Table.HeaderCell>
-								<Table.HeaderCell>Total</Table.HeaderCell>
+								{activities.map(activity => 
+									<Table.HeaderCell 
+										key={activity.name} 
+										verticalAlign='top'
+										onClick={this.handleSort}
+										id={activity.name}
+									>
+										{activity.name}<br />
+										{this.props.sort === activity.name && <Icon name='triangle down' id='sortIcon' size='big'/>}
+									</Table.HeaderCell>)}
+								<Table.HeaderCell onClick={this.handleSort} id='headtohead'>
+									Head to Head
+									{this.props.sort === 'headtohead' && <Icon name='triangle down' id='sortIcon' size='big'/>}
+								</Table.HeaderCell>
+								<Table.HeaderCell onClick={this.handleSort} id='total'>
+									Total 
+									{this.props.sort === 'total' && <Icon name='triangle down' id='sortIcon' size='big'/>}
+								</Table.HeaderCell>
+
 							</Table.Row>
 							<Table.Row>
 								<Table.HeaderCell />
@@ -38,7 +62,7 @@ class ScoreSheet extends Component {
 												return <Table.Cell key={activity.name}>{activity.value}</Table.Cell>
 											}
 										})}
-										<Table.Cell>{user.head2head}</Table.Cell>
+										<Table.Cell>{user.headtohead}</Table.Cell>
 										<Table.Cell>{user.total}</Table.Cell>
 								</Table.Row>
 							))}
@@ -53,4 +77,9 @@ const mapStateToProps = (state) => {
 	return { ...state.scoreSheet }
 }	
 
-export default connect(mapStateToProps)(ScoreSheet)
+const mapDispatchToProps = (dispatch) => {
+	const { sortScoreSheet } = ScoreSheetActions
+	return bindActionCreators({ sortScoreSheet }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ScoreSheet)

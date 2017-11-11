@@ -1,7 +1,10 @@
 const express = require('express');
 const path = require('path');
-const Sequelize = require('sequelize');
+const pgp = require('pg-promise')();
+const bodyParser = require('body-parser');
+// const Sequelize = require('sequelize');
 const app = express();
+app.use(bodyParser.json());
 
 // Serve static files from the React app in production. During development, run client app separately
 if (process.env.NODE_ENV === 'production') {

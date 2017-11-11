@@ -54,9 +54,16 @@ class ScoreSheet extends Component {
 									<Table.Cell textAlign='center'>{user.username}</Table.Cell>
 										{user.activities.map(activity => {
 											if (activity.value.hasOwnProperty('hr')) {
+												let hr = activity.value.hr
+												let min = activity.value.min
+												if (hr < 10) {
+													hr = '0' + hr
+												}
+												if (min < 10) {
+													min = '0' + min
+												}
 												return <Table.Cell key={activity.name}>
-																{activity.value.hr + ' Hrs '}<br /> 
-																{activity.value.min + ' Mins'}<br />
+																{hr}:{min}
 															 </Table.Cell>
 											} else {
 												return <Table.Cell key={activity.name}>{activity.value}</Table.Cell>

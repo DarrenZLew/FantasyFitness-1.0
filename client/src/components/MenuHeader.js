@@ -18,8 +18,11 @@ class MenuHeader extends Component {
   	dimmed: false 
   }
 
-  toggleMobileMenu = () => this.setState({ visible:!this.state.visible, dimmed: !this.state.dimmed})
-
+  toggleMobileMenu = activeMenu => {
+  	if (activeMenu || (!activeMenu && this.state.visible && this.state.dimmed)) {
+	  	this.setState({ visible:!this.state.visible, dimmed: !this.state.dimmed})
+  	}
+  }
   handleItemClick = (e, { name, to }) => {
 		this.props.history.push(to);
 		this.setState({ activeItem: name, visible: false, dimmed: false });
@@ -32,7 +35,7 @@ class MenuHeader extends Component {
 				<Grid.Row only='computer'>
 					<Grid.Column>
 				  	<Menu color='blue' inverted pointing secondary>
-					    <Menu.Item name='Fantasy Fitness' />
+					    <Menu.Item header	name='Fantasy Fitness' />
 							<MenuItemsRouting activeItem={activeItem} handleItemClick={this.handleItemClick} mobile={false} />	
 						</Menu>	
 						<RoutingPaths />
@@ -41,14 +44,26 @@ class MenuHeader extends Component {
 			  <Grid.Row only='tablet mobile'>
 			  	<Grid.Column>
 		  			<Sidebar.Pushable>
-		  				<Sidebar as={Menu} animation='slide along' width='thin' visible={visible} vertical inverted >
-								<MenuItemsRouting activeItem={activeItem} handleItemClick={this.handleItemClick} mobile={true} handleToggleMobileMenu={this.toggleMobileMenu} style={{padding: '20px', fontSize: '1em'}}/>		
+		  				<Sidebar 
+		  					as={Menu} 
+		  					animation='overlay' 
+		  					width='very wide' 
+		  					visible={visible} 
+		  					vertical 
+		  					inverted 
+		  				>
+								<MenuItemsRouting 
+									activeItem={activeItem} 
+									handleItemClick={this.handleItemClick} 
+									mobile={true} 
+									handleToggleMobileMenu={this.toggleMobileMenu} 
+									style={{padding: '20px', fontSize: '1em'}}/>		
 		  				</Sidebar>
-		  				<Sidebar.Pusher dimmed={dimmed} >
+		  				<Sidebar.Pusher onClick={() => this.toggleMobileMenu(false)} dimmed={dimmed} >
 					  		<Menu color='blue' inverted>
-					  			<Menu.Item name='Fantasy Fitness' />
+					  			<Menu.Item header name='Fantasy Fitness' />
 					  			<Menu.Menu position='right'>
-					  				<Menu.Item onClick={this.toggleMobileMenu}>
+					  				<Menu.Item onClick={() => this.toggleMobileMenu(true)}>
 					  					<Icon name='sidebar' />
 					  				</Menu.Item>
 					  			</Menu.Menu>
@@ -64,9 +79,9 @@ class MenuHeader extends Component {
 }
 
 const MenuItemsRouting = ({activeItem, handleItemClick, mobile, handleToggleMobileMenu, style}) => (
-	<Menu.Menu position='right' >	
+	<Menu.Menu position='right'>	
 		{mobile && 
-			<Menu.Item onClick={handleToggleMobileMenu} style={{padding: '10px', marginBottom: '15px'}}>
+			<Menu.Item onClick={() => handleToggleMobileMenu(true)} style={{padding: '15px', marginBottom: '15px'}}>
 				Close
 				<Icon name='remove' />
 			</Menu.Item>

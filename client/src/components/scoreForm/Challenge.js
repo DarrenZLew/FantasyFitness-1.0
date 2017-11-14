@@ -55,7 +55,7 @@ const Challenge = ({challenge, currValues, newValues}) => {
 					</Table.Cell>
 					<Table.Cell>
 						<Field
-							name='user.challenge.value'
+							name='activities.challenge.value'
 							component={NewChallenge}
 						/>					
 					</Table.Cell>

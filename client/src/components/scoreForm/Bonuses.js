@@ -30,7 +30,7 @@ const Bonuses = ({ bonuses, double, newValues }) => (
 				const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 				let style = days.map(day => ({marginLeft: '50px', padding: '10px'}))
 				const fieldDay = bonus.value.map((currDayValue, indexDay) => {
-					const fieldName = 'user.bonuses[' + index + '].value[' + indexDay + ']'
+					const fieldName = 'activities.bonuses[' + index + '].value[' + indexDay + ']'
 					if (typeof newValues !== 'undefined') {
 						const newDayValue = newValues[index].value[indexDay]
 						if ((currDayValue === true && newDayValue !== true) || (currDayValue === "" && newDayValue === true)) {

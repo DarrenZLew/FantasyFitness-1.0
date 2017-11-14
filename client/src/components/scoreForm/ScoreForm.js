@@ -9,38 +9,31 @@ import Challenge from './Challenge';
 import Bonuses from './Bonuses';
 
 class ScoreForm extends Component {
-	
-	submit = (values) => {
-		console.log(values)
-	}
 
 	render() {
-		const { handleSubmit, pristine, reset, submitting, initialValues, double } = this.props
+		const { pristine, reset, submitting, initialValues, double, inactiveActivities, activeActivities } = this.props
+		const { updateActivity, addActivity, removeActivity } = this.props
 		let newValueExercises, newValueChallenge, newValueBonuses
 		if (typeof this.props.formValues !== 'undefined') {
 			newValueChallenge = this.props.formValues.challenge
 			newValueExercises = this.props.formValues.exercises
 			newValueBonuses = this.props.formValues.bonuses			
 		}
+				// <Challenge challenge={this.props.initialValues.activities.challenge} currValues={initialValues.activities.challenge} newValues={newValueChallenge} />
+				// <Bonuses bonuses={this.props.initialValues.activities.bonuses} double={double} newValues={newValueBonuses} />
 
 		return (
-		 	<Form className='container center' style={{marginTop: '20px'}} onSubmit={handleSubmit(this.submit)} >
-				<Challenge challenge={this.props.initialValues.user.challenge} currValues={initialValues.user.challenge} newValues={newValueChallenge} />
-				<Exercises exercises={this.props.initialValues.user.exercises} currValues={initialValues.user.exercises} double={double} newValues={newValueExercises} />
-				<Bonuses bonuses={this.props.initialValues.user.bonuses} double={double} newValues={newValueBonuses} />
-				<Button 
-					type='button' 
-					className='exercise-reset' 
-					disabled={pristine || submitting} 
-					onClick={reset}>
-					Reset
-				</Button>
-				<Button 
-					type='submit' 
-					className='exercise-submit' 
-					disabled={pristine || submitting}>
-					Submit
-				</Button>
+		 	<Form className='container center' style={{marginTop: '20px'}} >
+				<Exercises 
+					exercises={initialValues.activities.exercises} 
+					double={double} 
+					newValues={newValueExercises} 
+					handleSubmit={updateActivity}
+					addActivity={addActivity} 
+					removeActivity={removeActivity}
+					inactiveActivities={inactiveActivities}
+					activeActivities={activeActivities}
+				/>
 			</Form>
 		)
 	}
@@ -49,20 +42,22 @@ class ScoreForm extends Component {
 const mapStateToProps = state => {
 	return { 
 		initialValues: {
-			user: {
-				exercises:state.scoreForm.user.exercises, 
-				bonuses: state.scoreForm.user.bonuses,
-				challenge: state.scoreForm.user.challenge
+			activities: {
+				exercises:state.scoreForm.activities.exercises, 
+				bonuses: state.scoreForm.activities.bonuses,
+				challenge: state.scoreForm.activities.challenge
 			}
 		},
 		double: state.scoreForm.double,
-		formValues: selector(state, 'user')
+		inactiveActivities: state.scoreForm.inactiveActivities,
+		activeActivities: state.scoreForm.activeActivities,
+		formValues: selector(state, 'activities')
 	}
 }	
 
 const mapDispatchToProps = dispatch => {
-  const { score } = ScoreFormActions;
-  return bindActionCreators({ score }, dispatch);
+  const { updateActivity, addActivity, removeActivity } = ScoreFormActions;
+  return bindActionCreators({ updateActivity, addActivity, removeActivity }, dispatch);
 }
 
 const selector = formValueSelector('scoreForm')

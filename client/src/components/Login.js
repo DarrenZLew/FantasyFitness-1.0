@@ -24,7 +24,7 @@ class Login extends React.Component {
     const { username, password } = this.state;
 
     return (
-      <div style={{ height: '80vh' }}>
+      <div style={{ height: '100vh' }}>
         <Grid
           textAlign='center'
           style={{ height: '100%' }}

@@ -1,3 +1,8 @@
+DROP DATABASE IF EXISTS ffitness;
+CREATE DATABASE ffitness;
+
+\c ffitness;
+
 CREATE TABLE "users" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"name" TEXT NOT NULL,
@@ -12,10 +17,8 @@ CREATE TABLE "users" (
 CREATE TABLE "activities" (
 	"id" serial NOT NULL,
 	"name" TEXT NOT NULL,
-	"points" integer NOT NULL,
-	"description" TEXT NOT NULL,
-	"parent" TEXT NOT NULL,
-	"unit" TEXT NOT NULL,
+	"points" integer,
+	"description" TEXT,
 	CONSTRAINT activities_pk PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -44,6 +47,8 @@ CREATE TABLE "user_activity_day" (
 ) WITH (
   OIDS=FALSE
 );
+
+ALTER TABLE "user_activity_day" ADD CONSTRAINT single_user_activity_day UNIQUE ("user", activity, day);
 
 
 

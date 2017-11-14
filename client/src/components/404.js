@@ -1,8 +1,11 @@
 import React from 'react';
+import { Container, Image } from 'semantic-ui-react';
 
 const FourOFour = (props) => {
   return (
-    <div>Page not found...</div>
+    <Container style={{ height: '100vh' }}>
+	    Page not found...
+  	</Container>
   );
 }
 

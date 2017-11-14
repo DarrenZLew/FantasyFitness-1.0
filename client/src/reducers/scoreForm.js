@@ -1,6 +1,5 @@
 import data from './scoreForm-fakedata.json';
 import { ScoreFormActions } from '../actions';
-import objectAssignDeep from 'object-assign-deep';
 
 const defaultActivities = data.preferences.defaultActivities
 let exercises = data.exercises.filter((exercise, index) => defaultActivities.indexOf(data.exercises[index].name) !== -1)
@@ -24,7 +23,8 @@ export default (state = initialState, action) => {
       if (action.payload.success) {
         const { index, type } = action.payload		
         let { initialValue, newValue } = action.payload
-				let newState = objectAssignDeep({}, state)
+        // Change this to something better, maybe
+				let newState = JSON.parse(JSON.stringify(state))
 
         if (type === 'interval') {
         	initialValue = parseFloat(initialValue)
@@ -69,7 +69,8 @@ export default (state = initialState, action) => {
 		case (ScoreFormActions.Types.RemoveActivity):
 			if (action.payload.success) {
 				const { activeActivities } = action.payload
-				let newState = objectAssignDeep({}, state)
+				// what is this?
+				let newState = JSON.parse(JSON.stringify(state))
 				activeActivities.map(activity => {
 					const index = newState.activeActivities.findIndex(activeActivity => activeActivity.value === activity)
 					if (index !== -1) {

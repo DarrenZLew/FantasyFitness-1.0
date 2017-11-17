@@ -6,7 +6,7 @@ let exercises = data.exercises.filter((exercise, index) => defaultActivities.ind
 let inactiveActivities = data.scoreForm.inactiveActivities.map(exercise => ({key: exercise, text: exercise, value: exercise }))
 let activeActivities = data.scoreForm.activeActivities.map(exercise => ({ key: exercise,	text: exercise, value: exercise }))
 
-const initialState = {
+let initialState = {
 	activities: {
 		exercises: exercises,
 		bonuses: data.bonuses,
@@ -14,7 +14,8 @@ const initialState = {
 	},
 	double: data.double,
 	inactiveActivities: inactiveActivities,
-	activeActivities: activeActivities
+	activeActivities: activeActivities,
+	defaultActivities: defaultActivities
 }
 
 export default (state = initialState, action) => {
@@ -23,7 +24,6 @@ export default (state = initialState, action) => {
       if (action.payload.success) {
         const { index, type } = action.payload		
         let { initialValue, newValue } = action.payload
-        // Change this to something better, maybe
 				let newState = JSON.parse(JSON.stringify(state))
 
         if (type === 'interval') {
@@ -69,7 +69,6 @@ export default (state = initialState, action) => {
 		case (ScoreFormActions.Types.RemoveActivity):
 			if (action.payload.success) {
 				const { activeActivities } = action.payload
-				// what is this?
 				let newState = JSON.parse(JSON.stringify(state))
 				activeActivities.map(activity => {
 					const index = newState.activeActivities.findIndex(activeActivity => activeActivity.value === activity)
@@ -81,6 +80,13 @@ export default (state = initialState, action) => {
 					}
 				})
 				return newState
+			}
+		case (ScoreFormActions.Types.UpdateBonus):
+			if (action.payload.success) {
+				const { index } = action.payload
+				let newState = JSON.parse(JSON.stringify(state))
+				newState.activities.bonuses[index].value = newState.activities.bonuses[index].value === true ? false : true
+				return newState 
 			}
 		default:
 			return state	

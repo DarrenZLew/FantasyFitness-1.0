@@ -78,15 +78,15 @@
 	"bonuses": [
 		{	"name": "Nutrition",
 			"points": 1000,
-			"value": ["", true, true, true, true, true, true]
+			"value": true
 		},
 		{	"name": "Stretching",
 			"points": 1000,
-			"value": [true, "", true, "", true, true, true]
+			"value": true
 		},
 		{	"name": "Tabata",
 			"points": 1500,
-			"value": [true, true, "", true, "", "", ""]
+			"value": false
 		}	
 	],
 	"challenge": {

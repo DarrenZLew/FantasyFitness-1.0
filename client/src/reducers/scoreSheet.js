@@ -14,7 +14,7 @@ export default (state = initialState, action) => {
 	switch (action.type) {
 		// Sorts columns in scoreSheet
 		case (ScoreSheetActions.Types.SET_SORT):
-			// need to use objectAssignDeep instead of Object.Assign
+			// need to use JSON.parse(JSON.stringify) instead of Object.Assign
 			// Object.Assign only does shallow copy
 			let newState = JSON.parse(JSON.stringify(state))
 			// If the sortKey is an activity name and is in the activities array, sort by the activity value

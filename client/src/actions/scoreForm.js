@@ -2,7 +2,8 @@ export const Types = {
 	UpdateActivity: 'FORM_UPDATE_ACTIVITY',
 	ResetForm: 'FORM_RESET_FORM',
 	AddActivity: 'FORM_ADD_ACTIVITY',
-	RemoveActivity: 'FORM_REMOVE_ACTIVITY'
+	RemoveActivity: 'FORM_REMOVE_ACTIVITY',
+	UpdateBonus: 'FORM_UPDTE_BONUS'
 }
 
 export function updateActivity(index, type, initialValue, newValue) {
@@ -40,6 +41,16 @@ export function removeActivity(activeActivities) {
 		payload: {
 			success: true,
 			activeActivities
+		}
+	})
+}
+
+export function updateBonus(index) {
+	return dispatch => dispatch({
+		type: Types.UpdateBonus,
+		payload: {
+			success: true,
+			index
 		}
 	})
 }

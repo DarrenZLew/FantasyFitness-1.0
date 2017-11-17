@@ -1,72 +1,100 @@
 import React from 'react';
-import { Table, Icon, Popup, Checkbox } from 'semantic-ui-react';
+import { Table, Icon, Popup, Button, Grid, Sidebar, Segment } from 'semantic-ui-react';
 import { Field } from 'redux-form';
 
-const Bonuses = ({ bonuses, double, newValues }) => (
-	<Table selectable size='small'>
-		<Table.Header>
-			<Table.Row>
-				<Table.HeaderCell>
-					Daily Bonuses
-					<Popup
-      			trigger={<Icon name='info circle'/>}
-			      content='Click on the bonus to learn more!'
-			      hideOnScroll
-    			/>
-				</Table.HeaderCell>
-				<Table.HeaderCell>
-					Points
-				</Table.HeaderCell>
-				<Table.HeaderCell></Table.HeaderCell>
-			</Table.Row>
-		</Table.Header>
-		<Table.Body>
-			{bonuses.map((bonus, index) => {
-				let { name, points } = {...bonus}
-				if (name === double.name) {
-					points *= 2
-					name = <span>{name}<br/><strong style={{color: 'red'}}>DOUBLE POINTS</strong></span>
-				}	
-				const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-				let style = days.map(day => ({marginLeft: '50px', padding: '10px'}))
-				const fieldDay = bonus.value.map((currDayValue, indexDay) => {
-					const fieldName = 'activities.bonuses[' + index + '].value[' + indexDay + ']'
-					if (typeof newValues !== 'undefined') {
-						const newDayValue = newValues[index].value[indexDay]
-						if ((currDayValue === true && newDayValue !== true) || (currDayValue === "" && newDayValue === true)) {
-							style[indexDay] = Object.assign({}, style[indexDay], {backgroundColor: 'yellow'})
-						}	
-					}
-					return (
-						<Field name={fieldName} component={Bonus} type='checkbox' key={fieldName} label={days[indexDay]} style={style[indexDay]} /> 
-					)
-				})
-				return (
-					<Table.Row key={bonus.name}>
-						<Table.Cell width={3}>
-							{name}
-						</Table.Cell>
-						<Table.Cell width={2}>
-							{points} per day
-						</Table.Cell>
-						<Table.Cell>
-							{fieldDay}
-						</Table.Cell>
-					</Table.Row>
-				)
-			})}
-		</Table.Body>
-	</Table>
-)
+const Bonuses = ({ bonuses, double, handleSubmit }) => (
+	<Grid>
+		<Grid.Row only='mobile tablet' stretched>
+			<Grid.Column>
+				{bonuses.map((bonus, index) => {
+					// const detailsVisible = activeIndexDetails === index ? true : false					
+					const { name, value, points } = {...bonus}
+					let [submitColor, iconName] = value === true ? ['green', 'thumbs up'] : ['red', 'thumbs down']
 
-const Bonus = field => (
-	<Checkbox
-		{...field.input}
-		value={field.input.value ? 'on' : 'off'}
-		onChange={(e, { checked }) => field.input.onChange(checked)}
-		label={field.label}
-		style={field.style}
-	/>
+					return (
+						<Sidebar.Pushable 
+							as={Segment} 
+							key={name} 
+							style={{boxShadow: '2px 2px 5px 3px rgba(34,36,38,.15)', border: 'none'}}
+						>
+							<Sidebar 
+								as={Button} 
+								type='button' 
+								onClick={() => handleSubmit(index)} 
+								animation='overlay' 
+								direction='right'
+								style={{width: '100px'}} 
+								visible={true}
+								color={submitColor}
+							> 
+								<Icon name={iconName} size='large' />
+							</Sidebar>
+							<Sidebar.Pusher>
+								<Segment style={{height: '100px'}} >
+									<div style={{padding: '10px', fontSize: '1.3em'}}>
+										{name}
+									</div>
+									<div style={{padding: '10px'}}>
+										Points: {points}
+									</div>
+		        		</Segment>
+		        	</Sidebar.Pusher>
+		        </Sidebar.Pushable>
+					)						
+				})}
+			</Grid.Column>
+		</Grid.Row>
+
+		<Grid.Row only='computer'>
+			<Grid.Column>
+				<Table selectable size='small'>
+					<Table.Header>
+						<Table.Row>
+							<Table.HeaderCell>
+								Daily Bonuses
+								<Popup
+			      			trigger={<Icon name='info circle'/>}
+						      content='Click on the bonus to learn more!'
+						      hideOnScroll
+			    			/>
+							</Table.HeaderCell>
+							<Table.HeaderCell>
+								Points
+							</Table.HeaderCell>
+							<Table.HeaderCell>
+								Completed?
+							</Table.HeaderCell>
+						</Table.Row>
+					</Table.Header>
+					<Table.Body>
+						{bonuses.map((bonus,index) => {
+							let bonusComplete = bonus.value === true ? 
+								<Button type='button' onClick={() => handleSubmit(index)} color='green'>
+									<Icon name='thumbs up' />
+								</Button> 
+								: 
+								<Button type='button' onClick={() => handleSubmit(index)} color='red'>
+									<Icon name='thumbs down' />
+								</Button> 
+							return (
+								<Table.Row key={bonus.name}>
+									<Table.Cell> 
+										{bonus.name}
+									</Table.Cell>
+									<Table.Cell>
+										{bonus.points}
+									</Table.Cell>
+									<Table.Cell>
+										{bonusComplete}
+									</Table.Cell>
+								</Table.Row>)
+							})
+					}
+					</Table.Body>
+				</Table>
+			</Grid.Column>
+		</Grid.Row>
+	</Grid>
 )
 
 export default Bonuses

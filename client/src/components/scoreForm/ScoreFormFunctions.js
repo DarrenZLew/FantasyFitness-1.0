@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Dropdown, Icon } from 'semantic-ui-react';
 
+// Function to add activities to dropdown list
 export const AddActivitiesList = ({selectInactiveActivity, inactiveActivities, selectedInactiveActivities, updateActivitiesList}) => {
 	return (
 		<div>
@@ -26,6 +27,7 @@ export const AddActivitiesList = ({selectInactiveActivity, inactiveActivities, s
 	)
 }
 
+// Function to remove activities from dropdown list
 export const RemoveActivitiesList = ({selectActiveActivity, activeActivities, selectedActiveActivities, updateActivitiesList}) => {
 	return (
 		<div>
@@ -51,6 +53,7 @@ export const RemoveActivitiesList = ({selectActiveActivity, activeActivities, se
 	)
 }
 
+// Function to display netChange values
 export const netChange = (newValues, exercises, type, index) => {
 	let netChangeValue, netChangeValueStyle
 	if (typeof newValues !== 'undefined') {
@@ -85,5 +88,42 @@ export const netChange = (newValues, exercises, type, index) => {
 			}		
 		}
 	}
-	return ([netChangeValue, netChangeValueStyle])		
+	return [netChangeValue, netChangeValueStyle]		
+}
+
+// Function to display double points
+export const doublePoints = (name, double, points) => {
+	if (name === double.name) {
+		points *= 2
+		name = <span>{name}<br/><strong style={{color: 'red'}}>DOUBLE POINTS</strong></span>
+	}
+	return [points, name]
+}
+
+// Function to append units to points value
+export const pointsAppendUnits = (points, type, units) => {
+	if (type === 'timer') {
+		points = points + ' per hour'
+	} else if (type === 'interval') {
+		switch(units) {
+			case 'Miles':
+				points = points + ' per mile'
+				break
+			case 'Meters':
+				points = points + ' per meter'
+				break
+			case 'Kilometers':
+				points = points + ' per kilometer'
+				break
+			default:
+				break
+		}
+	}
+	return points
+}
+
+export const favoriteActivity = (name, defaultActivities) => {
+	if (defaultActivities.indexOf(name) !== -1) {
+		return <Icon name='star' color='yellow'/>	
+	}		
 }

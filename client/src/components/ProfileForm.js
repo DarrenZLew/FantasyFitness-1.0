@@ -5,15 +5,22 @@ import { ProfileFormActions } from '../actions';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import '../styles/ProfileForm.css';
-import ImageUploader from 'react-images-upload';
+import ImageUpload from './ImageUploader'
 
 
 class ProfileForm extends Component {
     constructor(props) {
         super(props);
-        this.state = { pictures: [] };
-        this.onDrop = this.onDrop.bind(this);
-    }	
+         this.state = { pictures: [] };
+         this.onDrop = this.onDrop.bind(this);
+    }
+
+ 
+    onDrop(picture) {
+        this.setState({
+            pictures: this.state.pictures.concat(picture),
+        });
+    }
 	submit = (values) => {
 		console.log(values)
 	}
@@ -22,15 +29,7 @@ class ProfileForm extends Component {
 		return (
 			<Form className='container center profileForm-form' onSubmit={handleSubmit(this.submit)} >
 				<TableUserAttributes userAttributes={this.props.initialValues.user.userAttributes} currValues={initialValues.user.userAttributes}/>
-				<ImageUploader
-         			this.state
-         			this.onDrop
-                	withIcon={true}
-                	buttonText='Choose images'
-                	onChange={this.onDrop}
-                	imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                	maxFileSize={5242880}
-            	/>
+				<TableProfilePic/>
 				<Button 
 					type='button'
 					className='profle-reset'
@@ -105,7 +104,29 @@ const TableUserAttributes = ({ userAttributes,currValues }) => (
 		</Table.Body>
 	</Table>
 )
-
+const TableProfilePic = ({ pictures,onDrop }) => (
+	<Table selectable size='small'>
+		<Table.Header>
+			<Table.Row>
+				<Table.HeaderCell width={3}>
+					Upload Photo
+    			</Table.HeaderCell>
+				<Table.HeaderCell width={5}>
+					Current Photo
+				</Table.HeaderCell>
+			</Table.Row>
+		</Table.Header>
+		<Table.Body>
+					<Table.Row>
+						<Table.Cell>
+            	<ImageUpload/>
+            			</Table.Cell>
+            			<Table.Cell>
+            			</Table.Cell>						 
+					</Table.Row>	
+		</Table.Body>
+	</Table>
+)
 const ProfileFieldInput = field => (
 	<Form.Input
 		{...field.input}

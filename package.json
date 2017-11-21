@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/DarrenZLew/FantasyFitness-1.0/issues"
   },
-  "homepage": "https://github.com/DarrenZLew/FantasyFitness-1.0#readme"
+  "homepage": "https://github.com/DarrenZLew/FantasyFitness-1.0#readme",
+  "engines": {
+    "node": "6.11.1"
+  }
 }

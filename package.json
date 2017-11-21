@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/DarrenZLew/FantasyFitness-1.0#readme",
   "engines": {
-    "node": "6.11.1"
+    "node": "8.4.0"
   }
 }

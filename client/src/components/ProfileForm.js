@@ -5,9 +5,21 @@ import { ProfileFormActions } from '../actions';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import '../styles/ProfileForm.css';
+import ImageUploader from 'react-images-upload';
+
 
 class ProfileForm extends Component {
-
+    constructor(props) {
+        super(props);
+         this.state = { pictures: [] };
+         this.onDrop = this.onDrop.bind(this);
+    }
+ 
+    onDrop(picture) {
+        this.setState({
+            pictures: this.state.pictures.concat(picture),
+        });
+    }
 	submit = (values) => {
 		console.log(values)
 	}
@@ -16,6 +28,7 @@ class ProfileForm extends Component {
 		return (
 			<Form className='container center profileForm-form' onSubmit={handleSubmit(this.submit)} >
 				<TableUserAttributes userAttributes={this.props.initialValues.user.userAttributes} currValues={initialValues.user.userAttributes}/>
+				<TableProfileImage/>
 				<Button 
 					type='button'
 					className='profle-reset'
@@ -33,6 +46,7 @@ class ProfileForm extends Component {
 		)
 	}
 }
+
 const TableUserAttributes = ({ userAttributes,currValues }) => (
 	<Table selectable size='small'>
 		<Table.Header>
@@ -89,6 +103,39 @@ const TableUserAttributes = ({ userAttributes,currValues }) => (
 		</Table.Body>
 	</Table>
 )
+const TableProfileImage = ({ props }) => (
+	<Table selectable size='small'>
+		<Table.Header>
+			<Table.Row>
+				<Table.HeaderCell width={5}/>
+				<Table.HeaderCell 
+					width={5}
+					textAlign='center'
+				>
+					Current Profile Photo
+				</Table.HeaderCell>
+			</Table.Row>
+		</Table.Header>
+		<Table.Body>
+					<Table.Row>
+						<Table.Cell textAlign='center'>
+					 		<ImageUploader
+			                	withIcon={true}
+			                	buttonText='Choose images'
+			                	onChange={this.onDrop}
+			                	imgExtension={['.jpg', '.png', '.gif']}
+			                	maxFileSize={2097152}
+			                	label='Max File Size: 2MB'
+			            	/>
+						</Table.Cell> 
+						<Table.Cell textAlign='center'>
+							<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Doughnut-1023029-m-1.jpg/220px-Doughnut-1023029-m-1.jpg' height={250}/> 
+						</Table.Cell>					 
+				</Table.Row>	
+		</Table.Body>
+	</Table>
+)
+
 
 const ProfileFieldInput = field => (
 	<Form.Input
@@ -104,6 +151,10 @@ const ProfileFieldTextArea = field => (
 	/>	
 )
 
+const onDrop = picture => (
+        this.setState({
+        pictures: this.state.pictures.concat(picture),
+        }))
 const mapStateToProps = state => {
 	return { 
 		initialValues: {

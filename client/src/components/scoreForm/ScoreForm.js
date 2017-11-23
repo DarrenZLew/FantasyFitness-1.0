@@ -35,7 +35,7 @@ class ScoreForm extends Component {
 		 		/>
 		 		<Header size='large' textAlign='center'>Bonuses</Header>
 				<Bonuses 
-					bonuses={this.props.initialValues.activities.bonuses} 
+					bonuses={initialValues.activities.bonuses} 
 					double={double} 
 					handleSubmit={updateBonus} 
 				/>

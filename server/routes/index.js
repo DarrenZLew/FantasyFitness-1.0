@@ -61,6 +61,7 @@ router.post('/user/:userid/activity/', function(req, res, next) {
 });
 router.post('/user/:userid/activity/record', function(req, res, next) {
     let userID = parseInt(req.params.userid);
+    console.log(req.body);
     let args = {
         userID: userID,
         activity: req.body.activity,

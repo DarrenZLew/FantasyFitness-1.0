@@ -3,7 +3,7 @@ export const Types = {
 	ResetForm: 'FORM_RESET_FORM',
 	AddActivity: 'FORM_ADD_ACTIVITY',
 	RemoveActivity: 'FORM_REMOVE_ACTIVITY',
-	UpdateBonus: 'FORM_UPDTE_BONUS'
+	UpdateBonus: 'FORM_UPDATE_BONUS',
 }
 
 export function updateActivity(index, type, initialValue, newValue) {

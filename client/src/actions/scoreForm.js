@@ -77,7 +77,6 @@ export function updateActivity(source, index, type, initialValue, newValue, subm
 }
 
 export function activitiesFetchDataSuccess(activities, source) {
-	console.log(activities)
 	return dispatch => dispatch({
 		type: Types.ActivitiesFetchDataSuccess,
 		payload: {
@@ -129,7 +128,7 @@ export function activitiesSubmitData(id, index, source, date, initialValue, newV
 		}		
 	} else if (source === 'bonus') {
 		// 0 is complete and null is incomplete for bonuses in database
-		amount = 0
+		amount = 1
 		if (initialValue === 0) {
 			amount = null
 		}

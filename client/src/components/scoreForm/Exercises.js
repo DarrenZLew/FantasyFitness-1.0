@@ -33,7 +33,8 @@ class Exercises extends Component {
 						{exercises.map((exercise, index) => {
 							const submitVisible = activeIndexSubmit === index ? true : false
 							const detailsVisible = activeIndexDetails === index ? true : false
-							let { id, name, points, units, type, initialValue, value } = {...exercise}
+							let { activity, name, points, units, type, initialValue, value } = {...exercise}
+							initialValue = initialValue || (type === "interval" ? 0 : {hr: 0, min: 0});
 							let [netChangeValue, netChangeStyle] = netChange(exercises, type, index)
 							let favorite = favoriteActivity(name, defaultActivities)													
 							let [formatPoints, formatName] = doublePoints(name, double, points)
@@ -75,7 +76,7 @@ class Exercises extends Component {
 									/>
 									<Form.Input 
 										type='number'
-										defaultValue={exercise.initialValue.min} 
+										defaultValue={initialValue.min} 
 										min={0} 
 										max={59}
 										onChange={(e) => this.props.updateActivity('exercise', index, 'min', initialValue, e.target.value)}
@@ -91,7 +92,7 @@ class Exercises extends Component {
 									<Sidebar 
 										as={Button} 
 										type='button' 
-										onClick={() => handleSubmit(id, index, 'exercise', '20171105', initialValue, value, type)} 
+										onClick={() => handleSubmit(activity, index, 'exercise', '20171105', initialValue, value, type)} 
 										animation='overlay' 
 										direction='right' 
 										style={{width: '100px'}} 
@@ -134,9 +135,9 @@ class Exercises extends Component {
 											<div>
 												{activityInput}
 											</div>
-				        		</Segment>
-				        	</Sidebar.Pusher>
-				        </Sidebar.Pushable>
+										</Segment>
+									</Sidebar.Pusher>
+								</Sidebar.Pushable>
 							)									
 						})}
 					</Grid.Column>
@@ -150,14 +151,14 @@ class Exercises extends Component {
 									<Table.HeaderCell width={3}>
 										Activity
 										<Popup
-					      			trigger={<Icon name='info circle'/>}
-								      content='Click on the exercise to learn more!'
-								      hideOnScroll
-					    			/>
-					    		</Table.HeaderCell>
-					    		<Table.HeaderCell width={4}>
-					    			Points
-					    		</Table.HeaderCell>
+											trigger={<Icon name='info circle'/>}
+											content='Click on the exercise to learn more!'
+											hideOnScroll
+										/>
+									</Table.HeaderCell>
+									<Table.HeaderCell width={4}>
+										Points
+									</Table.HeaderCell>
 									<Table.HeaderCell width={3}>
 										Current Value
 									</Table.HeaderCell>
@@ -173,10 +174,11 @@ class Exercises extends Component {
 							</Table.Header>
 							<Table.Body>
 								{exercises.map((exercise, index) => {
-									let { name, points, units, type } = {...exercise}
+									let { activity, name, initialValue, points, units, type } = {...exercise}
 									let [netChangeValue, netChangeStyle] = netChange(exercises, type, index)
 									let favorite = favoriteActivity(name, defaultActivities)							
 									let [formatPoints, formatName] = doublePoints(name, double, points)
+									initialValue = initialValue || (type === "interval" ? 0 : {hr: 0, min: 0});
 									formatPoints = pointsAppendUnits(formatPoints, type, units)
 									return (
 										<Table.Row key={index}>
@@ -188,25 +190,25 @@ class Exercises extends Component {
 											</Table.Cell>
 											{type === 'interval' && 
 											<Table.Cell>
-												{exercises[index].initialValue} {units}
+												{initialValue} {units}
 											</Table.Cell>
 											}
 											{type === 'interval' && 
 											<Table.Cell>
 												<Form.Input
 													type='number'
-													defaultValue={exercise.initialValue} 
+													defaultValue={initialValue} 
 													width={8} 
 													min={0} 
 													max={9999}
-													onChange={(e) => this.props.updateActivity(index, type, exercise.initialValue, e.target.value)}
+													onChange={(e) => this.props.updateActivity(index, type, initialValue, e.target.value)}
 													onFocus={() => this.toggleVisibilitySubmit(index)}
 												/>	
 											</Table.Cell>
 											}
 											{type === 'timer' && 
 											<Table.Cell>
-												{exercises[index].initialValue.hr} Hrs {exercises[index].initialValue.min} Min
+												{initialValue.hr} Hrs {initialValue.min} Min
 											</Table.Cell>
 											}
 											{type === 'timer' && 
@@ -214,23 +216,23 @@ class Exercises extends Component {
 												<Form.Group>
 													<Form.Input 
 														type='number'
-														defaultValue={exercise.initialValue.hr} 
+														defaultValue={initialValue.hr} 
 														min={0} 
 														max={99}
 														label='Hrs'
-														onChange={(e) => this.props.updateActivity(index, 'hr', exercise.initialValue, e.target.value)}
+														onChange={(e) => this.props.updateActivity(index, 'hr', initialValue, e.target.value)}
 														onFocus={() => this.toggleVisibilitySubmit(index)}
 													/>
 													<Form.Input 
 														type='number'
-														defaultValue={exercise.initialValue.min} 
+														defaultValue={initialValue.min} 
 														min={0} 
 														max={59}
 														label='Mins'
-														onChange={(e) => this.props.updateActivity(index, 'min', exercise.initialValue, e.target.value)}
+														onChange={(e) => this.props.updateActivity(index, 'min', initialValue, e.target.value)}
 														onFocus={() => this.toggleVisibilitySubmit(index)}
-													/>									
-												</Form.Group>												
+													/>
+												</Form.Group>
 											</Table.Cell>}
 											<Table.Cell style={netChangeStyle}>
 												{netChangeValue}
@@ -238,11 +240,11 @@ class Exercises extends Component {
 											<Table.Cell>
 												<Button 
 													type='button'
-													onClick={() => handleSubmit(exercise.id, index, 'exercise', '20171105', exercise.initialValue, exercise.value, type)} 
+													onClick={() => handleSubmit(activity, index, 'exercise', '20171105', exercise.initialValue, exercise.value, type)} 
 												>													
 													Submit
 												</Button>
-							        </Table.Cell>										
+											</Table.Cell>										
 										</Table.Row>
 									)
 								})}	

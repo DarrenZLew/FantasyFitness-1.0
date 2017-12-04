@@ -55,7 +55,7 @@ export default (state = initialState, action) => {
 					}					
 				} else if (action.payload.source === 'bonus') {
 					let newState = JSON.parse(JSON.stringify(state))
-					newState.activities.bonuses[index].value = newState.activities.bonuses[index].value === 0 ? null : 0
+					newState.activities.bonuses[index].value = newState.activities.bonuses[index].value === 1 ? null : 1
 					return newState 					
 				}
 			}
@@ -120,7 +120,7 @@ export default (state = initialState, action) => {
 						})						
 					} else if (activity.source === 'bonus') {
 						// bonus is complete/true
-						return Object.assign({}, activity, {value: activity.amount})
+						return Object.assign({}, activity, {value: activity.amount || null})
 					}
 				}
 			)

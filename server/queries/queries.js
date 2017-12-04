@@ -26,11 +26,14 @@ function setUser(userID, userData) {
 
 function getUserActivities(args) {
 	let {startDay, endDay, activity, source} = args;
-	let query = 'SELECT * FROM user_activity_day JOIN activities ON user_activity_day.activity = activities.id AND user_activity_day.active = true WHERE "user" = $[userID]';
+	let query = `SELECT activities.id as activity, activities.*, uad.id, uad.user, uad.day, uad.amount, uad.active FROM activities
+	             LEFT JOIN user_activity_day uad ON uad.activity = activities.id
+	             WHERE (uad.active IS NULL OR ("user" = $[userID] AND uad.active = true`;
 	if(endDay)
 		query += ' and day <= $[endDay]::date';
 	if(startDay)
 		query += ' and day >= $[startDay]::date';
+	query += '))';
 	if(activity)
 		query += ' and activity = $[activity]';
 	if(source)

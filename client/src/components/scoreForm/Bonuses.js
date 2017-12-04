@@ -25,8 +25,8 @@ class Bonuses extends Component {
 					<Grid.Column>
 						{bonuses.map((bonus, index) => {
 							const detailsVisible = activeIndexDetails === index ? true : false					
-							const { id, name, value, points } = {...bonus}
-							let [submitColor, iconName] = value === 0 ? ['green', 'thumbs up'] : ['red', 'thumbs down']
+							const { activity, name, value, points } = {...bonus}
+							let [submitColor, iconName] = value === 1 ? ['green', 'thumbs up'] : ['red', 'thumbs down']
 							return (
 								<Sidebar.Pushable 
 									as={Segment} 
@@ -36,7 +36,7 @@ class Bonuses extends Component {
 									<Sidebar 
 										as={Button} 
 										type='button' 
-										onClick={() => handleSubmit(id, index, 'bonus', '20171105', value)} 
+										onClick={() => handleSubmit(activity, index, 'bonus', '20171105', value)} 
 										animation='overlay' 
 										direction='right'
 										style={{width: '100px'}} 
@@ -98,13 +98,13 @@ class Bonuses extends Component {
 							</Table.Header>
 							<Table.Body>
 								{bonuses.map((bonus,index) => {
-									const { id, name, points, value } = {...bonus}
-									let complete = value === 0 ? 
-										<Button type='button' onClick={() => handleSubmit(id, index, 'bonus', '20171105', value)} color='green'>
+									const { activity, name, points, value } = {...bonus}
+									let complete = value === 1 ? 
+										<Button type='button' onClick={() => handleSubmit(activity, index, 'bonus', '20171105', value)} color='green'>
 											<Icon name='thumbs up' />
 										</Button> 
 										: 
-										<Button type='button' onClick={() => handleSubmit(id, index, 'bonus', '20171105', value)} color='red'>
+										<Button type='button' onClick={() => handleSubmit(activity, index, 'bonus', '20171105', value)} color='red'>
 											<Icon name='thumbs down' />
 										</Button> 
 									return (

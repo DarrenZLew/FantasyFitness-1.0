@@ -54,12 +54,11 @@ export const RemoveActivitiesList = ({selectActiveActivity, activeActivities, se
 }
 
 // Function to display netChange values
-export const netChange = (newValues, exercises, type, index) => {
+export const netChange = (exercises, type, index) => {
 	let netChangeValue, netChangeValueStyle
-	if (typeof newValues !== 'undefined') {
-		if (type === 'timer' && typeof newValues[index] !== 'undefined') {
-			let newValueHr = parseFloat(newValues[index].value.hr)
-			let newValueMin = parseFloat(newValues[index].value.min)
+		if (type === 'timer') {
+			let newValueHr = parseFloat(exercises[index].value.hr)
+			let newValueMin = parseFloat(exercises[index].value.min)
 			if (Number.isNaN(newValueHr)) {
 				newValueHr = 0
 			}
@@ -67,17 +66,17 @@ export const netChange = (newValues, exercises, type, index) => {
 				newValueMin = 0
 			}
 			const newTotalMin = newValueHr * 60 + newValueMin
-			const currTotalMin = exercises[index].value.hr * 60 + exercises[index].value.min
-			netChangeValue = Math.abs(newTotalMin - currTotalMin) + ' Mins'
-			if (newTotalMin > currTotalMin) {
+			const initialTotalMin = exercises[index].initialValue.hr * 60 + exercises[index].initialValue.min
+			netChangeValue = Math.abs(newTotalMin - initialTotalMin) + ' Mins'
+			if (newTotalMin > initialTotalMin) {
 				netChangeValueStyle = {color: 'green'}
 				netChangeValue = '+ ' + netChangeValue
-			} else if (newTotalMin < currTotalMin) {
+			} else if (newTotalMin < initialTotalMin) {
 				netChangeValueStyle = {color: 'red'}
 				netChangeValue = '- ' + netChangeValue
 			} 
-		} else if (type === 'interval' && typeof newValues[index] !== 'undefined') {
-			netChangeValue = newValues[index].value - exercises[index].value
+		} else if (type === 'interval') {
+			netChangeValue = exercises[index].value - exercises[index].initialValue 
 			netChangeValue = netChangeValue.toFixed(1).replace(/[.]0$/, "")
 			if (netChangeValue > 0) {
 				netChangeValueStyle = {color: 'green'}
@@ -87,7 +86,6 @@ export const netChange = (newValues, exercises, type, index) => {
 				netChangeValue = '- ' + Math.abs(netChangeValue)
 			}		
 		}
-	}
 	return [netChangeValue, netChangeValueStyle]		
 }
 
@@ -103,17 +101,17 @@ export const doublePoints = (name, double, points) => {
 // Function to append units to points value
 export const pointsAppendUnits = (points, type, units) => {
 	if (type === 'timer') {
-		points = points + ' per hour'
+		points = points + ' / hour'
 	} else if (type === 'interval') {
 		switch(units) {
 			case 'Miles':
-				points = points + ' per mile'
+				points = points + ' / mile'
 				break
 			case 'Meters':
-				points = points + ' per meter'
+				points = points + ' / meter'
 				break
 			case 'Kilometers':
-				points = points + ' per kilometer'
+				points = points + ' / kilometer'
 				break
 			default:
 				break

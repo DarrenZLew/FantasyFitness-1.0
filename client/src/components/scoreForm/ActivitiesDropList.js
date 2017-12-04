@@ -1,36 +1,50 @@
 import React, { Component } from 'react';
-import { Header, Grid } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 import { AddActivitiesList, RemoveActivitiesList } from './ScoreFormFunctions';
 
 class ActivitiesDropList extends Component {	
 
-	state = { selectedInactiveActivities: [], selectedActiveActivities: [] }
+	state = { selectedInactiveActivities: [], selectedActiveActivities: [], inactiveActivitiesIndexes: [], activeActivitiesIndexes: [] }
 
 	// Updates from add dropdown list for currently selected inactive activities
-	selectInactiveActivity = (e, { value }) => {
-		this.setState({ selectedInactiveActivities: value })
+	selectInactiveActivity = (e, { value }) => {		
+		let ids = value.map(activity => {
+			let id = this.props.inactiveActivities.findIndex(e => e.value === activity)
+			return this.props.inactiveActivities[id].key
+		})
+		this.setState({ 
+			selectedInactiveActivities: value,
+			inactiveActivitiesIndexes: ids
+		})
 	}
 
 	// Updates from remove dropdown list for currently selected active activities
 	selectActiveActivity = (e, { value }) => {
-		this.setState({ selectedActiveActivities: value })
+		let id = value.map(activity => this.props.activeActivities.findIndex(e => e.value === activity))
+		this.setState({ 
+			selectedActiveActivities: value,
+			activeActivitiesIndexes: id
+		})
 	}
 
 	// Function used to call action creator functions addActivity/removeActivity with currently selected inactive/active activities from droplist.
 	// Resets selected inactive/active activities afterwards 
 	updateActivitiesList = updateFunction => {
 		if (updateFunction === 'add') {
-			this.props.addActivity(this.state.selectedInactiveActivities)
+			this.props.activityListSubmitData(this.state.selectedInactiveActivities, this.state.inactiveActivitiesIndexes, '20171105', 'add')
 		} else if (updateFunction === 'remove') {
-			this.props.removeActivity(this.state.selectedActiveActivities)
+			this.props.activityListSubmitData(this.state.selectedActiveActivities, this.state.activeActivitiesIndexes, '20171105', 'remove')
 		}
-		this.setState({ selectedInactiveActivities: [] })
-		this.setState({ selectedActiveActivities: [] })	
+		this.setState({ 
+			selectedInactiveActivities: [],
+			selectedActiveActivities: [],
+			selectedInactiveActivitiesIndexes: [],
+			selectedActiveActivitiesIndexes: []
+		})
 	}
 
 	render() {
 		const { inactiveActivities, activeActivities } = this.props
-		const { updateActivity, addActivity, removeActivity } = this.props
 		const { selectedInactiveActivities, selectedActiveActivities } = this.state
 
 		return (

@@ -3,6 +3,7 @@ CREATE DATABASE ffitness;
 
 \c ffitness;
 
+
 CREATE TABLE "users" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"name" TEXT NOT NULL,
@@ -12,13 +13,13 @@ CREATE TABLE "users" (
 	"bio" TEXT
 );
 
-
-
 CREATE TABLE "activities" (
 	"id" serial NOT NULL,
 	"name" TEXT NOT NULL,
 	"points" integer,
-	"description" TEXT,
+	"type" TEXT,
+	"units" TEXT,
+	"source" TEXT NOT NULL,
 	CONSTRAINT activities_pk PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -36,20 +37,32 @@ CREATE TABLE "leagues" (
 );
 
 
+CREATE TABLE "user_activitylist" (
+	"id" serial NOT NULL,
+	"user" integer NOT NULL,
+	"activity" integer NOT NULL,
+	"active" boolean NOT NULL,
+	CONSTRAINT user_activitylist_pk PRIMARY KEY ("id")
+) WITH (
+	OIDS=FALSE
+);
+
+ALTER TABLE "user_activitylist" ADD CONSTRAINT single_user_activitylist UNIQUE ("user", activity, active);
+
 
 CREATE TABLE "user_activity_day" (
 	"id" serial NOT NULL,
 	"user" integer NOT NULL,
 	"activity" integer NOT NULL,
 	"day" DATE NOT NULL,
-	"amount" FLOAT NOT NULL,
+	"amount" FLOAT,
+	"active" boolean,
 	CONSTRAINT user_activity_day_pk PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
 );
 
 ALTER TABLE "user_activity_day" ADD CONSTRAINT single_user_activity_day UNIQUE ("user", activity, day);
-
 
 
 CREATE TABLE "user_league" (
@@ -97,4 +110,3 @@ ALTER TABLE "activity_league" ADD CONSTRAINT "activity_league_fk0" FOREIGN KEY (
 ALTER TABLE "activity_league" ADD CONSTRAINT "activity_league_fk1" FOREIGN KEY ("league") REFERENCES "leagues"("id");
 
 ALTER TABLE "matchups" ADD CONSTRAINT "matchups_fk0" FOREIGN KEY ("user_league") REFERENCES "user_league"("id");
-

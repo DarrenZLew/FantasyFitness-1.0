@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Form, Header } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { ScoreFormActions } from '../../actions';
-import { reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import Exercises from './Exercises';
 import Challenge from './Challenge';
@@ -12,15 +11,8 @@ import ActivitiesDropList from './ActivitiesDropList';
 class ScoreForm extends Component {
 
 	render() {
-		const { pristine, reset, submitting, initialValues, double } = this.props
-		const { updateActivity, addActivity, removeActivity, inactiveActivities, activeActivities, defaultActivities, updateBonus } = this.props
-
-		let newValueExercises, newValueChallenge, newValueBonuses
-		if (typeof this.props.formValues !== 'undefined') {
-			newValueChallenge = this.props.formValues.challenge
-			newValueExercises = this.props.formValues.exercises
-			newValueBonuses = this.props.formValues.bonuses			
-		}
+		const { double, activities } = this.props
+		const { updateActivity, activityListSubmitData, inactiveActivities, activeActivities, defaultActivities, updateBonus, activitiesFetchData, activitiesSubmitData, activitiesListFetchData } = this.props
 				// <Challenge challenge={this.props.initialValues.activities.challenge} currValues={initialValues.activities.challenge} newValues={newValueChallenge} />
 
 		return (
@@ -30,22 +22,24 @@ class ScoreForm extends Component {
 		 			inactiveActivities={inactiveActivities}
 		 			activeActivities={activeActivities}
 		 			updateActivity={updateActivity}
-		 			addActivity={addActivity}
-		 			removeActivity={removeActivity}
+		 			activityListSubmitData={activityListSubmitData}
 		 		/>
 		 		<Header size='large' textAlign='center'>Bonuses</Header>
-				<Bonuses 
-					bonuses={initialValues.activities.bonuses} 
+	 			<Bonuses 
+					bonuses={activities.bonuses} 
 					double={double} 
-					handleSubmit={updateBonus} 
+					handleSubmit={activitiesSubmitData}
+					activitiesFetchData={activitiesFetchData}
 				/>
 				<Header size='large' textAlign='center'>Activities</Header>
 				<Exercises 
-					exercises={initialValues.activities.exercises} 
+					exercises={activities.exercises} 
 					double={double} 
-					newValues={newValueExercises} 
-					handleSubmit={updateActivity}
+					handleSubmit={activitiesSubmitData}
 					defaultActivities={defaultActivities}
+					activitiesFetchData={activitiesFetchData}
+					updateActivity={updateActivity}
+					activitiesListFetchData={activitiesListFetchData}
 				/>
 			</Form>
 		)
@@ -54,29 +48,21 @@ class ScoreForm extends Component {
 
 const mapStateToProps = state => {
 	return { 
-		initialValues: {
-			activities: {
-				exercises:state.scoreForm.activities.exercises, 
-				bonuses: state.scoreForm.activities.bonuses,
-				challenge: state.scoreForm.activities.challenge
-			}
+		activities: {
+			exercises:state.scoreForm.activities.exercises, 
+			bonuses: state.scoreForm.activities.bonuses,
+			challenge: state.scoreForm.activities.challenge
 		},
 		double: state.scoreForm.double,
 		inactiveActivities: state.scoreForm.inactiveActivities,
 		activeActivities: state.scoreForm.activeActivities,
 		defaultActivities: state.scoreForm.defaultActivities,
-		formValues: selector(state, 'activities')
 	}
 }	
 
 const mapDispatchToProps = dispatch => {
-  const { updateActivity, addActivity, removeActivity, updateBonus } = ScoreFormActions;
-  return bindActionCreators({ updateActivity, addActivity, removeActivity, updateBonus }, dispatch);
+  const { updateActivity, activityListSubmitData, updateBonus, activitiesFetchData, activitiesSubmitData, activitiesListFetchData } = ScoreFormActions;
+  return bindActionCreators({ updateActivity, activityListSubmitData, updateBonus, activitiesFetchData, activitiesSubmitData, activitiesListFetchData }, dispatch);
 }
 
-const selector = formValueSelector('scoreForm')
-
-export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
-	form: 'scoreForm', 
-	enableReinitialize: true
-})(ScoreForm))
+export default connect(mapStateToProps, mapDispatchToProps)(ScoreForm)

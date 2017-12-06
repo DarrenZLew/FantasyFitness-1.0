@@ -53,7 +53,8 @@ class Bonuses extends Component {
 										style={{height: '100px !important'}}
 										visible={detailsVisible}>
 										<div>{name}</div>
-
+										<div>other links</div>
+										<div>weekly total</div>
 									</Sidebar>
 									<Sidebar.Pusher>
 										<Segment style={{height: '100px'}} >

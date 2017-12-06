@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Table, Form, Icon, Popup, Grid, Segment, Sidebar, Button } from 'semantic-ui-react';
-// import { Field } from 'redux-form';
 import { netChange, pointsAppendUnits, doublePoints, favoriteActivity } from './ScoreFormFunctions';
 
 class Exercises extends Component {
@@ -18,7 +17,7 @@ class Exercises extends Component {
 	// Call action to load initial exercises when component renders
 	componentDidMount = () => {
 		this.props.activitiesFetchData('20171105','exercise')
-		this.props.activitiesListFetchData('20171105')		
+		this.props.activitiesListFetchData('20171105','exercise')
 	}
 
 	render() {
@@ -39,7 +38,6 @@ class Exercises extends Component {
 							let favorite = favoriteActivity(name, defaultActivities)													
 							let [formatPoints, formatName] = doublePoints(name, double, points)
 							formatPoints = pointsAppendUnits(formatPoints, type, units)
-
 							let step
 							switch (units) {
 								case 'Miles':
@@ -92,7 +90,7 @@ class Exercises extends Component {
 									<Sidebar 
 										as={Button} 
 										type='button' 
-										onClick={() => handleSubmit(activity, index, 'exercise', '20171105', initialValue, value, type)} 
+										onClick={() => handleSubmit(activity, index, 'exercise', '20171105', initialValue, value, type)}
 										animation='overlay' 
 										direction='right' 
 										style={{width: '100px'}} 
@@ -101,9 +99,9 @@ class Exercises extends Component {
 									</Sidebar>
 									<Sidebar
 										as={Segment}
-										animation='overlay'
-										direction='right'
-										style={{width: '200px'}}
+										onClick={() => this.toggleVisibilityDetails()}
+										animation='push'
+										direction='top'
 										visible={detailsVisible}>
 										<div>
 											Favorited
@@ -174,7 +172,7 @@ class Exercises extends Component {
 							</Table.Header>
 							<Table.Body>
 								{exercises.map((exercise, index) => {
-									let { activity, name, initialValue, points, units, type } = {...exercise}
+									let { activity, name, initialValue, points, units, type, value } = {...exercise}
 									let [netChangeValue, netChangeStyle] = netChange(exercises, type, index)
 									let favorite = favoriteActivity(name, defaultActivities)							
 									let [formatPoints, formatName] = doublePoints(name, double, points)
@@ -201,7 +199,7 @@ class Exercises extends Component {
 													width={8} 
 													min={0} 
 													max={9999}
-													onChange={(e) => this.props.updateActivity(index, type, initialValue, e.target.value)}
+													onChange={(e) => this.props.updateActivity('exercise', index, type, initialValue, e.target.value)}
 													onFocus={() => this.toggleVisibilitySubmit(index)}
 												/>	
 											</Table.Cell>
@@ -220,7 +218,7 @@ class Exercises extends Component {
 														min={0} 
 														max={99}
 														label='Hrs'
-														onChange={(e) => this.props.updateActivity(index, 'hr', initialValue, e.target.value)}
+														onChange={(e) => this.props.updateActivity('exercise', index, 'hr', initialValue, e.target.value)}
 														onFocus={() => this.toggleVisibilitySubmit(index)}
 													/>
 													<Form.Input 
@@ -229,7 +227,7 @@ class Exercises extends Component {
 														min={0} 
 														max={59}
 														label='Mins'
-														onChange={(e) => this.props.updateActivity(index, 'min', initialValue, e.target.value)}
+														onChange={(e) => this.props.updateActivity('exercise', index, 'min', initialValue, e.target.value)}
 														onFocus={() => this.toggleVisibilitySubmit(index)}
 													/>
 												</Form.Group>
@@ -240,7 +238,7 @@ class Exercises extends Component {
 											<Table.Cell>
 												<Button 
 													type='button'
-													onClick={() => handleSubmit(activity, index, 'exercise', '20171105', exercise.initialValue, exercise.value, type)} 
+													onClick={() => handleSubmit(activity, index, 'exercise', '20171105', initialValue, value, type)} 
 												>													
 													Submit
 												</Button>

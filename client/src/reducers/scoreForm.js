@@ -1,10 +1,4 @@
-import data from './scoreForm-fakedata.json';
 import { ScoreFormActions } from '../actions';
-
-const defaultActivities = data.preferences.defaultActivities
-let exercises = data.exercises.filter((exercise, index) => defaultActivities.indexOf(data.exercises[index].name) !== -1)
-// let inactiveActivities = data.scoreForm.inactiveActivities.map(exercise => ({key: exercise, text: exercise, value: exercise }))
-// let activeActivities = data.scoreForm.activeActivities.map(exercise => ({ key: exercise,	text: exercise, value: exercise }))
 
 let initialState = {
 	activities: {
@@ -25,7 +19,6 @@ export default (state = initialState, action) => {
 				let newState = JSON.parse(JSON.stringify(state))
 				const { index, type, submitData, newValue } = action.payload	
 				if (action.payload.source === 'exercise') {
-	        	
 					switch (type) {
 						case 'interval':
 		        	// newValue = parseFloat(newValue)	
@@ -61,34 +54,48 @@ export default (state = initialState, action) => {
 			}
 		case (ScoreFormActions.Types.AddActivity):
 			if (action.payload.success) {
-				const { inactiveActivities, ids } = action.payload
-				let newState = Object.assign({}, state)
-
-				inactiveActivities.map((activity,index) => {
-					const idx = newState.inactiveActivities.findIndex(inactiveActivity => inactiveActivity.value === activity)
-					if (idx !== -1) {
-						newState.inactiveActivities.splice(idx, 1)
-						newState.activeActivities.push({ key: ids[index], text: activity, value: activity })	
-						// const exercises = data.exercises.filter(exercise => exercise.name === activity)
-						// newState.activities.exercises = newState.activities.exercises.concat(exercises)						
+				let { inactiveActivity, activity, id } = action.payload
+				let newState = JSON.parse(JSON.stringify(state))
+				const idx = newState.inactiveActivities.findIndex(inactive => inactive.value === inactiveActivity)
+				if (idx !== -1) {
+					newState.inactiveActivities.splice(idx, 1)
+					newState.activeActivities.push({ key: id, text: inactiveActivity, value: inactiveActivity })
+					if (activity.type === 'timer') {
+						const min = activity.amount % 60
+						const hr = Math.floor(activity.amount / 60)
+						activity = Object.assign({}, activity, {
+							value: {
+								hr: hr,
+								min: min
+							},
+							initialValue: {
+								hr: hr,
+								min: min
+							}
+						})
+					} else {
+						activity = Object.assign({}, activity, {
+							value: activity.amount,
+							initialValue: activity.amount
+						})
 					}
-				})
-				console.log(newState)
+					newState.activities.exercises = newState.activities.exercises.concat(activity)
+				}
 				return newState
 			}
 		case (ScoreFormActions.Types.RemoveActivity):
 			if (action.payload.success) {
-				const { activeActivities } = action.payload
+				const { activeActivity, id } = action.payload
 				let newState = JSON.parse(JSON.stringify(state))
-				activeActivities.map(activity => {
-					const index = newState.activeActivities.findIndex(activeActivity => activeActivity.value === activity)
+				const idx = newState.activeActivities.findIndex(active => active.value === activeActivity)
+				if (idx !== -1) {
+					newState.activeActivities.splice(idx, 1)
+					newState.inactiveActivities.push({ key: id, text: activeActivity, value: activeActivity })
+					const index = newState.activities.exercises.findIndex(e => e.name === activeActivity)
 					if (index !== -1) {
-						newState.activeActivities.splice(index, 1)
-						newState.inactiveActivities.push( {key: activity, text: activity, value: activity })	
-						const exerciseIndex = newState.activities.exercises.findIndex(exercise => exercise.name === activity)
-						newState.activities.exercises.splice(exerciseIndex, 1)					
+						newState.activities.exercises.splice(index, 1)
 					}
-				})
+				}
 				return newState
 			}
 		case (ScoreFormActions.Types.ActivitiesFetchDataSuccess):
@@ -101,7 +108,7 @@ export default (state = initialState, action) => {
 					if (activity.source === 'exercise') {
 						if (activity.type === 'timer') {
 							const min = activity.amount % 60
-							const hr = Math.floor(activity.amount / 60) 
+							const hr = Math.floor(activity.amount / 60)
 							const newValues = {
 								value: {
 									hr: hr,
@@ -133,11 +140,12 @@ export default (state = initialState, action) => {
 			}
 		case (ScoreFormActions.Types.ActivitiesListFetchDataSuccess):
 			if (action.payload.success) {
+				const activities = action.payload.activities.data
 				let newState = JSON.parse(JSON.stringify(state))
-				let activeActivities = action.payload.activities.data.filter(exercise => exercise.active === true)
-				activeActivities = activeActivities.map(exercise => ({ key: exercise.id,	text: exercise.name, value: exercise.name }))
-				let inactiveActivities = action.payload.activities.data.filter(exercise => exercise.active === false)
-				inactiveActivities = inactiveActivities.map(exercise => ({ key: exercise.id,	text: exercise.name, value: exercise.name }))
+				let activeActivities = activities.filter(exercise => exercise.active === true || exercise.active === null)
+				activeActivities = activeActivities.map(exercise => ({ key: exercise.activity,	text: exercise.name, value: exercise.name }))
+				let inactiveActivities = activities.filter(exercise => exercise.active === false)
+				inactiveActivities = inactiveActivities.map(exercise => ({ key: exercise.activity,	text: exercise.name, value: exercise.name }))
 				newState.activeActivities = activeActivities
 				newState.inactiveActivities = inactiveActivities
 				return newState

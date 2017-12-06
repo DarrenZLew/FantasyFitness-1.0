@@ -1,5 +1,4 @@
 export const Types = {
-	// OnChangeActivity: 'FORM_UPDATE_ONCHANGE_ACTIVITY',
 	UpdateActivity: 'FORM_UPDATE_ACTIVITY',
 	AddActivity: 'FORM_ADD_ACTIVITY',
 	RemoveActivity: 'FORM_REMOVE_ACTIVITY',
@@ -9,10 +8,9 @@ export const Types = {
 
 export function activityListSubmitData(activities, ids, date, action) {
 	return dispatch => {
-		let apiRequests = []
 		activities.map((activity, index) => {
 			let active = action === 'add' ? true : false
-			let apiRequest = fetch('http://localhost:5001/user/1/activitylist/record', {
+			fetch('http://localhost:5001/user/1/activitylist/record', {
 				method: 'post',
 				headers: {
 					"Content-Type": "application/json" 
@@ -29,35 +27,56 @@ export function activityListSubmitData(activities, ids, date, action) {
 				}
 				return response;
 			})
-			.then((response) => response.json())	
-			.then((response) => dispatch(updateActivityList(activities, ids, action)))
+			.then((response) => response.json())
+			.then((response) => dispatch(updateActivityList(date, activities, action, ids[index])))
 			.catch((err) => console.log(err))
-
-			apiRequests.push(apiRequest)
 		})
-		return Promise.all(apiRequests)
 	}
 }
 
-export function updateActivityList(activities, ids, action) {
-	if (action === 'add') {
-		return dispatch => dispatch({
-			type: Types.AddActivity,
-			payload: {
-				success: true,
-				inactiveActivities: activities,
-				ids
+export function updateActivityList(date, activities, action, activity) {
+	return dispatch => {
+		fetch('http://localhost:5001/user/1/activitylist', {
+					method: 'post',
+					headers: {
+						"Content-Type": "application/json"
+					},
+				  body: JSON.stringify({
+				    day: date,
+				    activity
+				  })
+		})
+		.then((response) => {
+			if (!response.ok) {
+				throw Error(response.statusText);
+			}
+			return response;
+		})
+		.then((response) => response.json())
+		.then((response) => {
+			let activityIndex = activities.indexOf(response.data[0].name)
+			if (action === 'add') {
+				return dispatch({
+					type: Types.AddActivity,
+					payload: {
+						success: true,
+						inactiveActivity: activities[activityIndex],
+						activity: response.data[0],
+						id: activity
+					}
+				})
+			} else if (action === 'remove') {
+				return dispatch({
+					type: Types.RemoveActivity,
+					payload: {
+						success: true,
+						activeActivity: activities[activityIndex],
+						id: activity
+					}
+				})
 			}
 		})
-	} else if (action === 'remove') {
-		return dispatch => dispatch({
-			type: Types.RemoveActivity,
-			payload: {
-				success: true,
-				activeActivities: activities,
-				ids
-			}
-		})
+		.catch((err) => console.log(err))
 	}
 }
 
@@ -127,9 +146,9 @@ export function activitiesSubmitData(id, index, source, date, initialValue, newV
 			amount = newValue.hr * 60 + newValue.min
 		}		
 	} else if (source === 'bonus') {
-		// 0 is complete and null is incomplete for bonuses in database
+		// 1 is complete and null is incomplete for bonuses in database
 		amount = 1
-		if (initialValue === 0) {
+		if (initialValue === 1) {
 			amount = null
 		}
 	}
@@ -161,7 +180,7 @@ export function activitiesSubmitData(id, index, source, date, initialValue, newV
 	}
 }
 
-export function activitiesListFetchData(date) {
+export function activitiesListFetchData(date, source) {
 	return dispatch => {
 		fetch('http://localhost:5001/user/1/activitylist', {
 				method: 'post',
@@ -169,7 +188,8 @@ export function activitiesListFetchData(date) {
 					"Content-Type": "application/json" 
 				},
 			  body: JSON.stringify({
-			    day: date
+			    day: date,
+			    source
 			  })					
 			})
 			.then((response) => {

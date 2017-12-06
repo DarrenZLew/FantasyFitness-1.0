@@ -20,10 +20,13 @@ class ActivitiesDropList extends Component {
 
 	// Updates from remove dropdown list for currently selected active activities
 	selectActiveActivity = (e, { value }) => {
-		let id = value.map(activity => this.props.activeActivities.findIndex(e => e.value === activity))
+		let ids = value.map(activity => {
+			let id = this.props.activeActivities.findIndex(e => e.value === activity)
+			return this.props.activeActivities[id].key
+		})
 		this.setState({ 
 			selectedActiveActivities: value,
-			activeActivitiesIndexes: id
+			activeActivitiesIndexes: ids
 		})
 	}
 

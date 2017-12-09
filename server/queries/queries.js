@@ -48,10 +48,17 @@ function recordUserActivity(args) {
 }
 
 function getActivityList(args) {
-	let {day} = args;
-	let query = 'SELECT * FROM user_activity_day LEFT OUTER JOIN activities ON user_activity_day.activity = activities.id WHERE "user" = $[userID] and source = $[source]';
+	let {day, activity, source} = args;
+	let query = `SELECT activities.id as activity, activities.*, uad.id, uad.user, uad.day, uad.amount, uad.active FROM activities
+							 LEFT JOIN user_activity_day uad ON uad.activity = activities.id
+							 WHERE (uad.active is NULL OR ("user" = $[userID]`;
 	if(day)
 		query += ' and day = $[day]::date';
+	query += '))';
+	if (activity)
+		query += ' and activity = $[activity]';
+	if (source)
+		query += ' and source = $[source]';
 	return db.any(query, args);
 }
 

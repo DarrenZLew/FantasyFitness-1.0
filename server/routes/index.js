@@ -59,6 +59,7 @@ router.post('/user/:userid/activitylist', function(req, res, next) {
     let args = {
         userID: userID,
         day: req.body.day,
+        activity: req.body.activity,
         source: 'exercise'
     }
     Route(db.getActivityList(args), res, next);

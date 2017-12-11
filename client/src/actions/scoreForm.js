@@ -1,3 +1,6 @@
+// const http = 'http://localhost:5001'
+const http = 'https://fantasyfitness.herokuapp.com'
+
 export const Types = {
 	UpdateActivity: 'FORM_UPDATE_ACTIVITY',
 	AddActivity: 'FORM_ADD_ACTIVITY',
@@ -10,7 +13,7 @@ export function activityListSubmitData(activities, ids, date, action) {
 	return dispatch => {
 		activities.map((activity, index) => {
 			let active = action === 'add' ? true : false
-			fetch('http://localhost:5001/user/1/activitylist/record', {
+			fetch(http + '/user/1/activitylist/record', {
 				method: 'post',
 				headers: {
 					"Content-Type": "application/json" 
@@ -36,7 +39,7 @@ export function activityListSubmitData(activities, ids, date, action) {
 
 export function updateActivityList(date, activities, action, activity) {
 	return dispatch => {
-		fetch('http://localhost:5001/user/1/activitylist', {
+		fetch(http + '/user/1/activitylist', {
 					method: 'post',
 					headers: {
 						"Content-Type": "application/json"
@@ -108,7 +111,7 @@ export function activitiesFetchDataSuccess(activities, source) {
 
 export function activitiesFetchData(date, source) {
 	return dispatch => {
-		fetch('http://localhost:5001/user/1/activity', {
+		fetch(http + '/user/1/activity', {
 					method: 'post',
 					headers: {
 						"Content-Type": "application/json" 
@@ -156,7 +159,7 @@ export function activitiesSubmitData(id, index, source, date, initialValue, newV
 	return dispatch => {
 		// don't send a request to server if no change to record when submitting
 		if (source === 'bonus' || initialValue !== amount) {
-			fetch('http://localhost:5001/user/1/activity/record', {
+			fetch(http + '/user/1/activity/record', {
 				method: 'post',
 				headers: {
 					"Content-Type": "application/json" 
@@ -182,7 +185,7 @@ export function activitiesSubmitData(id, index, source, date, initialValue, newV
 
 export function activitiesListFetchData(date, source) {
 	return dispatch => {
-		fetch('http://localhost:5001/user/1/activitylist', {
+		fetch(http + '/user/1/activitylist', {
 				method: 'post',
 				headers: {
 					"Content-Type": "application/json" 

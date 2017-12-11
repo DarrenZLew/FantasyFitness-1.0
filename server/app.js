@@ -7,10 +7,10 @@ const app = express();
 app.use(bodyParser.json());
 
 // Serve static files from the React app in production. During development, run client app separately
-// if (process.env.NODE_ENV === 'production') {
-  // console.log('Running in production');
+if (process.env.NODE_ENV === 'production') {
+  console.log('Running in production');
   app.use(express.static(path.join(__dirname, '/../client/build')));
-// }
+}
 
 // CORS middleware
 app.use(function(req, res, next) {

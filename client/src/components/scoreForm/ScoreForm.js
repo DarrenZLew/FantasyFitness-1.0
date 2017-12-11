@@ -1,46 +1,46 @@
 import React, { Component } from 'react';
-import { Form, Button} from 'semantic-ui-react';
+import { Form, Header } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { ScoreFormActions } from '../../actions';
-import { reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import Exercises from './Exercises';
 import Challenge from './Challenge';
 import Bonuses from './Bonuses';
+import ActivitiesDropList from './ActivitiesDropList';
 
 class ScoreForm extends Component {
-	
-	submit = (values) => {
-		console.log(values)
-	}
 
 	render() {
-		const { handleSubmit, pristine, reset, submitting, initialValues, double } = this.props
-		let newValueExercises, newValueChallenge, newValueBonuses
-		if (typeof this.props.formValues !== 'undefined') {
-			newValueChallenge = this.props.formValues.challenge
-			newValueExercises = this.props.formValues.exercises
-			newValueBonuses = this.props.formValues.bonuses			
-		}
+		const { double, activities } = this.props
+		const { updateActivity, activityListSubmitData, inactiveActivities, activeActivities, defaultActivities, updateBonus, activitiesFetchData, activitiesSubmitData, activitiesListFetchData } = this.props
+				// <Challenge challenge={this.props.initialValues.activities.challenge} currValues={initialValues.activities.challenge} newValues={newValueChallenge} />
 
 		return (
-		 	<Form className='container center' style={{marginTop: '20px'}} onSubmit={handleSubmit(this.submit)} >
-				<Challenge challenge={this.props.initialValues.user.challenge} currValues={initialValues.user.challenge} newValues={newValueChallenge} />
-				<Exercises exercises={this.props.initialValues.user.exercises} currValues={initialValues.user.exercises} double={double} newValues={newValueExercises} />
-				<Bonuses bonuses={this.props.initialValues.user.bonuses} double={double} newValues={newValueBonuses} />
-				<Button 
-					type='button' 
-					className='exercise-reset' 
-					disabled={pristine || submitting} 
-					onClick={reset}>
-					Reset
-				</Button>
-				<Button 
-					type='submit' 
-					className='exercise-submit' 
-					disabled={pristine || submitting}>
-					Submit
-				</Button>
+		 	<Form className='container center' style={{marginTop: '20px'}} >
+				<Header textAlign='center'>Add or Remove Activities</Header>								 	
+		 		<ActivitiesDropList 
+		 			inactiveActivities={inactiveActivities}
+		 			activeActivities={activeActivities}
+		 			updateActivity={updateActivity}
+		 			activityListSubmitData={activityListSubmitData}
+		 		/>
+		 		<Header size='large' textAlign='center'>Bonuses</Header>
+	 			<Bonuses 
+					bonuses={activities.bonuses} 
+					double={double} 
+					handleSubmit={activitiesSubmitData}
+					activitiesFetchData={activitiesFetchData}
+				/>
+				<Header size='large' textAlign='center'>Activities</Header>
+				<Exercises 
+					exercises={activities.exercises} 
+					double={double} 
+					handleSubmit={activitiesSubmitData}
+					defaultActivities={defaultActivities}
+					activitiesFetchData={activitiesFetchData}
+					updateActivity={updateActivity}
+					activitiesListFetchData={activitiesListFetchData}
+				/>
 			</Form>
 		)
 	}
@@ -48,26 +48,21 @@ class ScoreForm extends Component {
 
 const mapStateToProps = state => {
 	return { 
-		initialValues: {
-			user: {
-				exercises:state.scoreForm.user.exercises, 
-				bonuses: state.scoreForm.user.bonuses,
-				challenge: state.scoreForm.user.challenge
-			}
+		activities: {
+			exercises:state.scoreForm.activities.exercises, 
+			bonuses: state.scoreForm.activities.bonuses,
+			challenge: state.scoreForm.activities.challenge
 		},
 		double: state.scoreForm.double,
-		formValues: selector(state, 'user')
+		inactiveActivities: state.scoreForm.inactiveActivities,
+		activeActivities: state.scoreForm.activeActivities,
+		defaultActivities: state.scoreForm.defaultActivities,
 	}
 }	
 
 const mapDispatchToProps = dispatch => {
-  const { score } = ScoreFormActions;
-  return bindActionCreators({ score }, dispatch);
+  const { updateActivity, activityListSubmitData, updateBonus, activitiesFetchData, activitiesSubmitData, activitiesListFetchData } = ScoreFormActions;
+  return bindActionCreators({ updateActivity, activityListSubmitData, updateBonus, activitiesFetchData, activitiesSubmitData, activitiesListFetchData }, dispatch);
 }
 
-const selector = formValueSelector('scoreForm')
-
-export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
-	form: 'scoreForm', 
-	enableReinitialize: true
-})(ScoreForm))
+export default connect(mapStateToProps, mapDispatchToProps)(ScoreForm)

@@ -1,22 +1,6 @@
 const express = require('express');
 const router = express.Router();
 var db = require('../queries/queries');
-// const Models = require('../models');
-
-/* GET home page. */
-// router.get('/api', function(req, res, next) {
-//   Models.User.findAll()
-//     .then(users => {
-//       res.status(200).json({
-//         users
-//       })
-//     })
-//     .catch(err => {
-//       res.status(400).json({
-//         err
-//       })
-//     })
-// });
 
 function Route(def, res, next) {
     return def
@@ -47,7 +31,7 @@ router.post('/user/:userid', function(req, res, next) {
     let userID = parseInt(req.params.userid);
     Route(db.setUser(userID, req.body), res, next);
 });
-router.post('/user/:userid/activity/', function(req, res, next) {
+router.post('/user/:userid/activity', function(req, res, next) {
     let userID = parseInt(req.params.userid);
     let args = {
         userID: userID,
@@ -55,7 +39,8 @@ router.post('/user/:userid/activity/', function(req, res, next) {
         endDay: req.body.day || req.body.endDay,
         activity: req.body.activity,
         limit: req.body.limit || 20,
-        page: req.body.page || 0
+        page: req.body.page || 0,
+        source: req.body.source,
     }
     Route(db.getUserActivities(args), res, next);
 });
@@ -69,6 +54,26 @@ router.post('/user/:userid/activity/record', function(req, res, next) {
     }
     Route(db.recordUserActivity(args), res, next);
 });
+router.post('/user/:userid/activitylist', function(req, res, next) {
+    let userID = parseInt(req.params.userid);
+    let args = {
+        userID: userID,
+        day: req.body.day,
+        activity: req.body.activity,
+        source: 'exercise'
+    }
+    Route(db.getActivityList(args), res, next);
+});
+router.post('/user/:userid/activitylist/record', function(req, res, next) {
+    let userID = parseInt(req.params.userid);
+    let args = {
+        userID: userID,
+        activity: req.body.activity,
+        day: req.body.day,
+        active: req.body.active
+    }
+    Route(db.recordUserActivityList(args), res, next);
+})
 
 // router.get('/user/:userid/activity/:day', db.getUserDayScore);
 

@@ -1,7 +1,4 @@
-DROP DATABASE IF EXISTS ffitness;
-CREATE DATABASE ffitness;
-
-\c ffitness;
+\c d5taeltbegfvs7;
 
 
 CREATE TABLE "users" (

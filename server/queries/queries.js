@@ -5,7 +5,7 @@ let connection = 'postgres://postgres:pass123@localhost:5432/ffitness';
 
 // Serve static files from the React app in production. During development, run client app separately
 if (process.env.NODE_ENV === 'production') {
-	connection = pgp(process.env.DATABASE_URL);
+	connection = process.env.DATABASE_URL;
 }
 let	db = pgp(connection);
 

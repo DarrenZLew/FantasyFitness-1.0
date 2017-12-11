@@ -1,0 +1,57 @@
+{
+	"username": "DareBear",
+	"userID": 1,
+	"league": "Serious Business",
+	"date": "12/12/2017",
+	"activity": {
+		"name": "Push Ups",
+		"points": 10
+	},
+	"users": [
+		{
+			"username": "DareBear",
+			"id": 1,
+			"amount": 50
+		},
+		{
+			"username": "Ryan",
+			"id": 2,
+			"amount": 100 
+		},
+		{
+			"username": "Sanda",
+			"id": 3,			
+			"amount": 32
+		},
+		{
+			"username": "Kate",
+			"id": 4,			
+			"amount": 5
+		},
+		{
+			"username": "Peterchu",
+			"id": 5,
+			"amount": 32
+		},
+		{
+			"username": "Bry me a river",
+			"id": 6,
+			"amount": 145
+		},
+		{
+			"username": "JoeJoe JoeJoe",
+			"id": 7,
+			"amount": 80
+		},
+		{
+			"username": "Scoop",
+			"id": 8,
+			"amount": 79
+		},
+		{
+			"username": "Shannonigans",
+			"id": 9,
+			"amount": 23
+		}
+	]
+}

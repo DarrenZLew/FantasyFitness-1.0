@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "moment": "^2.19.3",
     "object-assign-deep": "^0.3.1",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "react": "^16.2.0",
+    "react-dates": "^15.5.1",
+    "react-dom": "^16.2.0",
     "react-images-upload": "^1.1.1",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
@@ -24,5 +26,5 @@
   "proxy": "http://localhost:5001",
   "engines": {
     "node": "8.4.0"
-}
+  }
 }

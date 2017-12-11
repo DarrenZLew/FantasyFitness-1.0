@@ -1,13 +1,19 @@
-import data from './scoreSheet-fakedata.json';
+import data from './scoreSheet-fakedata2.json';
 import { ScoreSheetActions } from '../actions';
-import objectAssignDeep from 'object-assign-deep';
+
+// const userScore = data.users
 
 const initialState = {
 	// Default sort by Total score column
 	users: data.users.sort((a,b) => {
-		return b.total - a.total
+		return b.amount - a.amount
 	}),
-	activities: data.activities,
+	username: data.username,
+	league: data.league,
+	activity: {
+		name: data.activity.name,
+		points: data.activity.points
+	},
 	sort: 'total'
 }
 
@@ -17,7 +23,7 @@ export default (state = initialState, action) => {
 		case (ScoreSheetActions.Types.SET_SORT):
 			// need to use objectAssignDeep instead of Object.Assign
 			// Object.Assign only does shallow copy
-			let newState = objectAssignDeep({}, state)
+			let newState = JSON.parse(JSON.stringify(state))
 			// If the sortKey is an activity name and is in the activities array, sort by the activity value
 			let index = newState.users[0].activities.findIndex(i => i.name === action.sortKey)
 			if (index !== -1) {

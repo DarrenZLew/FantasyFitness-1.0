@@ -13,7 +13,7 @@ export function activityListSubmitData(activities, ids, date, action) {
 	return dispatch => {
 		activities.map((activity, index) => {
 			let active = action === 'add' ? true : false
-			fetch(http + '/user/1/activitylist/record', {
+			fetch(http + 'user/1/activitylist/record', {
 				method: 'post',
 				headers: {
 					"Content-Type": "application/json" 

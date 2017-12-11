@@ -1,5 +1,7 @@
 const bodyParser = require('body-parser');
 const pgp = require('pg-promise')();
+const {users, activities, activity_league, uad} =
+	require('./db_schema');
 
 let connection = 'postgres://postgres:pass123@localhost:5432/ffitness';
 
@@ -12,7 +14,11 @@ let	db = pgp(connection);
 
 let unSafeUserKeys = ['hash', 'salt'];
 function getUser(userID) {
-	return db.one('SELECT * FROM users WHERE id = $1', userID)
+	var q = users.select(users.star())
+		.from(users)
+		.where(users.id.equals(userID))
+		.toQuery()
+	return db.one(q.text, q.values)
 		.then(function (user) {
 			unSafeUserKeys.forEach((key) => delete user[key]);
 			return user;
@@ -68,11 +74,29 @@ function recordUserActivityList(args) {
 		DO UPDATE set active = $[active] RETURNING active`, args);
 }
 
+function getLeagueScores(args) {
+	let {leagueID, startDay, endDay} = args;
+	var qWhere = activity_league.league.equals(leagueID);
+	//if(startDay)
+	//	qWhere = qWhere.and(uad.day.gte(startDay.cast('date')));
+	//if(endDay)
+	//	qWhere = qWhere.and(uad.day.lte(endDay.cast('date')));
+	let q = uad
+		.select(uad.star())
+		.from(activity_league
+			.join(uad).on(activity_league.activity.equals(uad.activity))
+		)
+		.where(qWhere)
+		.toQuery();
+	return db.any(q.text, q.values);
+}
+
 module.exports = {
   getUser: getUser,
   setUser: setUser,
   getUserActivities: getUserActivities,
   recordUserActivity: recordUserActivity,
   getActivityList: getActivityList,
-  recordUserActivityList: recordUserActivityList
+  recordUserActivityList: recordUserActivityList,
+  getLeagueScores: getLeagueScores
 };

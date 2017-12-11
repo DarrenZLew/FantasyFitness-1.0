@@ -73,7 +73,15 @@ router.post('/user/:userid/activitylist/record', function(req, res, next) {
         active: req.body.active
     }
     Route(db.recordUserActivityList(args), res, next);
-})
+});
+router.post('/league/:leagueid/scores', function(req, res, next) {
+    let args = {
+        leagueID: parseInt(req.params.leagueid),
+        startDay: req.body.day || req.body.startDay,
+        endDay: req.body.day || req.body.endDay
+    }
+    Route(db.getLeagueScores(args), res, next);
+});
 
 // router.get('/user/:userid/activity/:day', db.getUserDayScore);
 

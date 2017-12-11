@@ -25,8 +25,6 @@ CREATE TABLE "activities" (
   OIDS=FALSE
 );
 
-
-
 CREATE TABLE "leagues" (
 	"id" serial NOT NULL,
 	"startdate" DATE NOT NULL,
@@ -75,18 +73,15 @@ CREATE TABLE "user_league" (
   OIDS=FALSE
 );
 
-
-
 CREATE TABLE "activity_league" (
 	"id" serial NOT NULL,
 	"activity" integer NOT NULL,
 	"league" integer NOT NULL,
+	"points" integer,
 	CONSTRAINT activity_league_pk PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
 );
-
-
 
 CREATE TABLE "matchups" (
 	"user_league" integer NOT NULL,
@@ -94,10 +89,6 @@ CREATE TABLE "matchups" (
 ) WITH (
   OIDS=FALSE
 );
-
-
-
-
 
 
 ALTER TABLE "user_activity_day" ADD CONSTRAINT "user_activity_day_fk0" FOREIGN KEY ("user") REFERENCES "users"("id");

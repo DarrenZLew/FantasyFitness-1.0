@@ -1,6 +1,3 @@
-// const http = 'http://localhost:5001'
-const http = 'https://fantasyfitness.herokuapp.com'
-
 export const Types = {
 	UpdateActivity: 'FORM_UPDATE_ACTIVITY',
 	AddActivity: 'FORM_ADD_ACTIVITY',

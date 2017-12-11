@@ -1,0 +1,2 @@
+psql -U aylskjtowimugr -h ec2-23-21-158-253.compute-1.amazonaws.com -p 5432 -d d5taeltbegfvs7 < ffitnessHeroku.sql
+psql -U aylskjtowimugr -h ec2-23-21-158-253.compute-1.amazonaws.com -p 5432 -d d5taeltbegfvs7 < users.sql

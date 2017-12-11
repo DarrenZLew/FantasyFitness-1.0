@@ -41,7 +41,7 @@
 		},
 		{	"name": "Distance Rowed",
 			"points": 400,
-			"value": 20,
+			"value": 0,
 			"units": "Meters",
 			"type": "interval"
 		},								
@@ -78,15 +78,15 @@
 	"bonuses": [
 		{	"name": "Nutrition",
 			"points": 1000,
-			"value": ["", true, true, true, true, true, true]
+			"value": true
 		},
 		{	"name": "Stretching",
 			"points": 1000,
-			"value": [true, "", true, "", true, true, true]
+			"value": true
 		},
 		{	"name": "Tabata",
 			"points": 1500,
-			"value": [true, true, "", true, "", "", ""]
+			"value": false
 		}	
 	],
 	"challenge": {
@@ -96,6 +96,14 @@
 			"type": "interval"  			
 	},
 	"double": {
-		"name": "Tabata"
-	}			
+		"name": "Push Ups"
+	},
+	"scoreForm": {
+		"inactiveActivities": ["Push Ups", "Distance Swam", "Distance Ran", "Distance Cycled", "Distance Rowed", "One Minute Planks", "Low Intensity", "High Intensity"],
+		"activeActivities": ["HS Push Ups", "Pull Ups", "Air Squats", "Sports"]
+	},
+	"preferences": {
+		"defaultActivities": ["HS Push Ups", "Pull Ups", "Air Squats", "Sports"]
+	}
+
 }

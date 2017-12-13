@@ -36,10 +36,15 @@ INSERT INTO user_activity_day ("user", activity, day, amount, active) VALUES
 (1, 15, to_date('20171105', 'YYYYMMDD'), 0, true);
 
 INSERT INTO leagues (startdate, name) VALUES
-(NOW(), 'Test League');
+(NOW(), 'Test League'),
+(NOW(), 'Test League2');
 
 INSERT INTO activity_league (league, activity) VALUES
 (1, 5),
 (1, 6),
-(1, 7),
-(1, 8);
+(2, 7),
+(2, 8);
+
+INSERT INTO user_league (league, "user") VALUES
+(1, 1),
+(2, 1);

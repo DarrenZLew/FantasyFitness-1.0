@@ -1,9 +1,11 @@
 const bodyParser = require('body-parser');
 const pgp = require('pg-promise')();
-const {users, activities, activity_league, uad} =
+const {users, activities, activity_league, uad, user_league} =
 	require('./db_schema');
 
 let connection = 'postgres://postgres:pass123@localhost:5432/ffitness';
+let CAST = uad.id.cast().__proto__.constructor;
+let PARAMETER = uad.id.equals("faff").right.__proto__.constructor;
 
 // Serve static files from the React app in production. During development, run client app separately
 if (process.env.NODE_ENV === 'production') {
@@ -77,17 +79,19 @@ function recordUserActivityList(args) {
 function getLeagueScores(args) {
 	let {leagueID, startDay, endDay} = args;
 	var qWhere = activity_league.league.equals(leagueID);
-	//if(startDay)
-	//	qWhere = qWhere.and(uad.day.gte(startDay.cast('date')));
-	//if(endDay)
-	//	qWhere = qWhere.and(uad.day.lte(endDay.cast('date')));
+	if(startDay)
+		qWhere = qWhere.and(uad.day.gte(new CAST(new PARAMETER(startDay), 'date')));
+	if(endDay)
+		qWhere = qWhere.and(uad.day.lte(new CAST(new PARAMETER(endDay), 'date')));
 	let q = uad
 		.select(uad.star())
-		.from(activity_league
-			.join(uad).on(activity_league.activity.equals(uad.activity))
-		)
+		.from(user_league
+			.join(activity_league).on(user_league.league.equals(activity_league.league))
+			.join(uad).on(user_league.user.equals(uad.user).and(uad.activity.equals(activity_league.activity)))
+			)
 		.where(qWhere)
 		.toQuery();
+	console.log(q.text);
 	return db.any(q.text, q.values);
 }
 

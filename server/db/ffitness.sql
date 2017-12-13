@@ -67,7 +67,7 @@ CREATE TABLE "user_league" (
 	"id" serial NOT NULL,
 	"user" integer NOT NULL,
 	"league" integer NOT NULL,
-	"security level" TEXT NOT NULL,
+	"security level" TEXT,
 	CONSTRAINT user_league_pk PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE

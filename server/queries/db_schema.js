@@ -45,3 +45,13 @@ exports.activity_league = sql.define({
         'league'
     ]
 })
+
+exports.user_league = sql.define({
+    name: 'user_league',
+    columns: [
+        'id',
+        'user',
+        'league',
+        'security level'
+    ]
+})

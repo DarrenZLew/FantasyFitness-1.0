@@ -1,130 +1,139 @@
 {
+	"username": "Peterchu",
+	"userID": 1,
+	"league": "Serious Business",
+	"date": "12/12/2017",
+	"currentActivity": {
+		"name": "High Intensity",
+		"points": 7000
+	},
+	"view": "count",
 	"activities": [
 		{
 			"name": "Push Ups",
-			"value": "10"
+			"value": 10
 		}, 		
 		{
 			"name": "HS Push Ups",
-			"value": "50"
+			"value": 50
 		}, 		
 		{
 			"name": "Pull Ups",
-			"value": "50"
+			"value": 50
 		}, 		
 		{
 			"name": "Air Squats",
-			"value": "5"
+			"value": 5
 		}, 		
 		{
 			"name": "Distance Swam",
-			"value": "3500"
+			"value": 3500
 		},
 		{
 			"name": "Distance Ran",
-			"value": "1000"
+			"value": 1000
 		},		 
 		{
 			"name": "Distance Cycled",
-			"value": "400"
+			"value": 400
 		},
 		{
 			"name": "Distance Rowed",
-			"value": "400"
+			"value": 400
 		},		
 		{
 			"name": "One Minute Planks",
-			"value": "200"
+			"value": 200
 		},
 		{
 			"name": "Low Intensity",
-			"value": "5000"
+			"value": 5000
 		},		
 		{
 			"name": "High Intensity",
-			"value": "7000"
+			"value": 7000
 		},
 		{
 			"name": "Sports",
-			"value": "3500"
+			"value": 3500
 		},
 		{
 			"name": "Nutrition",
-			"value": "1000"
+			"value": 1000
 		},
 		{
 			"name": "Stretching",
-			"value": "1000"
+			"value": 1000
 		},
 		{
 			"name": "Tabata",
-			"value": "1500"
+			"value": 1500
 		}		
 	],
 	"users": [
 		{
-			"username": "Darren",
+			"username": "DareBear",
 			"id": 1,
 			"total": 90000,
 			"headtohead": 30,
 			"activities": [
 				{	"name": "Push Ups",
-					"value": 20
+					"amount": 20
 				},
 				{	"name": "HS Push Ups",
-					"value": 20
+					"amount": 20
 				},				
 				{	"name": "Pull Ups",
-					"value": 0 
+					"amount": 0 
 				},
 				{	"name": "Air Squats",
-					"value": 0 
+					"amount": 0 
 				},
 				{	"name": "Distance Swam",
-					"value": 1000,
+					"amount": 1000,
 					"units": "Miles"
 				},			
 				{	"name": "Distance Ran",
-					"value": 100,
+					"amount": 100,
 					"units": "Miles" 
 				},
 				{	"name": "Distance Cycled",
-					"value": 370,
+					"amount": 370,
 					"units": "Miles"
 				},
 				{	"name": "Distance Rowed",
-					"value": 20,
+					"amount": 20,
 					"units": "Meters"
 				},								
 				{	"name": "1-Minute Planks",
-					"value": 37
+					"amount": 37
 				},				
 				{	"name": "Low Intensity",
-					"value": {
+					"amount": {
 						"hr": 3,
 						"min": 45
 					}
 				},				
 				{	"name": "High Intensity",
-					"value": {
+					"amount": {
 						"hr": 0,
 						"min": 30
 					}
 				},				
 				{	"name": "Sports",
-					"value": {
+					"amount": {
 						"hr": 7,
 						"min": 0
 					}
 				},
 				{	"name": "Nutrition",
-					"value": 3
+					"amount": 3
 				},
 				{	"name": "Stretching",
-					"value": 4
+					"amount": 4
 				},
 				{	"name": "Tabata",
-					"value": 3
+					"amount": 3
 				}	
 			]	
 		},
@@ -135,62 +144,62 @@
 			"headtohead": 30,					
 			"activities": [
 				{	"name": "Push Ups",
-					"value": 203
+					"amount": 203
 				},
 				{	"name": "HS Push Ups",
-					"value": 20
+					"amount": 20
 				},					
 				{	"name": "Pull Ups",
-					"value": 20 
+					"amount": 20 
 				},
 				{	"name": "Air Squats",
-					"value": 46 
+					"amount": 46 
 				},
 				{	"name": "Distance Swam",
-					"value": 0,
+					"amount": 0,
 					"units": "Miles"
 				},			
 				{	"name": "Distance Ran",
-					"value": 5,
+					"amount": 5,
 					"units": "Miles" 
 				},
 				{	"name": "Distance Cycled",
-					"value": 456,
+					"amount": 456,
 					"units": "Miles"
 				},
 				{	"name": "Distance Rowed",
-					"value": 5,
+					"amount": 5,
 					"units": "Meters"
 				},								
 				{	"name": "1-Minute Planks",
-					"value": 10
+					"amount": 10
 				},				
 				{	"name": "Low Intensity",
-					"value": {
+					"amount": {
 						"hr": 1,
 						"min": 15
 					}
 				},				
 				{	"name": "High Intensity",
-					"value": {
+					"amount": {
 						"hr": 2,
 						"min": 0
 					}
 				},				
 				{	"name": "Sports",
-					"value": {
+					"amount": {
 						"hr": 10,
 						"min": 0
 					}
 				},
 				{	"name": "Nutrition",
-					"value": 4
+					"amount": 4
 				},
 				{	"name": "Stretching",
-					"value": 4
+					"amount": 4
 				},
 				{	"name": "Tabata",
-					"value": 4
+					"amount": 4
 				}	
 			]	
 		},
@@ -201,62 +210,62 @@
 			"headtohead": 30,						
 			"activities": [
 				{	"name": "Push Ups",
-					"value": 2000
+					"amount": 2000
 				},
 				{	"name": "HS Push Ups",
-					"value": 20
+					"amount": 20
 				},					
 				{	"name": "Pull Ups",
-					"value": 1000 
+					"amount": 1000 
 				},
 				{	"name": "Air Squats",
-					"value": 500 
+					"amount": 500 
 				},
 				{	"name": "Distance Swam",
-					"value": 20,
+					"amount": 20,
 					"units": "Miles"
 				},			
 				{	"name": "Distance Ran",
-					"value": 50,
+					"amount": 50,
 					"units": "Miles" 
 				},
 				{	"name": "Distance Cycled",
-					"value": 30,
+					"amount": 30,
 					"units": "Miles"
 				},
 				{	"name": "Distance Rowed",
-					"value": 5,
+					"amount": 5,
 					"units": "Meters"
 				},								
 				{	"name": "1-Minute Planks",
-					"value": 0
+					"amount": 0
 				},				
 				{	"name": "Low Intensity",
-					"value": {
+					"amount": {
 						"hr": 0,
 						"min": 0
 					}
 				},				
 				{	"name": "High Intensity",
-					"value": {
+					"amount": {
 						"hr": 0,
 						"min": 0
 					}
 				},				
 				{	"name": "Sports",
-					"value": {
+					"amount": {
 						"hr": 0,
 						"min": 0
 					}
 				},
 				{	"name": "Nutrition",
-					"value": 1
+					"amount": 1
 				},
 				{	"name": "Stretching",
-					"value": 2
+					"amount": 2
 				},
 				{	"name": "Tabata",
-					"value": 3
+					"amount": 3
 				}
 			]
 		},
@@ -267,62 +276,62 @@
 			"headtohead": 16,
 			"activities": [
 				{	"name": "Push Ups",
-					"value": 68
+					"amount": 68
 				},
 				{	"name": "HS Push Ups",
-					"value": 0
+					"amount": 0
 				},				
 				{	"name": "Pull Ups",
-					"value": 0 
+					"amount": 0 
 				},
 				{	"name": "Air Squats",
-					"value": 240 
+					"amount": 240 
 				},
 				{	"name": "Distance Swam",
-					"value": 0,
+					"amount": 0,
 					"units": "Miles"
 				},			
 				{	"name": "Distance Ran",
-					"value": 38,
+					"amount": 38,
 					"units": "Miles" 
 				},
 				{	"name": "Distance Cycled",
-					"value": 0,
+					"amount": 0,
 					"units": "Miles"
 				},
 				{	"name": "Distance Rowed",
-					"value": 0,
+					"amount": 0,
 					"units": "Meters"
 				},								
 				{	"name": "1-Minute Planks",
-					"value": 16
+					"amount": 16
 				},				
 				{	"name": "Low Intensity",
-					"value": {
+					"amount": {
 						"hr": 5,
 						"min": 0
 					}
 				},				
 				{	"name": "High Intensity",
-					"value": {
+					"amount": {
 						"hr": 0,
 						"min": 45
 					}
 				},				
 				{	"name": "Sports",
-					"value": {
+					"amount": {
 						"hr": 6,
 						"min": 30
 					}
 				},
 				{	"name": "Nutrition",
-					"value": 6
+					"amount": 6
 				},
 				{	"name": "Stretching",
-					"value": 6
+					"amount": 6
 				},
 				{	"name": "Tabata",
-					"value": 7
+					"amount": 7
 				}	
 			]	
 		},
@@ -333,62 +342,62 @@
 			"headtohead": 35,					
 			"activities": [
 				{	"name": "Push Ups",
-					"value": 880
+					"amount": 880
 				},
 				{	"name": "HS Push Ups",
-					"value": 20
+					"amount": 20
 				},					
 				{	"name": "Pull Ups",
-					"value": 470 
+					"amount": 470 
 				},
 				{	"name": "Air Squats",
-					"value": 270 
+					"amount": 270 
 				},
 				{	"name": "Distance Swam",
-					"value": 0,
+					"amount": 0,
 					"units": "Miles"
 				},			
 				{	"name": "Distance Ran",
-					"value": 7.5,
+					"amount": 7.5,
 					"units": "Miles" 
 				},
 				{	"name": "Distance Cycled",
-					"value": 35.5,
+					"amount": 35.5,
 					"units": "Miles"
 				},
 				{	"name": "Distance Rowed",
-					"value": 0,
+					"amount": 0,
 					"units": "Meters"
 				},								
 				{	"name": "1-Minute Planks",
-					"value": 35
+					"amount": 35
 				},				
 				{	"name": "Low Intensity",
-					"value": {
+					"amount": {
 						"hr": 2,
 						"min": 0
 					}
 				},				
 				{	"name": "High Intensity",
-					"value": {
+					"amount": {
 						"hr": 0,
 						"min": 15
 					}
 				},				
 				{	"name": "Sports",
-					"value": {
+					"amount": {
 						"hr": 1,
 						"min": 40
 					}
 				},
 				{	"name": "Nutrition",
-					"value": 7
+					"amount": 7
 				},
 				{	"name": "Stretching",
-					"value": 7
+					"amount": 7
 				},
 				{	"name": "Tabata",
-					"value": 7
+					"amount": 7
 				}	
 			]	
 		},
@@ -399,62 +408,62 @@
 			"headtohead": 0,						
 			"activities": [
 				{	"name": "Push Ups",
-					"value": 110
+					"amount": 110
 				},
 				{	"name": "HS Push Ups",
-					"value": 0
+					"amount": 0
 				},					
 				{	"name": "Pull Ups",
-					"value": 40 
+					"amount": 40 
 				},
 				{	"name": "Air Squats",
-					"value": 0 
+					"amount": 0 
 				},
 				{	"name": "Distance Swam",
-					"value": 0,
+					"amount": 0,
 					"units": "Miles"
 				},			
 				{	"name": "Distance Ran",
-					"value": 8.5,
+					"amount": 8.5,
 					"units": "Miles" 
 				},
 				{	"name": "Distance Cycled",
-					"value": 0,
+					"amount": 0,
 					"units": "Miles"
 				},
 				{	"name": "Distance Rowed",
-					"value": 5,
+					"amount": 5,
 					"units": "Meters"
 				},								
 				{	"name": "1-Minute Planks",
-					"value": 0
+					"amount": 0
 				},				
 				{	"name": "Low Intensity",
-					"value": {
+					"amount": {
 						"hr": 1,
 						"min": 0
 					}
 				},				
 				{	"name": "High Intensity",
-					"value": {
+					"amount": {
 						"hr": 0,
 						"min": 0
 					}
 				},				
 				{	"name": "Sports",
-					"value": {
+					"amount": {
 						"hr": 7,
 						"min": 0
 					}
 				},
 				{	"name": "Nutrition",
-					"value": 5
+					"amount": 5
 				},
 				{	"name": "Stretching",
-					"value": 0
+					"amount": 0
 				},
 				{	"name": "Tabata",
-					"value": 0
+					"amount": 0
 				}
 			]
 		},
@@ -465,62 +474,62 @@
 			"headtohead": 0,
 			"activities": [
 				{	"name": "Push Ups",
-					"value": 0
+					"amount": 0
 				},
 				{	"name": "HS Push Ups",
-					"value": 0
+					"amount": 0
 				},				
 				{	"name": "Pull Ups",
-					"value": 0 
+					"amount": 0 
 				},
 				{	"name": "Air Squats",
-					"value": 0 
+					"amount": 0 
 				},
 				{	"name": "Distance Swam",
-					"value": 0,
+					"amount": 0,
 					"units": "Miles"
 				},			
 				{	"name": "Distance Ran",
-					"value": 2,
+					"amount": 2,
 					"units": "Miles" 
 				},
 				{	"name": "Distance Cycled",
-					"value": 8.25,
+					"amount": 8.25,
 					"units": "Miles"
 				},
 				{	"name": "Distance Rowed",
-					"value": 0,
+					"amount": 0,
 					"units": "Meters"
 				},								
 				{	"name": "1-Minute Planks",
-					"value": 0
+					"amount": 0
 				},				
 				{	"name": "Low Intensity",
-					"value": {
+					"amount": {
 						"hr": 4,
 						"min": 0
 					}
 				},				
 				{	"name": "High Intensity",
-					"value": {
+					"amount": {
 						"hr": 0,
 						"min": 0
 					}
 				},				
 				{	"name": "Sports",
-					"value": {
+					"amount": {
 						"hr": 0,
 						"min": 0
 					}
 				},
 				{	"name": "Nutrition",
-					"value": 0
+					"amount": 0
 				},
 				{	"name": "Stretching",
-					"value": 0
+					"amount": 0
 				},
 				{	"name": "Tabata",
-					"value": 0
+					"amount": 0
 				}	
 			]	
 		},
@@ -531,62 +540,62 @@
 			"headtohead": 10,					
 			"activities": [
 				{	"name": "Push Ups",
-					"value": 455
+					"amount": 455
 				},
 				{	"name": "HS Push Ups",
-					"value": 0
+					"amount": 0
 				},					
 				{	"name": "Pull Ups",
-					"value": 145 
+					"amount": 145 
 				},
 				{	"name": "Air Squats",
-					"value": 180 
+					"amount": 180 
 				},
 				{	"name": "Distance Swam",
-					"value": 0,
+					"amount": 0,
 					"units": "Miles"
 				},			
 				{	"name": "Distance Ran",
-					"value": 22.5,
+					"amount": 22.5,
 					"units": "Miles" 
 				},
 				{	"name": "Distance Cycled",
-					"value": 0,
+					"amount": 0,
 					"units": "Miles"
 				},
 				{	"name": "Distance Rowed",
-					"value": 0,
+					"amount": 0,
 					"units": "Meters"
 				},								
 				{	"name": "1-Minute Planks",
-					"value": 10
+					"amount": 10
 				},				
 				{	"name": "Low Intensity",
-					"value": {
+					"amount": {
 						"hr": 0,
 						"min": 0
 					}
 				},				
 				{	"name": "High Intensity",
-					"value": {
+					"amount": {
 						"hr": 0,
 						"min": 30
 					}
 				},				
 				{	"name": "Sports",
-					"value": {
+					"amount": {
 						"hr": 2,
 						"min": 30
 					}
 				},
 				{	"name": "Nutrition",
-					"value": 6
+					"amount": 6
 				},
 				{	"name": "Stretching",
-					"value": 6
+					"amount": 6
 				},
 				{	"name": "Tabata",
-					"value": 6
+					"amount": 6
 				}	
 			]	
 		},
@@ -597,62 +606,62 @@
 			"headtohead": 26,						
 			"activities": [
 				{	"name": "Push Ups",
-					"value": 41
+					"amount": 41
 				},
 				{	"name": "HS Push Ups",
-					"value": 0
+					"amount": 0
 				},					
 				{	"name": "Pull Ups",
-					"value": 0 
+					"amount": 0 
 				},
 				{	"name": "Air Squats",
-					"value": 140 
+					"amount": 140 
 				},
 				{	"name": "Distance Swam",
-					"value": 0,
+					"amount": 0,
 					"units": "Miles"
 				},			
 				{	"name": "Distance Ran",
-					"value": 6,
+					"amount": 6,
 					"units": "Miles" 
 				},
 				{	"name": "Distance Cycled",
-					"value": 0,
+					"amount": 0,
 					"units": "Miles"
 				},
 				{	"name": "Distance Rowed",
-					"value": 0,
+					"amount": 0,
 					"units": "Meters"
 				},								
 				{	"name": "1-Minute Planks",
-					"value": 26
+					"amount": 26
 				},				
 				{	"name": "Low Intensity",
-					"value": {
+					"amount": {
 						"hr": 1,
 						"min": 0
 					}
 				},				
 				{	"name": "High Intensity",
-					"value": {
+					"amount": {
 						"hr": 4,
 						"min": 0
 					}
 				},				
 				{	"name": "Sports",
-					"value": {
+					"amount": {
 						"hr": 0,
 						"min": 0
 					}
 				},
 				{	"name": "Nutrition",
-					"value": 6
+					"amount": 6
 				},
 				{	"name": "Stretching",
-					"value": 5
+					"amount": 5
 				},
 				{	"name": "Tabata",
-					"value": 6
+					"amount": 6
 				}									
 			]	
 		}				

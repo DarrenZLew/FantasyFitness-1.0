@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table, Icon } from 'semantic-ui-react';
-import { Grid, Segment, Header, Dropdown, Button, Divider } from 'semantic-ui-react';
+import { Grid, Segment, Header, Dropdown, Button, Divider, Form, Radio } from 'semantic-ui-react';
 import { ScoreSheetActions } from '../actions';
 import { bindActionCreators } from 'redux';
 import { SingleDatePicker } from 'react-dates';
@@ -11,66 +11,101 @@ import moment from 'moment';
 class ScoreSheet extends Component {
 
 	state = {
-		date: null
+		date: moment(),
+		datePickerGroup: 'day',
+		schedulePickerGroup: 'Week 1',
+		view: 'count'
 	}
 
-	handleSort = e => {
-		e.preventDefault()
-		if (e.target.id !== 'sortIcon') {
-			this.props.sortScoreSheet(e.target.id)
-		}
+	handleActivityListChange = (e, { value }) => {
+		this.props.updateActivity(value)
+		this.setState({ activityValue: value })
+	}
+
+	handleDatePickerGroup = (e, { value }) => this.setState({ datePickerGroup: value })
+
+	handleSchedulePickerGroup = (e, { value }) => this.setState({ schedulePickerGroup: value })
+
+	handleScoreView = () => {
+		const view = this.state.view === 'count' ? 'score' : 'count'
+		this.props.updateScoreView(view)
+		this.setState({ view })
 	}
 
 	render() {
-		const { users, activity, username, date, league } = this.props
+		const { users, currentActivity, currentUser, date, league, activityList } = this.props
+		const { activityValue } = this.state
+
+		const schedule = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8']
+
 		return (
 			<Grid centered columns='equal' container>
 				<Grid.Row>
 					<Grid.Column>
-						<span>Day Mode</span>
-						<SingleDatePicker
-							date={this.state.date} // momentPropTypes.momentObj or null
-							onDateChange={date => this.setState({ date })} // PropTypes.func.isRequired
-							focused={this.state.focused} // PropTypes.bool
-							onFocusChange={({ focused }) => this.setState({ focused })} // PropTypes.func.isRequired
-							showClearDate
-							reopenPickerOnClearDate
-							numberOfMonths={1}
-							isOutsideRange={day => moment(day).isAfter(moment())}
-							isDayHighlighted={day => moment(day).isAfter(moment().day("Sunday"))}
+						<DatePickerGroup date={this.state.datePickerGroup} handleDatePickerGroup={this.handleDatePickerGroup} />
+						{this.state.datePickerGroup === 'day' &&
+							<SingleDatePicker
+								date={this.state.date} // momentPropTypes.momentObj or null
+								onDateChange={date => this.setState({ date })} // PropTypes.func.isRequired
+								focused={this.state.focused} // PropTypes.bool
+								onFocusChange={({ focused }) => this.setState({ focused })} // PropTypes.func.isRequired
+								showClearDate
+								reopenPickerOnClearDate
+								numberOfMonths={1}
+								isOutsideRange={day => moment(day).isAfter(moment())}
+								isDayHighlighted={day => moment(day).isAfter(moment().day("Sunday"))}
+								hideKeyboardShortcutsPanel
+							/>
+						}
+						{this.state.datePickerGroup === 'week' && 
+							<SchedulePickerGroup schedule={schedule} week={this.state.schedulePickerGroup} handleSchedulePickerGroup={this.handleSchedulePickerGroup} />
+						}
+
+					</Grid.Column>
+				</Grid.Row>
+				<Grid.Row>
+					<Grid.Column>
+						<Header as='h4' style={{marginBottom: '5px'}}>Activities List</Header>
+						<Dropdown
+							placeholder='Activities'
+							fluid
+							search
+							selection
+							options={activityList}
+							onChange={this.handleActivityListChange}
+							value={activityValue}
 						/>
 					</Grid.Column>
 				</Grid.Row>
 				<Grid.Row>
 					<Grid.Column>
-						<Dropdown placeholder='Activities' fluid search selection />
+						<Button type='button' onClick={this.handleScoreView}>
+							{this.state.view === 'count' && <span>Switch to Score</span>}
+							{this.state.view === 'score' && <span>Switch to Count</span>}
+						</Button>
 					</Grid.Column>
-				</Grid.Row>				
+				</Grid.Row>			
+				<Divider />				
 				<Grid.Row>
 					<Header as='h1'>
-						{activity.name}
+						{currentActivity.name}
 					</Header>
 				</Grid.Row>
 				<Grid.Row>
-					<Grid.Column>
+					<Grid.Column textAlign='center'>
 						<Header as='h3'>
 							Player Name
 						</Header>
 					</Grid.Column>
-					<Grid.Column>
+					<Grid.Column textAlign='center'>
 						<Header as='h3'>
-							<span style={{marginRight: '20px'}}>
-								Count Value
-							</span>
-							<Button type='button' style={{float: 'right'}}>
-								Switch to Score Value
-							</Button>
+							{this.state.view === 'count' && <span>Count</span>}
+							{this.state.view === 'score' && <span>Score</span>}
 						</Header>
 					</Grid.Column>
 				</Grid.Row>
-				<Divider />
 				<Grid.Row>
-					<Grid.Column textAlign='center'>
+					<Grid.Column>
 						<Header as='h4'>
 							Your Score
 						</Header>
@@ -79,24 +114,24 @@ class ScoreSheet extends Component {
 				<Grid.Row style={{padding: 0, marginBottom: '20px'}}>
 					<Grid.Column>
 						<Segment>
-							{username}
+							{currentUser.name}
 						</Segment>
 					</Grid.Column>
 					<Grid.Column>
 						<Segment>
-							User's score value needed here
+							{currentUser.amount}
 						</Segment>
 					</Grid.Column>
 				</Grid.Row>
 				<Grid.Row>
-					<Grid.Column textAlign='center'>
+					<Grid.Column>
 						<Header as='h4'>
-							League - {league}
+							{league}
 						</Header>
 					</Grid.Column>
 				</Grid.Row>				
 				{users.map(user => {
-					const { username, amount } = {...user}
+					const { username, activityAmount } = {...user}
 					return (
 						<Grid.Row columns={2} key={user.id + user.username} style={{padding: 0}}>
 							<Grid.Column width={8}>
@@ -106,7 +141,7 @@ class ScoreSheet extends Component {
 							</Grid.Column>
 							<Grid.Column width={8}>
 								<Segment>
-									{amount}
+									{activityAmount}
 								</Segment>
 							</Grid.Column>
 						</Grid.Row>
@@ -117,74 +152,61 @@ class ScoreSheet extends Component {
 	}
 }
 
+const	DatePickerGroup = ({date, handleDatePickerGroup}) => (
+	<Form>
+		<Form.Group inline>
+			<Form.Field>
+				<Radio
+					label='Day'
+					name='datePickerGroup'
+					value='day'
+					checked={date === 'day'}
+					onChange={handleDatePickerGroup}
+				/>
+			</Form.Field>
+			<Form.Field>
+				<Radio
+					label='Week'
+					name='datePickerGroup'
+					value='week'
+					checked={date === 'week'}
+					onChange={handleDatePickerGroup}
+				/>
+			</Form.Field>
+		</Form.Group>
+	</Form>		
+)
+
+const SchedulePickerGroup = ({schedule, week, handleSchedulePickerGroup}) => {
+	const scheduleGroup = schedule.map(e => {
+		return (
+			<Radio
+				key={e}
+				label={e}
+				name='schedulePickerGroup'
+				value={e}
+				checked={week === e}
+				onChange={handleSchedulePickerGroup}
+			/>
+		)
+	})
+
+	return (
+		<Form>
+			<Form.Group inline>
+				{scheduleGroup}
+			</Form.Group>
+		</Form>
+	)	
+}
+
 const mapStateToProps = (state) => {
 	return { ...state.scoreSheet }
 }	
 
 const mapDispatchToProps = (dispatch) => {
-	const { sortScoreSheet } = ScoreSheetActions
-	return bindActionCreators({ sortScoreSheet }, dispatch)
+	const { updateActivity, updateScoreView } = ScoreSheetActions
+	return bindActionCreators({ updateActivity, updateScoreView }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ScoreSheet)
-
-				// <div style={{overflowX: 'scroll'}}>
-				// 	<Table style={{margin: '2% auto'}} celled size='large' definition textAlign='center'>
-				// 			<Table.Header>
-				// 				<Table.Row>
-				// 					<Table.HeaderCell />
-				// 					{activities.map(activity => 
-				// 						<Table.HeaderCell 
-				// 							key={activity.name} 
-				// 							verticalAlign='top'
-				// 							onClick={this.handleSort}
-				// 							id={activity.name}
-				// 						>
-				// 							{activity.name}<br />
-				// 							{this.props.sort === activity.name && <Icon name='triangle down' id='sortIcon' size='big'/>}
-				// 						</Table.HeaderCell>)}
-				// 					<Table.HeaderCell onClick={this.handleSort} id='headtohead'>
-				// 						Head to Head
-				// 						{this.props.sort === 'headtohead' && <Icon name='triangle down' id='sortIcon' size='big'/>}
-				// 					</Table.HeaderCell>
-				// 					<Table.HeaderCell onClick={this.handleSort} id='total'>
-				// 						Total 
-				// 						{this.props.sort === 'total' && <Icon name='triangle down' id='sortIcon' size='big'/>}
-				// 					</Table.HeaderCell>
-
-				// 				</Table.Row>
-				// 				<Table.Row>
-				// 					<Table.HeaderCell />
-				// 					{activities.map((activity, index) => <Table.HeaderCell key={activity.name + index}>{activity.value}</Table.HeaderCell>)}
-				// 					<Table.HeaderCell />
-				// 					<Table.HeaderCell />
-				// 				</Table.Row>
-				// 			</Table.Header>
-				// 			<Table.Body>
-				// 				{users.map(user => (
-				// 					<Table.Row key={user.id}>
-				// 						<Table.Cell textAlign='center'>{user.username}</Table.Cell>
-				// 							{user.activities.map(activity => {
-				// 								if (activity.value.hasOwnProperty('hr')) {
-				// 									let hr = activity.value.hr
-				// 									let min = activity.value.min
-				// 									if (hr < 10) {
-				// 										hr = '0' + hr
-				// 									}
-				// 									if (min < 10) {
-				// 										min = '0' + min
-				// 									}
-				// 									return <Table.Cell key={activity.name}>
-				// 													{hr}:{min}
-				// 												 </Table.Cell>
-				// 								} else {
-				// 									return <Table.Cell key={activity.name}>{activity.value}</Table.Cell>
-				// 								}
-				// 							})}
-				// 							<Table.Cell>{user.headtohead}</Table.Cell>
-				// 							<Table.Cell>{user.total}</Table.Cell>
-				// 					</Table.Row>
-				// 				))}
-				// 			</Table.Body>
-				// 	</Table>
-				// </div>

@@ -1,10 +1,24 @@
 export const Types = {
-	SET_SORT: 'SET_SORT'
+	UpdateActivity: 'UPDATE_ACTIVITY',
+	UpdateScoreView: 'UPDATE_SCORE_VIEW'
 }
 
-export function sortScoreSheet(sortKey) {
-	return {
-		type: Types.SET_SORT, 
-		sortKey
-	}
+export function updateActivity(activity) {
+	return dispatch => dispatch({
+		type: Types.UpdateActivity,
+		payload: {
+			success: true,
+			activity
+		}
+	})
+}
+
+export function updateScoreView(view) {
+	return dispatch => dispatch({
+		type: Types.UpdateScoreView,
+		payload: {
+			success: true,
+			view
+		}
+	})
 }

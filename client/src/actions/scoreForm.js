@@ -2,34 +2,37 @@ export const Types = {
 	UpdateActivity: 'FORM_UPDATE_ACTIVITY',
 	AddActivity: 'FORM_ADD_ACTIVITY',
 	RemoveActivity: 'FORM_REMOVE_ACTIVITY',
-	ActivitiesFetchDataSuccess: 'FORM_FETCH_ACTIVITIES_SUCCESS', 
+	ActivitiesFetchDataSuccess: 'FORM_FETCH_ACTIVITIES_SUCCESS',
 	ActivitiesListFetchDataSuccess: 'FORM_FETCH_ACTIVITIESLIST_SUCCESS'
 }
 
 export function activityListSubmitData(activities, ids, date, action) {
 	return dispatch => {
-		activities.map((activity, index) => {
+		// TODO: this can be null, right?
+		// TODO: this should be an each, yeah? Test to make sure
+		//activities.map((activity, index) => {
+		activities.each((activity, index) => {
 			let active = action === 'add' ? true : false
 			fetch('/user/1/activitylist/record', {
 				method: 'post',
 				headers: {
-					"Content-Type": "application/json" 
+					"Content-Type": "application/json"
 				},
-			  body: JSON.stringify({
-			    activity: ids[index],
-			    day: date,
-			    active
-			  })
+				body: JSON.stringify({
+					activity: ids[index],
+					day: date,
+					active
+				})
 			})
-			.then((response) => {
-				if (!response.ok) {
-					throw Error(response.statusText);
-				}
-				return response;
-			})
-			.then((response) => response.json())
-			.then((response) => dispatch(updateActivityList(date, activities, action, ids[index])))
-			.catch((err) => console.log(err))
+				.then((response) => {
+					if (!response.ok) {
+						throw Error(response.statusText);
+					}
+					return response;
+				})
+				.then((response) => response.json())
+				.then((response) => dispatch(updateActivityList(date, activities, action, ids[index])))
+				.catch((err) => console.log(err))
 		})
 	}
 }
@@ -37,46 +40,46 @@ export function activityListSubmitData(activities, ids, date, action) {
 export function updateActivityList(date, activities, action, activity) {
 	return dispatch => {
 		fetch('/user/1/activitylist', {
-					method: 'post',
-					headers: {
-						"Content-Type": "application/json"
-					},
-				  body: JSON.stringify({
-				    day: date,
-				    activity
-				  })
+			method: 'post',
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				day: date,
+				activity
+			})
 		})
-		.then((response) => {
-			if (!response.ok) {
-				throw Error(response.statusText);
-			}
-			return response;
-		})
-		.then((response) => response.json())
-		.then((response) => {
-			let activityIndex = activities.indexOf(response.data[0].name)
-			if (action === 'add') {
-				return dispatch({
-					type: Types.AddActivity,
-					payload: {
-						success: true,
-						inactiveActivity: activities[activityIndex],
-						activity: response.data[0],
-						id: activity
-					}
-				})
-			} else if (action === 'remove') {
-				return dispatch({
-					type: Types.RemoveActivity,
-					payload: {
-						success: true,
-						activeActivity: activities[activityIndex],
-						id: activity
-					}
-				})
-			}
-		})
-		.catch((err) => console.log(err))
+			.then((response) => {
+				if (!response.ok) {
+					throw Error(response.statusText);
+				}
+				return response;
+			})
+			.then((response) => response.json())
+			.then((response) => {
+				let activityIndex = activities.indexOf(response.data[0].name)
+				if (action === 'add') {
+					return dispatch({
+						type: Types.AddActivity,
+						payload: {
+							success: true,
+							inactiveActivity: activities[activityIndex],
+							activity: response.data[0],
+							id: activity
+						}
+					})
+				} else if (action === 'remove') {
+					return dispatch({
+						type: Types.RemoveActivity,
+						payload: {
+							success: true,
+							activeActivity: activities[activityIndex],
+							id: activity
+						}
+					})
+				}
+			})
+			.catch((err) => console.log(err))
 	}
 }
 
@@ -90,7 +93,7 @@ export function updateActivity(source, index, type, initialValue, newValue, subm
 			type,
 			initialValue,
 			newValue,
-			submitData			
+			submitData
 		}
 	})
 }
@@ -109,22 +112,22 @@ export function activitiesFetchDataSuccess(activities, source) {
 export function activitiesFetchData(date, source) {
 	return dispatch => {
 		fetch('/user/1/activity', {
-					method: 'post',
-					headers: {
-						"Content-Type": "application/json" 
-					},
-				  body: JSON.stringify({
-				    day: date,
-				    source: source
-				  })
+			method: 'post',
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				day: date,
+				source: source
 			})
+		})
 			.then((response) => {
 				if (!response.ok) {
 					throw Error(response.statusText);
 				}
 				return response;
 			})
-			.then((response) => response.json())		
+			.then((response) => response.json())
 			.then((response) => dispatch(activitiesFetchDataSuccess(response, source)))
 			.catch((err) => console.log(err))
 	};
@@ -144,7 +147,7 @@ export function activitiesSubmitData(id, index, source, date, initialValue, newV
 				newValue.min = 0
 			}
 			amount = newValue.hr * 60 + newValue.min
-		}		
+		}
 	} else if (source === 'bonus') {
 		// 1 is complete and null is incomplete for bonuses in database
 		amount = 1
@@ -159,14 +162,39 @@ export function activitiesSubmitData(id, index, source, date, initialValue, newV
 			fetch('/user/1/activity/record', {
 				method: 'post',
 				headers: {
-					"Content-Type": "application/json" 
+					"Content-Type": "application/json"
 				},
-			  body: JSON.stringify({
-			    activity: id,
-			    day: date,
-			    amount: amount
-			  })
+				body: JSON.stringify({
+					activity: id,
+					day: date,
+					amount: amount
+				})
 			})
+				.then((response) => {
+					if (!response.ok) {
+						throw Error(response.statusText);
+					}
+					return response;
+				})
+				.then((response) => response.json())
+				.then((activities) => dispatch(updateActivity(source, index, type, initialValue, newValue, true)))
+				.catch((err) => console.log(err))
+		};
+	}
+}
+
+export function activitiesListFetchData(date, source) {
+	return dispatch => {
+		fetch('/user/1/activitylist', {
+			method: 'post',
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				day: date,
+				source
+			})
+		})
 			.then((response) => {
 				if (!response.ok) {
 					throw Error(response.statusText);
@@ -174,31 +202,6 @@ export function activitiesSubmitData(id, index, source, date, initialValue, newV
 				return response;
 			})
 			.then((response) => response.json())
-			.then((activities) => dispatch(updateActivity(source, index, type, initialValue, newValue, true)))
-			.catch((err) => console.log(err))
-		};				
-	}
-}
-
-export function activitiesListFetchData(date, source) {
-	return dispatch => {
-		fetch('/user/1/activitylist', {
-				method: 'post',
-				headers: {
-					"Content-Type": "application/json" 
-				},
-			  body: JSON.stringify({
-			    day: date,
-			    source
-			  })					
-			})
-			.then((response) => {
-				if (!response.ok) {
-					throw Error(response.statusText);
-				}
-				return response;
-			})
-			.then((response) => response.json())		
 			.then((response) => dispatch(activitiesListFetchDataSuccess(response)))
 			.catch((err) => console.log(err))
 	};
@@ -211,5 +214,5 @@ export function activitiesListFetchDataSuccess(activities) {
 			success: true,
 			activities: activities
 		}
-	})	
+	})
 }

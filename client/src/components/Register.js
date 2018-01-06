@@ -1,26 +1,13 @@
 import React from 'react';
-//import { Segment, Container, Header, Form, Input, Message, Grid, Button } from 'semantic-ui-react';
 import { Segment, Container, Header, Form, Input, Message, Grid, Button } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Auth } from '../actions';
 
 class Login extends React.Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			username: 'Michael',
-			password: 'password',
-		}
-	}
-
-	validateForm() {
-		// TODO: put validation back in
-		return true;
-
-		return (
-			this.state.username.length > 0 &&
-			this.state.password.length > 0);
+	state = {
+		username: '',
+		password: '',
 	}
 
 	handleLogIn = (e) => {
@@ -28,20 +15,13 @@ class Login extends React.Component {
 
 		e.preventDefault();
 
-		if (this.validateForm()) {
-			const { username, password } = this.state;
+		const { username, password } = this.state;
 
-			this.props.login({
-				username,
-				password,
-			});
-		}
-		else
-		{
-			console.log("wrong!");
-		}
+		this.props.login({
+			username,
+			password,
+		});
 	}
-
 
 	render() {
 		const { username, password } = this.state;
@@ -55,11 +35,10 @@ class Login extends React.Component {
 				>
 					<Grid.Column style={{ maxWidth: 450 }}>
 						<Header>Log in</Header>
-
 						<Form size='large' onSubmit={this.handleLogIn}>
 							<Segment stacked>
 								<Form.Input
-									autoFocus
+									fluid
 									icon='user'
 									iconPosition='left'
 									placeholder='Username'
@@ -78,7 +57,6 @@ class Login extends React.Component {
 								<Button color='blue' fluid size='large' type='submit'>Login</Button>
 							</Segment>
 						</Form>
-
 						<Message>
 							New to us? <a href='#'>Sign Up</a>
 						</Message>
@@ -88,7 +66,6 @@ class Login extends React.Component {
 		)
 	}
 }
-
 
 const mapStateToProps = (state) => {
 	return { ...state.auth };

@@ -4,7 +4,7 @@ export const Types = {
 
 export function sortScoreSheet(sortKey) {
 	return {
-		type: Types.SET_SORT, 
+		type: Types.SET_SORT,
 		sortKey
 	}
 }

@@ -11,13 +11,13 @@ class App extends Component {
 			.catch(err => console.log(err))
 	}
 
-  render() {
-    return (
-      <Router>
-      	<MenuHeader />
-			</Router>
-    )
-  }
+	render() {
+		return (
+				<Router>
+				<MenuHeader />
+				</Router>
+			   )
+	}
 }
 
 export default App;

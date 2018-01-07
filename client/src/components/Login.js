@@ -47,43 +47,60 @@ class Login extends React.Component {
 		const { username, password } = this.state;
 
 		return (
-			<div style={{ height: '100vh' }}>
-				<Grid
-					textAlign='center'
-					style={{ height: '100%' }}
-					verticalAlign='middle'
-				>
-					<Grid.Column style={{ maxWidth: 450 }}>
-						<Header>Log in</Header>
+			<div>
+				<form action="/auth/login" method="post">
+					<div>
+					<label>Username:</label>
+					<input type="text" name="username"/><br/>
+					</div>
+					<div>
+					<label>Password:</label>
+					<input type="password" name="password"/>
+					</div>
+					<div>
+					<input type="submit" value="Submit"/>
+					</div>
+				</form>
 
-						<Form size='large' onSubmit={this.handleLogIn}>
-							<Segment stacked>
-								<Form.Input
-									autoFocus
-									icon='user'
-									iconPosition='left'
-									placeholder='Username'
-									value={username}
-									onChange={e => this.setState({ username: e.target.value })}
-								/>
-								<Form.Input
-									fluid
-									icon='lock'
-									iconPosition='left'
-									placeholder='Password'
-									type='password'
-									value={password}
-									onChange={e => this.setState({ password: e.target.value })}
-								/>
-								<Button color='blue' fluid size='large' type='submit'>Login</Button>
-							</Segment>
-						</Form>
 
-						<Message>
-							New to us? <a href='#'>Sign Up</a>
-						</Message>
-					</Grid.Column>
-				</Grid>
+				<div style={{ height: '100vh' }}>
+					<Grid
+						textAlign='center'
+						style={{ height: '100%' }}
+						verticalAlign='middle'
+					>
+						<Grid.Column style={{ maxWidth: 450 }}>
+							<Header>Log in</Header>
+
+							<Form size='large' onSubmit={this.handleLogIn}>
+								<Segment stacked>
+									<Form.Input
+										autoFocus
+										icon='user'
+										iconPosition='left'
+										placeholder='Username'
+										value={username}
+										onChange={e => this.setState({ username: e.target.value })}
+									/>
+									<Form.Input
+										fluid
+										icon='lock'
+										iconPosition='left'
+										placeholder='Password'
+										type='password'
+										value={password}
+										onChange={e => this.setState({ password: e.target.value })}
+									/>
+									<Button color='blue' fluid size='large' type='submit'>Login</Button>
+								</Segment>
+							</Form>
+
+							<Message>
+								New to us? <a href='#'>Sign Up</a>
+							</Message>
+						</Grid.Column>
+					</Grid>
+				</div>
 			</div>
 		)
 	}

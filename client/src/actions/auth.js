@@ -19,14 +19,15 @@ export const Types = {
  *  password: String
  */
 export function login({ username, password }) {
-	debugger;
+	//console.log(loginPath);
 	return (dispatch) => {
 		//fetch(loginPath, {
 			//username,
 			//password,
 		//})
 
-		fetch(loginPath, {
+		//fetch(loginPath, {
+		fetch('/auth/login', {
 			method: 'post',
 			body: JSON.stringify({ username, password }),
 			headers: {
@@ -40,15 +41,16 @@ export function login({ username, password }) {
 			.then((res) => {
 				console.log(res.data);
 				debugger;
-				localStorage.setItem('token', 'res.data.token');
-				dispatch({
-					type: Types.Login,
-					payload: {
-						success: true,
-						username,
-						token: res.data.token,
-					},
-				});
+
+				//localStorage.setItem('token', 'res.data.token');
+				//dispatch({
+					//type: Types.Login,
+					//payload: {
+						//success: true,
+						//username,
+						//token: res.data.token,
+					//},
+				//});
 			})
 			.catch((errors) => {
 				debugger;

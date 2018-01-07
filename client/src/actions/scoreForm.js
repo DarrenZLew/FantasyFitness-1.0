@@ -38,6 +38,7 @@ export function activityListSubmitData(activities, ids, date, action) {
 }
 
 export function updateActivityList(date, activities, action, activity) {
+	debugger;
 	return dispatch => {
 		fetch('/user/1/activitylist', {
 			method: 'post',
@@ -111,25 +112,35 @@ export function activitiesFetchDataSuccess(activities, source) {
 
 export function activitiesFetchData(date, source) {
 	return dispatch => {
-		fetch('/user/1/activity', {
-			method: 'post',
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				day: date,
-				source: source
-			})
-		})
-			.then((response) => {
-				if (!response.ok) {
-					throw Error(response.statusText);
-				}
-				return response;
-			})
-			.then((response) => response.json())
-			.then((response) => dispatch(activitiesFetchDataSuccess(response, source)))
-			.catch((err) => console.log(err))
+		//fetch('/user/1/activity', {
+		//
+		//fetch('/whatever', { method: 'post', credentials: 'include' });
+		fetch('/whatever', { method: 'get', credentials: 'include' });
+
+		//fetch('/whatever', {
+
+			//// TODO: is this right?
+			//xhrFields: { withCredentials:true },
+
+			//method: 'post',
+			//headers: {
+				//"Content-Type": "application/json"
+			//},
+
+			//body: JSON.stringify({
+				//day: date,
+				//source: source
+			//})
+		//})
+			//.then((response) => {
+				//if (!response.ok) {
+					//throw Error(response.statusText);
+				//}
+				//return response;
+			//})
+			//.then((response) => response.json())
+			//.then((response) => dispatch(activitiesFetchDataSuccess(response, source)))
+			//.catch((err) => console.log(err))
 	};
 }
 

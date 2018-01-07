@@ -6,7 +6,7 @@ var passport = require('passport')
 const app = express();
 
 
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
 
 // Serve static files from the React app in production. During development, run client app separately
 if (process.env.NODE_ENV === 'production') {
@@ -23,12 +23,11 @@ app.use(function(req, res, next) {
 
 
 
-const bcrypt = require('bcrypt')
-
+//const bcrypt = require('bcrypt')
 const test_user = {
   username: 'Michael',
   passwordHash: 'password',
-  id: 1
+  id: 42
 }
 
 
@@ -57,14 +56,16 @@ const test_user = {
 
 passport.use(new Strategy(
 	function(username, password, cb) {
-		return cb(null, { name: "yo" });
-		return db.users.findByUsername(username, function(err, user) {
-			console.log("Aaahhha");
-			if (err) { return cb(err); }
-			if (!user) { return cb(null, false); }
-			if (user.password != password) { return cb(null, false); }
-			return cb(null, user);
-		});
+		console.log("hiya!");
+		return cb(null, test_user);
+
+		//return db.users.findByUsername(username, function(err, user) {
+			//console.log("Aaahhha");
+			//if (err) { return cb(err); }
+			//if (!user) { return cb(null, false); }
+			//if (user.password != password) { return cb(null, false); }
+			//return cb(null, user);
+		//});
 	}));
 
 //app.use(flash());
@@ -90,9 +91,12 @@ passport.serializeUser(function(user, cb) {
 	//});
 //});
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
+	console.log("This worked");
+	lskjdf
+
+	User.findById(id, function(err, user) {
+		done(err, user);
+	});
 });
 
 
@@ -104,22 +108,44 @@ passport.deserializeUser(function(id, done) {
 
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
+//app.use(require('body-parser').urlencoded({ extended: false })); // TODO: False or True?
 // TODO: move these to header
-app.use(express.static("public")); // TODO: what is this?
+
+
+
+
+
+
+//app.use(express.static("public")); // TODO: what is this?
+//app.use(require('morgan')('combined'));
+//app.use(require('cookie-parser')());
+//app.use(require('express-session')(
+	//{
+		//secret: 'keyboard cat',
+		//resave: false,
+		//saveUninitialized: false
+	//}));
+//app.use(passport.initialize());
+//app.use(passport.session());
+
+
 app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
-//app.use(require('body-parser').urlencoded({ extended: false })); // TODO: False or True?
-app.use(require('express-session')(
-	{
-		secret: 'keyboard cat',
-		resave: false,
-		saveUninitialized: false
-	}));
 
-// Initialize Passport and restore authentication state, if any, from the
-// session.
+app.use(require('body-parser').urlencoded({
+	extended: true
+}));
+
+app.use(require('express-session')({
+	secret: 'keyboard cat',
+	resave: false,
+	saveUninitialized: false }));
+
+
 app.use(passport.initialize());
 app.use(passport.session());
+
+
 
 
 //app.post('/auth/login', function(req, res, next) {
@@ -150,15 +176,39 @@ app.post('/auth/login', passport.authenticate('local', {
 //app.listen(3000);
 
 
+var isAuthenticated = function(req, res, next){
+	if(req.user) {
+		return next();
+	}
+	else
+	{
+		return res.status(401).json({
+			error: 'User not authenticated'
+		});
+	}
+
+}
+
+//router.get('/checkauth', isAuthenticated, function(req, res){
+    //res.status(200).json({
+        //status: 'Login successful!'
+    //});
+//});
 
 
-
-
-
-
-
-
-
+//app.get('/whatever', require('connect-ensure-login').ensureLoggedIn(),
+app.get('/whatever', isAuthenticated, function(req, res) {
+			//console.log(res);
+			console.log(req.session.passport.user);
+			console.log(req.user);
+			res.status(200).send({"message" : "this is the message" });
+			//res.send('hello', 55);
+			//res.render('home', { user: req.user });
+		});
+		//function(req, res) {
+			//console.log("why?");
+			//res.render('home', { user: req.user });
+		//});
 
 
 

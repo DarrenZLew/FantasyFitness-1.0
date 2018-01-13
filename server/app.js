@@ -1,12 +1,11 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-var passport = require('passport')
-	, Strategy = require('passport-local').Strategy;
+var passport = require('passport');
+var Strategy = require('passport-local').Strategy;
 const app = express();
 
 
-//app.use(bodyParser.json());
 
 // Serve static files from the React app in production. During development, run client app separately
 if (process.env.NODE_ENV === 'production') {
@@ -80,6 +79,7 @@ passport.use(new Strategy(
 // serializing, and querying the user record by ID from the database when
 // deserializing.
 passport.serializeUser(function(user, cb) {
+	console.log("serializing");
 	cb(null, user.id);
 });
 
@@ -92,7 +92,9 @@ passport.serializeUser(function(user, cb) {
 //});
 passport.deserializeUser(function(id, done) {
 	console.log("This worked");
-	lskjdf
+
+	done(null, test_user);
+	return;
 
 	User.findById(id, function(err, user) {
 		done(err, user);
@@ -132,14 +134,18 @@ passport.deserializeUser(function(id, done) {
 app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
 
-app.use(require('body-parser').urlencoded({
+/*app.use(require('body-parser').urlencoded({
 	extended: true
-}));
+}));*/
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(require('express-session')({
 	secret: 'keyboard cat',
 	resave: false,
-	saveUninitialized: false }));
+	saveUninitialized: false
+}));
 
 
 app.use(passport.initialize());
@@ -157,6 +163,7 @@ app.use(passport.session());
 
 
 app.post('/auth/login', passport.authenticate('local', {
+	//successRedirect: '/score',
 	successRedirect: '/',
 	failureRedirect: '/FAILURE', // TODO: make better
 	//failureFlash: true
@@ -197,6 +204,7 @@ var isAuthenticated = function(req, res, next){
 
 
 //app.get('/whatever', require('connect-ensure-login').ensureLoggedIn(),
+
 app.get('/whatever', isAuthenticated, function(req, res) {
 			//console.log(res);
 			console.log(req.session.passport.user);
@@ -205,6 +213,7 @@ app.get('/whatever', isAuthenticated, function(req, res) {
 			//res.send('hello', 55);
 			//res.render('home', { user: req.user });
 		});
+
 		//function(req, res) {
 			//console.log("why?");
 			//res.render('home', { user: req.user });

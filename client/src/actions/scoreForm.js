@@ -115,7 +115,11 @@ export function activitiesFetchData(date, source) {
 		//fetch('/user/1/activity', {
 		//
 		//fetch('/whatever', { method: 'post', credentials: 'include' });
-		fetch('/whatever', { method: 'get', credentials: 'include' });
+
+		fetch('/whatever', {
+			method: 'get',
+			credentials: 'include'
+		});
 
 		//fetch('/whatever', {
 

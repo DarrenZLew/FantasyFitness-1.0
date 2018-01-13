@@ -48,6 +48,7 @@ class Login extends React.Component {
 
 		return (
 			<div>
+
 				<form action="/auth/login" method="post">
 					<div>
 					<label>Username:</label>
@@ -61,7 +62,6 @@ class Login extends React.Component {
 					<input type="submit" value="Submit"/>
 					</div>
 				</form>
-
 
 				<div style={{ height: '100vh' }}>
 					<Grid

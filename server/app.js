@@ -22,12 +22,8 @@ app.use(function(req, res, next) {
 
 
 
+// TODO: use this, or something like it, for hashing passwords
 //const bcrypt = require('bcrypt')
-const test_user = {
-  username: 'Michael',
-  passwordHash: 'password',
-  id: 42
-}
 
 
 
@@ -47,7 +43,7 @@ passport.use(new Strategy(
 				if (err) { return cb(err); }
 				if (!user) { return cb(null, false); }
 
-				// Also, we should add password checking
+				// Also, we should add password checking. Currently that's disabled
 				//if (user.password != password) { return cb(null, false); }
 				return cb(null, user);
 			})

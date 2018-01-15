@@ -19,18 +19,10 @@ export const Types = {
  *  password: String
  */
 export function login({ username, password }) {
-	//console.log(loginPath);
 	return (dispatch) => {
-		//fetch(loginPath, {
-			//username,
-			//password,
-		//})
-
-		//fetch(loginPath, {
 		fetch('/auth/login', {
 			method: 'post',
 			body: JSON.stringify({ username, password }),
-			//body: JSON.stringify({ password: password, username: username }),
 
 			credentials: 'same-origin',
 
@@ -38,51 +30,30 @@ export function login({ username, password }) {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			}})
-			//.then(res => {
-				//debugger;
-				//return res.json();
-			//})
-		.then(res => {
-		})
-			//debugger;
-			//console.log(res.headers.get('set-cookie')); // undefined
-			//console.log(document.cookie); // nope
-			//return res.json();
-		/*}).then(json => {
-			debugger;
-			if (json.success) {
-				this.setState({ error: '' });
-				this.context.router.push(json.redirect);
-			}
-			else {
-				this.setState({ error: json.error });
-			}
-		})*/
-		.catch((errors) => {
-			debugger;
-			dispatch({
-				type: Types.Login,
-				payload: {
-					success: false,
-					username,
-					errors: errors.response,
-				},
-			});
-		});
-			//.then((res) => {
+			.then(res => {
+				// TODO: do we need to do anything here? Maybe redirect to somewhere?
 				//console.log(res.data);
-				//debugger;
-
-				////localStorage.setItem('token', 'res.data.token');
-				////dispatch({
-					////type: Types.Login,
-					////payload: {
-						////success: true,
-						////username,
-						////token: res.data.token,
-					////},
-				////});
-			//})
+				//localStorage.setItem('token', 'res.data.token');
+				//dispatch({
+					//type: Types.Login,
+					//payload: {
+						//success: true,
+						//username,
+						//token: res.data.token,
+					//},
+				//});
+			})
+			.catch((errors) => {
+				debugger;
+				dispatch({
+					type: Types.Login,
+					payload: {
+						success: false,
+						username,
+						errors: errors.response,
+					},
+				});
+			});
 	};
 
 	/*

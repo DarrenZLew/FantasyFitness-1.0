@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 var db = require('../queries/queries');
+var isAuthenticated = require('./helpers').isAuthenticated;
+
 
 function Route(def, res, next) {
 	return def
@@ -23,17 +25,17 @@ function Route(def, res, next) {
 		});
 }
 
-router.get('/user/:userid', function(req, res, next) {
+router.get('/user/:userid', isAuthenticated, function(req, res, next) {
 	let userID = parseInt(req.params.userid);
 	Route(db.getUser(userID), res, next);
 });
 
-router.post('/user/:userid', function(req, res, next) {
+router.post('/user/:userid', isAuthenticated, function(req, res, next) {
 	let userID = parseInt(req.params.userid);
 	Route(db.setUser(userID, req.body), res, next);
 });
 
-router.post('/user/:userid/activity', function(req, res, next) {
+router.post('/user/:userid/activity', isAuthenticated, function(req, res, next) {
 	let userID = parseInt(req.params.userid);
 	let args = {
 		userID: userID,
@@ -47,7 +49,8 @@ router.post('/user/:userid/activity', function(req, res, next) {
 	Route(db.getUserActivities(args), res, next);
 });
 
-router.post('/user/:userid/activity/record', function(req, res, next) {
+router.post('/user/:userid/activity/record', isAuthenticated, function(req, res, next) {
+	console.log("nolo");
 	let userID = parseInt(req.params.userid);
 	let args = {
 		userID: userID,
@@ -58,7 +61,7 @@ router.post('/user/:userid/activity/record', function(req, res, next) {
 	Route(db.recordUserActivity(args), res, next);
 });
 
-router.post('/user/:userid/activitylist', function(req, res, next) {
+router.post('/user/:userid/activitylist', isAuthenticated, function(req, res, next) {
 	let userID = parseInt(req.params.userid);
 	let args = {
 		userID: userID,
@@ -69,7 +72,7 @@ router.post('/user/:userid/activitylist', function(req, res, next) {
 	Route(db.getActivityList(args), res, next);
 });
 
-router.post('/user/:userid/activitylist/record', function(req, res, next) {
+router.post('/user/:userid/activitylist/record', isAuthenticated, function(req, res, next) {
 	let userID = parseInt(req.params.userid);
 	let args = {
 		userID: userID,
@@ -79,73 +82,5 @@ router.post('/user/:userid/activitylist/record', function(req, res, next) {
 	}
 	Route(db.recordUserActivityList(args), res, next);
 });
-
-
-
-
-
-//router.post('/auth/login', function(req, res, next) {
-	//console.log("phew, logging in, I guess.");
-//})
-
-// Define routes.
-// TODO: add back to routes/index.js
-/*
-app.get('/',
-	function(req, res, next) {
-	Route({user: req.user }, res, next);
-});
-*/
-
-
-/*
-app.post('/auth/login',
-	function(req, res, next) {
-	let userID = parseInt(req.params.userid);
-	let args = {
-		userID: userID,
-		activity: req.body.activity,
-		day: req.body.day,
-		active: req.body.active
-	}
-	Route(db.recordUserActivityList(args), res, next);
-});
-	passport.authenticate('local', { failureRedirect: '/login' }),
-	function(req, res) {
-		res.redirect('/');
-	});
-
-app.get('/auth/logout',
-	function(req, res, next) {
-	let userID = parseInt(req.params.userid);
-	let args = {
-		userID: userID,
-		activity: req.body.activity,
-		day: req.body.day,
-		active: req.body.active
-	}
-	Route(db.recordUserActivityList(args), res, next);
-});
-	function(req, res){
-		req.logout();
-		res.redirect('/');
-	});
-
-app.get('/profile', function(req, res, next) {
-	//let userID = parseInt(req.params.userid);
-	//let args = {
-		//userID: userID,
-		//activity: req.body.activity,
-		//day: req.body.day,
-		//active: req.body.active
-	//}
-	//Route(db.recordUserActivityList(args), res, next);
-	require('connect-ensure-login').ensureLoggedIn(),
-		res.render('profile', { user: req.user });
-	});
-*/
-
-// router.get('/user/:userid/activity/:day', db.getUserDayScore);
-
 
 module.exports = router;

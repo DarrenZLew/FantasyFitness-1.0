@@ -48,7 +48,6 @@ class Login extends React.Component {
 
 		return (
 			<div>
-
 				<form action="/auth/login" method="post">
 					<div>
 					<label>Username:</label>

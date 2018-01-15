@@ -211,7 +211,8 @@ export function activityListSubmitData(activities, ids, date, action) {
 			.then((response) => response.json())
 				.then((response) => dispatch(activitiesListFetchDataSuccess(response)))
 				.catch((err) => {
-					//debugger;
+					// the idea is to redirect to login if something went wrong.
+					// TODO: make less wrong
 					document.querySelector('a[to="/login"]').click();
 					console.log(err)
 				});

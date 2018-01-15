@@ -31,6 +31,9 @@ export function login({ username, password }) {
 				'Content-Type': 'application/json'
 			}})
 			.then(res => {
+				// TODO: better, less-wrong redirection
+				document.querySelector('a[to="/score"]').click();
+
 				// TODO: do we need to do anything here? Maybe redirect to somewhere?
 				//console.log(res.data);
 				//localStorage.setItem('token', 'res.data.token');
@@ -44,7 +47,7 @@ export function login({ username, password }) {
 				//});
 			})
 			.catch((errors) => {
-				debugger;
+				// NOTE: this never gets hit. We just try/fail to redirect to FAILURE page, which doesn't exist
 				dispatch({
 					type: Types.Login,
 					payload: {
@@ -55,37 +58,6 @@ export function login({ username, password }) {
 				});
 			});
 	};
-
-	/*
-	return (dispatch) => {
-		fetch(loginPath, {
-			username,
-			password,
-		}).then(res => res.json())
-			.then((res) => {
-				console.log(res.data);
-				localStorage.setItem('token', 'res.data.token');
-				dispatch({
-					type: Types.Login,
-					payload: {
-						success: true,
-						username,
-						token: res.data.token,
-					},
-				});
-			})
-			.catch((errors) => {
-				dispatch({
-					type: Types.Login,
-					payload: {
-						success: false,
-						username,
-						errors: errors.response,
-					},
-				});
-			});
-	};
-	*/
 }
 
 export function signup({ username, password, email }) {

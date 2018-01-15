@@ -39,9 +39,7 @@ const test_user = {
 // will be set at `req.user` in route handlers after authentication.
 passport.use(new Strategy(
 	function(username, password, cb) {
-		//console.log("hiya!");
-		//return cb(null, test_user);
-
+		console.log("whoo");
 		return db.getUserByUserName(username)
 			.then(function(user, err) {
 				// NOTE: currently doesn't ever return err
@@ -54,8 +52,10 @@ passport.use(new Strategy(
 				return cb(null, user);
 			})
 		.catch(function(error) {
-			// couldn't find anybody, probably. Return false
-			if (!user) { return cb(null, false); }
+			// couldn't find anybody (or something went wrong, generally), probably. Return false
+			console.log("uh");
+			console.log(error);
+			return cb(null, false);
 		});
 	}));
 
@@ -70,23 +70,22 @@ passport.use(new Strategy(
 // serializing, and querying the user record by ID from the database when
 // deserializing.
 passport.serializeUser(function(user, cb) {
+	console.log("serializing");
 	cb(null, user.id);
 });
 
-
-//passport.deserializeUser(function(id, cb) {
-	//db.users.findById(id, function (err, user) {
-		//if (err) { return cb(err); }
-		//cb(null, user);
-	//});
-//});
-
 passport.deserializeUser(function(id, done) {
-	done(null, test_user);
-	return;
-
-	User.findById(id, function(err, user) {
-		done(err, user);
+	console.log("deserializing");
+	db.getUser(id)
+		.then(function(user) {
+			console.log("By god! IT WORkED!");
+			console.log(id);
+			console.log(user);
+			done(null, user);
+		})
+	.catch(function(error) {
+		console.log("TODO: this");
+		done(null, null);
 	});
 });
 

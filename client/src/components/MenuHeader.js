@@ -3,10 +3,7 @@ import { Menu, Grid, Sidebar, Icon } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import ScoreForm from '../components/scoreForm/ScoreForm';
-
-//import LoginScreen from '../components/LoginScreen';
 import Login from '../components/Login';
-
 import FourOFour from '../components/404';
 import ScoreSheet from '../components/ScoreSheet';
 import Rules from '../components/Rules';

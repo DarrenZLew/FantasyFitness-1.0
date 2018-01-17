@@ -35,7 +35,6 @@ app.use(function(req, res, next) {
 // will be set at `req.user` in route handlers after authentication.
 passport.use(new Strategy(
 	function(username, password, cb) {
-		console.log("whoo");
 		return db.getUserByUserName(username)
 			.then(function(user, err) {
 				// NOTE: currently doesn't ever return err
@@ -49,8 +48,6 @@ passport.use(new Strategy(
 			})
 		.catch(function(error) {
 			// couldn't find anybody (or something went wrong, generally), probably. Return false
-			console.log("uh");
-			console.log(error);
 			return cb(null, false);
 		});
 	}));
@@ -66,17 +63,12 @@ passport.use(new Strategy(
 // serializing, and querying the user record by ID from the database when
 // deserializing.
 passport.serializeUser(function(user, cb) {
-	console.log("serializing");
 	cb(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {
-	console.log("deserializing");
 	db.getUser(id)
 		.then(function(user) {
-			console.log("By god! IT WORkED!");
-			console.log(id);
-			console.log(user);
 			done(null, user);
 		})
 	.catch(function(error) {

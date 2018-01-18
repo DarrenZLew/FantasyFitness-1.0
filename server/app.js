@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
 const db = require('./queries/queries');
-const isAuthenticated = require('./routes/helpers');
 
 
 // Serve static files from the React app in production. During development, run client app separately

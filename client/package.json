@@ -23,5 +23,5 @@
   "proxy": "http://localhost:5001",
   "engines": {
     "node": "8.4.0"
-}
+  }
 }

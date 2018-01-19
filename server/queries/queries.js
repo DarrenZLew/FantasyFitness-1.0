@@ -23,6 +23,16 @@ function setUser(userID, userData) {
 		[userID, userData.bio]);
 }
 
+// TODO: this is mostly untested. Also, I'm conflating username and email
+function getUserByUserName(username) {
+	return db.one('SELECT * FROM users WHERE email = $1', username)
+		.then(function (user) {
+			// TODO: what is this?
+			unSafeUserKeys.forEach((key) => delete user[key]);
+			return user;
+		});
+}
+
 function getUserActivities(args) {
 	let {startDay, endDay, activity, source} = args;
 	let query = `SELECT activities.id as activity, activities.*, uad.id, uad.user, uad.day, uad.amount, uad.active FROM activities
@@ -69,6 +79,7 @@ function recordUserActivityList(args) {
 
 module.exports = {
   getUser: getUser,
+  getUserByUserName: getUserByUserName,
   setUser: setUser,
   getUserActivities: getUserActivities,
   recordUserActivity: recordUserActivity,

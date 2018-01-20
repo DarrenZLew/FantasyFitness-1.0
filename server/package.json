@@ -12,19 +12,19 @@
     "connect-ensure-login": "^0.1.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
-    "express": "^4.15.5",
+    "express": "^4.16.2",
     "express-session": "^1.15.6",
     "jade": "~1.11.0",
-    "mongoose": "^4.12.3",
-    "morgan": "^1.8.2",
+    "mongoose": "^4.13.9",
+    "morgan": "^1.9.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "pg": "^7.3.0",
-    "pg-promise": "^7.2.1",
-    "sequelize": "^4.15.0",
+    "pg": "^7.4.1",
+    "pg-promise": "^7.3.3",
+    "sequelize": "^4.31.2",
     "serve-favicon": "~2.4.2"
   },
   "devDependencies": {
-    "nodemon": "^1.12.1"
+    "nodemon": "^1.14.11"
   }
 }

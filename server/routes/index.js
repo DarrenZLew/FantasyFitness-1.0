@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 var db = require('../queries/queries');
 var isAuthenticated = require('./helpers').isAuthenticated;
+const passport = require('passport');
+const Strategy = require('passport-local').Strategy;	
 
 
 function Route(def, res, next) {
@@ -30,9 +32,26 @@ router.get('/user/:userid', isAuthenticated, function(req, res, next) {
 	Route(db.getUser(userID), res, next);
 });
 
-router.post('/user/:userid', isAuthenticated, function(req, res, next) {
+router.post('/user/:userid', function(req, res, next) {
 	let userID = parseInt(req.params.userid);
 	Route(db.setUser(userID, req.body), res, next);
+});
+
+router.post('/auth/login', passport.authenticate('local', {
+	successRedirect: '/',
+	failureRedirect: '/FAILURE', // TODO: make better/work
+	//failureFlash: true
+}));
+
+router.post('/user/:userid/password/:password/record', function(req, res, next) {
+	let userID = parseInt(req.params.userid);
+	let password = parseInt(req.params.password);
+
+	let args = {
+		userID: userID,
+		password: password
+	}
+	Route(db.recordUserActivityList(args), res, next);
 });
 
 router.post('/user/:userid/activity', isAuthenticated, function(req, res, next) {
@@ -82,5 +101,6 @@ router.post('/user/:userid/activitylist/record', isAuthenticated, function(req, 
 	}
 	Route(db.recordUserActivityList(args), res, next);
 });
+
 
 module.exports = router;

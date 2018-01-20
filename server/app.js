@@ -24,7 +24,15 @@ app.use(function(req, res, next) {
 
 // TODO: use this, or something like it, for hashing passwords
 //const bcrypt = require('bcrypt')
-
+var bcrypt = require('bcrypt');
+const saltRounds = 10;
+const myPlaintextPassword = 's0/\/\P4$$w0rD';
+const someOtherPlaintextPassword = 'not_bacon';
+bcrypt.genSalt(saltRounds, function(err, salt) {
+    bcrypt.hash(myPlaintextPassword, salt, function(err, hash) {
+        // Store hash in your password DB.
+    });
+});
 
 
 // Configure the local strategy for use by Passport.
@@ -109,16 +117,6 @@ app.use(require('express-session')({
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-
-
-// login routing
-//app.use(flash());
-app.post('/auth/login', passport.authenticate('local', {
-	successRedirect: '/',
-	failureRedirect: '/FAILURE', // TODO: make better/work
-	//failureFlash: true
-}));
 
 
 // Routing

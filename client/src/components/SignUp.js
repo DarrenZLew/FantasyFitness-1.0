@@ -50,24 +50,7 @@ class SignUp extends React.Component {
 		const { signup, login } = this.props;
 		return (
 			<div>
-			<h1>Who's yo daddu?</h1>
-				<form action="/auth/signup" method="post">
-					<div>
-					<label>Username:</label>
-					<input type="text" name="username"/><br/>
-					</div>
-					<div>
-					<label>Password:</label>
-					<input type="password" name="password"/>
-					</div>
-          <div>
-          <label>Email:</label>
-          <input type="email" name="email"/>
-          </div>
-					<div>
-					<input type="submit" value="Submit"/>
-					</div>
-				</form>
+				<h1>Who's yo daddu?</h1>
 
 				<div style={{ height: '100vh' }}>
 					<Grid
@@ -109,10 +92,6 @@ class SignUp extends React.Component {
 									<Button color='blue' fluid size='large' type='submit'>Sign Up!</Button>
 								</Segment>
 							</Form>
-
-							<Message>
-								New to us? <a href='/signup'>Sign Up</a>
-							</Message>
 						</Grid.Column>
 					</Grid>
 				</div>

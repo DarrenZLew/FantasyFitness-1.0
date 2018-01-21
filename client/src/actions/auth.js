@@ -20,7 +20,8 @@ export const Types = {
  */
 export function login({ username, password }) {
 	return (dispatch) => {
-		fetch('/auth/login', {
+    console.log("Wrong place.");
+		fetch(loginPath, {
 			method: 'post',
 			body: JSON.stringify({ username, password }),
 
@@ -58,17 +59,18 @@ export function login({ username, password }) {
 				});
 			});
 	};
-}
+};
 
 export function signup({ username, password, email }) {
 	return (dispatch) => {
-		fetch(signupPath, {
+		console.log("Hello");
+    fetch(signupPath, {
 			username,
 			password,
 			email,
 		})
 			.then(res => {
-				debugger;
+        console.log("Puff n' Stuff!");
 				return res.json();
 			})
 			.then((res) => {
@@ -91,7 +93,7 @@ export function signup({ username, password, email }) {
 				});
 			});
 	};
-}
+};
 
 export function logout() {
 	return (dispatch) => {

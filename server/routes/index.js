@@ -27,6 +27,25 @@ function Route(def, res, next) {
 		});
 }
 
+router.post('/auth/login', passport.authenticate('local', {
+	successRedirect: '/',
+	failureRedirect: '/FAILURE', // TODO: make better/work
+	//failureFlash: true
+}));
+
+router.post('/auth/signup', function(req, res, next) {
+	let userID = parseInt(req.params.userid);
+	let password = parseInt(req.params.password);
+	let email = parseInt(req.body.password);
+
+	let args = {
+		userID: userID,
+		hash: password,
+		email: email
+	}
+	Route(db.recordUserActivityList(args), res, next);
+});
+
 router.get('/user/:userid', isAuthenticated, function(req, res, next) {
 	let userID = parseInt(req.params.userid);
 	Route(db.getUser(userID), res, next);
@@ -36,12 +55,6 @@ router.post('/user/:userid', function(req, res, next) {
 	let userID = parseInt(req.params.userid);
 	Route(db.setUser(userID, req.body), res, next);
 });
-
-router.post('/auth/login', passport.authenticate('local', {
-	successRedirect: '/',
-	failureRedirect: '/FAILURE', // TODO: make better/work
-	//failureFlash: true
-}));
 
 router.post('/user/:userid/password/:password/record', function(req, res, next) {
 	let userID = parseInt(req.params.userid);

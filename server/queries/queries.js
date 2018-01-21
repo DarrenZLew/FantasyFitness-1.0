@@ -20,10 +20,9 @@ function getUser(userID) {
 
 function setNewUser(args) {
 	let {userID, hash, email} = args;
-	let salt = "Nothing New";
-	return db.one(`INSERT INTO user_activity_day ("name", email, hash, salt) VALUES
-		($[userID], $[email], $[hash], $[salt]) ON CONFLICT ON CONSTRAINT single_user_activity_day
-		DO UPDATE set active = $[active] RETURNING active`, args);
+	args['salt'] = "Nothing New";
+	return db.none(`INSERT INTO users ("name", email, hash, salt) VALUES
+		($[userID], $[email], $[hash], $[salt])`, args);
 }
 
 

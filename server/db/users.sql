@@ -4,6 +4,9 @@ INSERT INTO users (id, name, email, hash, salt) VALUES
 (3, 'Michael', 'like@an.email', 'stuffin', ''),
 (4, 'Ryan', 'ruhruhruh@an.email', 'puffin', '');
 
+--Don't collide the manually defined user ids
+ALTER SEQUENCE users_id_seq RESTART WITH 100;
+
 INSERT INTO activities (id, name, points, type, units, source) VALUES
 (1, 'Push Ups', 10, 'interval', NULL, 'exercise'),
 (2, 'HS Push Ups', 50, 'interval', NULL, 'exercise'),

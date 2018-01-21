@@ -1,5 +1,4 @@
 import React from 'react';
-//import { Segment, Container, Header, Form, Input, Message, Grid, Button } from 'semantic-ui-react';
 import { Segment, Container, Header, Form, Input, Message, Grid, Button } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -51,24 +50,7 @@ class SignUp extends React.Component {
 		const { signup, login } = this.props;
 		return (
 			<div>
-			<h1>Who's yo daddu?</h1>
-				<form action="/auth/signup" method="post">
-					<div>
-					<label>Username:</label>
-					<input type="text" name="username"/><br/>
-					</div>
-					<div>
-					<label>Password:</label>
-					<input type="password" name="password"/>
-					</div>
-          <div>
-          <label>Email:</label>
-          <input type="email" name="email"/>
-          </div>
-					<div>
-					<input type="submit" value="Submit"/>
-					</div>
-				</form>
+				<h1>Who's yo daddu?</h1>
 
 				<div style={{ height: '100vh' }}>
 					<Grid

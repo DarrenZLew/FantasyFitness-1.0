@@ -39,15 +39,20 @@ router.post('/auth/login', passport.authenticate('local', {
 }));
 
 router.post('/auth/signup', function(req, res, next) {
-	let userID = parseInt(req.params.userid);
-	let password = parseInt(req.params.password);
-	let email = parseInt(req.body.password);
+	let userID = req.body.username;
+	let password = req.body.password;
+	let email = req.body.email;
+
+	console.log(req.body);
 
 	let args = {
 		userID: userID,
 		hash: password,
 		email: email
-	}
+	};
+	
+	console.log(args);
+
 	Route(db.setNewUser(args), res, next);
 });
 

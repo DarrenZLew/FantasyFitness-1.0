@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import ScoreForm from '../components/scoreForm/ScoreForm';
 
-//import LoginScreen from '../components/LoginScreen';
+import SignUp from '../components/SignUp';
 import Login from '../components/Login';
 
 import FourOFour from '../components/404';
@@ -160,6 +160,7 @@ const RoutingPaths = () => (
 		<Route exact path='/scoresheet' render={() => <ScoreSheet />} />
 
 		<Route path='/login' render={() => <Login />} />
+		<Route path='/signup' render={() => <SignUp />} />
 
 		<Route path='/matchups' render={() => <HeadToHead />} />
 		<Route path='/profile' render={() => <ProfileForm />} />

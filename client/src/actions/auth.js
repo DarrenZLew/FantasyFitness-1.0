@@ -62,7 +62,8 @@ export function login({ username, password }) {
 };
 
 export function signup({ username, password, email }) {
-	return (dispatch) => {
+	debugger;
+  return (dispatch) => {
     fetch(signupPath, {
       method: 'post',
       headers: {

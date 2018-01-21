@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Auth } from '../actions';
 
-class Login extends React.Component {
+class SignUp extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -51,6 +51,7 @@ class Login extends React.Component {
 		const { signup, login } = this.props;
 		return (
 			<div>
+			<h1>Who's yo daddu?</h1>
 				<form action="/auth/signup" method="post">
 					<div>
 					<label>Username:</label>
@@ -111,7 +112,7 @@ class Login extends React.Component {
 							</Form>
 
 							<Message>
-								New to us? <a href='#' onClick={() => history.push('/signup')}>Sign Up</a>
+								New to us? <a href='/signup'>Sign Up</a>
 							</Message>
 						</Grid.Column>
 					</Grid>
@@ -131,4 +132,4 @@ const mapDispatchToProps = (dispatch) => {
 	return bindActionCreators({ login, signup }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

@@ -110,10 +110,6 @@ class SignUp extends React.Component {
 									<Button color='blue' fluid size='large' type='submit'>Sign Up!</Button>
 								</Segment>
 							</Form>
-
-							<Message>
-								New to us? <a href='/signup'>Sign Up</a>
-							</Message>
 						</Grid.Column>
 					</Grid>
 				</div>

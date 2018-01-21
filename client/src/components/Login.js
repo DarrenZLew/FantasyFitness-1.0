@@ -3,6 +3,7 @@ import React from 'react';
 import { Segment, Container, Header, Form, Input, Message, Grid, Button } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { Auth } from '../actions';
 
 class Login extends React.Component {
@@ -97,21 +98,22 @@ class Login extends React.Component {
 										value={password}
 										onChange={e => this.setState({ password: e.target.value })}
 									/>
-                  <Form.Input
-                    fluid
-                    icon='mail'
-                    iconPosition='left'
-                    placeholder='Email'
-                    type='email'
-                    value={email}
-                    onChange={e => this.setState({ password: e.target.value })}
-                  />
+									<Form.Input
+										fluid
+										icon='mail'
+										iconPosition='left'
+										placeholder='Email'
+										type='email'
+										value={email}
+										onChange={e => this.setState({ password: e.target.value })}
+									/>
+
 									<Button color='blue' fluid size='large' type='submit'>Sign Up!</Button>
 								</Segment>
 							</Form>
 
 							<Message>
-								New to us? <a href='#' onClick={() => history.push('/signup')}>Sign Up</a>
+								New to us? <a href='#' onClick={() => this.props.history.push('/signup')}>Sign Up</a>
 							</Message>
 						</Grid.Column>
 					</Grid>
@@ -131,4 +133,5 @@ const mapDispatchToProps = (dispatch) => {
 	return bindActionCreators({ login, signup }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));
+//export default withRouter(Login);

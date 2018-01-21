@@ -18,10 +18,14 @@ function getUser(userID) {
 		});
 }
 
-function setUser(userID, userData) {
-	return db.none('UPDATE users SET bio=$2 WHERE id = $1',
-		[userID, userData.bio]);
+function setNewUser(args) {
+	let {userID, hash, email} = args;
+	let salt = "Nothing New";
+	return db.one(`INSERT INTO user_activity_day ("name", email, hash, salt) VALUES
+		($[userID], $[email], $[hash], $[salt]) ON CONFLICT ON CONSTRAINT single_user_activity_day
+		DO UPDATE set active = $[active] RETURNING active`, args);
 }
+
 
 // TODO: this is mostly untested. Also, I'm conflating username and email
 function getUserByUserName(username) {
@@ -80,7 +84,7 @@ function recordUserActivityList(args) {
 module.exports = {
   getUser: getUser,
   getUserByUserName: getUserByUserName,
-  setUser: setUser,
+  setNewUser: setNewUser,
   getUserActivities: getUserActivities,
   recordUserActivity: recordUserActivity,
   getActivityList: getActivityList,

@@ -63,15 +63,21 @@ export function login({ username, password }) {
 
 export function signup({ username, password, email }) {
 	return (dispatch) => {
-		console.log("Hello");
     fetch(signupPath, {
-			username,
-			password,
-			email,
-		})
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json"
+      },
+        body: JSON.stringify({
+          username,
+          password,
+          email,
+        })
+      })
 			.then(res => {
-        console.log("Puff n' Stuff!");
-				return res.json();
+				console.log("Success!");
+        return res.json();
 			})
 			.then((res) => {
 				dispatch({

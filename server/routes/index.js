@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 var db = require('../queries/queries');
 var isAuthenticated = require('./helpers').isAuthenticated;
-const passport = require('passport');
-const Strategy = require('passport-local').Strategy;	
+const passport = require('../app').passport;
+const bcrypt = require('../app').bcrypt;
 
 
 function Route(def, res, next) {
@@ -42,18 +42,19 @@ router.post('/auth/signup', function(req, res, next) {
 	let userID = req.body.username;
 	let password = req.body.password;
 	let email = req.body.email;
+	const saltRounds = 42;
+	let args = {};
 
-	console.log(req.body);
-
-	let args = {
-		userID: userID,
-		hash: password,
-		email: email
-	};
-	
+	bcrypt.genSalt(saltRounds, function(err, salt) {
+    	bcrypt.hash(password, salt, function(err, hash) {
+        
+	        args.userID = userID,
+			args.hash = password,
+			args.email = email
+		});	
+	});
 	console.log(args);
-
-	Route(db.setNewUser(args), res, next);
+    Route(db.setNewUser(args), res, next);
 });
 
 router.get('/user/:userid', isAuthenticated, function(req, res, next) {

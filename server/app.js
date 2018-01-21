@@ -117,7 +117,7 @@ app.use(require('express-session')({
 
 app.use(passport.initialize());
 app.use(passport.session());
-
+module.exports = { passport: passport };
 
 // Routing
 app.use('/', require('./routes'));

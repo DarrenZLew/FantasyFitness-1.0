@@ -19,10 +19,15 @@ function Route(def, res, next) {
 				})
 		})
 		.catch(function (err) {
+			if(process.env.NODE_ENV != "development")
+				console.log(err);
 			res.status(503)
 				.json({
 					status: 'failure',
-					error: err
+					error: Object.getOwnPropertyNames(err).reduce((obj, x) => {
+						obj[x] = err[x];
+						return obj;
+					}, {})
 				})
 		});
 }
@@ -43,7 +48,7 @@ router.post('/auth/signup', function(req, res, next) {
 		hash: password,
 		email: email
 	}
-	Route(db.recordUserActivityList(args), res, next);
+	Route(db.setNewUser(args), res, next);
 });
 
 router.get('/user/:userid', isAuthenticated, function(req, res, next) {

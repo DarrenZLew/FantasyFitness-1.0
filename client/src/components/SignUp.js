@@ -1,5 +1,4 @@
 import React from 'react';
-//import { Segment, Container, Header, Form, Input, Message, Grid, Button } from 'semantic-ui-react';
 import { Segment, Container, Header, Form, Input, Message, Grid, Button } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';

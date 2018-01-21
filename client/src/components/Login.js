@@ -1,5 +1,4 @@
 import React from 'react';
-//import { Segment, Container, Header, Form, Input, Message, Grid, Button } from 'semantic-ui-react';
 import { Segment, Container, Header, Form, Input, Message, Grid, Button } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -9,9 +8,9 @@ class Login extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
+			//username: 'Michael',
 			username: 'like@an.email',
 			password: 'password',
-      		email: 'email@email.com'
 		}
 	}
 
@@ -21,22 +20,20 @@ class Login extends React.Component {
 
 		return (
 			this.state.username.length > 0 &&
-			this.state.password.length > 0 &&
-      		this.state.email.length >0);
+			this.state.password.length > 0);
 	}
 
 	handleLogIn = (e) => {
-		console.log('Adding User');
+		console.log('logging in');
 
 		e.preventDefault();
 
 		if (this.validateForm()) {
-			const { username, password, email} = this.state;
+			const { username, password } = this.state;
 
-			this.props.signup({
+			this.props.login({
 				username,
 				password,
-        		email
 			});
 		}
 		else
@@ -47,28 +44,10 @@ class Login extends React.Component {
 
 
 	render() {
-		const { username, password, email} = this.state;
-		const { signup, login } = this.props;
+		const { username, password } = this.state;
+
 		return (
 			<div>
-				<form action="/auth/signup" method="post">
-					<div>
-					<label>Username:</label>
-					<input type="text" name="username"/><br/>
-					</div>
-					<div>
-					<label>Password:</label>
-					<input type="password" name="password"/>
-					</div>
-          <div>
-          <label>Email:</label>
-          <input type="email" name="email"/>
-          </div>
-					<div>
-					<input type="submit" value="Submit"/>
-					</div>
-				</form>
-
 				<div style={{ height: '100vh' }}>
 					<Grid
 						textAlign='center'
@@ -76,7 +55,7 @@ class Login extends React.Component {
 						verticalAlign='middle'
 					>
 						<Grid.Column style={{ maxWidth: 450 }}>
-							<Header>Sign up</Header>
+							<Header>Log in</Header>
 
 							<Form size='large' onSubmit={this.handleLogIn}>
 								<Segment stacked>
@@ -97,21 +76,12 @@ class Login extends React.Component {
 										value={password}
 										onChange={e => this.setState({ password: e.target.value })}
 									/>
-                  <Form.Input
-                    fluid
-                    icon='mail'
-                    iconPosition='left'
-                    placeholder='Email'
-                    type='email'
-                    value={email}
-                    onChange={e => this.setState({ password: e.target.value })}
-                  />
-									<Button color='blue' fluid size='large' type='submit'>Sign Up!</Button>
+									<Button color='blue' fluid size='large' type='submit'>Login</Button>
 								</Segment>
 							</Form>
 
 							<Message>
-								New to us? <a href='#' onClick={() => history.push('/signup')}>Sign Up</a>
+								New to us? <a href='#'>Sign Up</a>
 							</Message>
 						</Grid.Column>
 					</Grid>
@@ -127,8 +97,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-	const { login, signup } = Auth;
-	return bindActionCreators({ login, signup }, dispatch);
+	const { login } = Auth;
+	return bindActionCreators({ login }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

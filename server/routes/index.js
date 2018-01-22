@@ -42,19 +42,21 @@ router.post('/auth/signup', function(req, res, next) {
 	let userID = req.body.username;
 	let password = req.body.password;
 	let email = req.body.email;
-	const saltRounds = 42;
+	const saltRounds = 5;
 	let args = {};
 
 	bcrypt.genSalt(saltRounds, function(err, salt) {
     	bcrypt.hash(password, salt, function(err, hash) {
-        
-	        args.userID = userID,
-			args.hash = password,
-			args.email = email
+	        args.userID = userID;
+			args.hash = hash;
+			args.email = email;
+			args.salt = salt;
+
+			console.log(args);
+		    Route(db.setNewUser(args), res, next);
 		});	
 	});
-	console.log(args);
-    Route(db.setNewUser(args), res, next);
+	//console.log(args);
 });
 
 router.get('/user/:userid', isAuthenticated, function(req, res, next) {

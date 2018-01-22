@@ -6,6 +6,7 @@ const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
 const db = require('./queries/queries');
 const isAuthenticated = require('./routes/helpers');
+var bcrypt = require('bcrypt');
 
 
 // Serve static files from the React app in production. During development, run client app separately
@@ -24,15 +25,8 @@ app.use(function(req, res, next) {
 
 // TODO: use this, or something like it, for hashing passwords
 //const bcrypt = require('bcrypt')
-var bcrypt = require('bcrypt');
-const saltRounds = 10;
-const myPlaintextPassword = 's0/\/\P4$$w0rD';
-const someOtherPlaintextPassword = 'not_bacon';
-bcrypt.genSalt(saltRounds, function(err, salt) {
-    bcrypt.hash(myPlaintextPassword, salt, function(err, hash) {
-        // Store hash in your password DB.
-    });
-});
+
+
 
 
 // Configure the local strategy for use by Passport.
@@ -117,8 +111,10 @@ app.use(require('express-session')({
 
 app.use(passport.initialize());
 app.use(passport.session());
-module.exports = { passport: passport };
-
+module.exports = { 
+	passport: passport,
+	bcrypt: bcrypt
+ };
 // Routing
 app.use('/', require('./routes'));
 

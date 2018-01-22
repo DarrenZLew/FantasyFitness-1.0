@@ -19,8 +19,7 @@ function getUser(userID) {
 }
 
 function setNewUser(args) {
-	let {userID, hash, email} = args;
-	args['salt'] = "Nothing New";
+	let {userID, hash, email, salt} = args;
 	return db.none(`INSERT INTO users ("name", email, hash, salt) VALUES
 		($[userID], $[email], $[hash], $[salt])`, args);
 }

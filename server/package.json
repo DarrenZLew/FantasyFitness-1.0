@@ -22,7 +22,8 @@
     "pg": "^7.3.0",
     "pg-promise": "^7.2.1",
     "sequelize": "^4.15.0",
-    "serve-favicon": "~2.4.2"
+    "serve-favicon": "~2.4.2",
+    "sql": "^0.78.0"
   },
   "devDependencies": {
     "nodemon": "^1.12.1"

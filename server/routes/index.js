@@ -70,6 +70,15 @@ router.post('/league/:leagueid/scores', function(req, res, next) {
     Route(db.getLeagueScores(args), res, next);
 });
 
+router.post('/league/:leagueid/scores', function(req, res, next) {
+    let args = {
+        leagueID: parseInt(req.params.leagueid),
+        startDay: req.body.day || req.body.startDay,
+        endDay: req.body.day || req.body.endDay
+    }
+    Route(db.getLeagueScores(args), res, next);
+});
+
 router.post('/user/:userid/activitylist', isAuthenticated, function(req, res, next) {
 	let userID = parseInt(req.params.userid);
 	let args = {

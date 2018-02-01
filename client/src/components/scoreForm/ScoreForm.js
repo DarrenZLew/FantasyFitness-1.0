@@ -17,24 +17,24 @@ class ScoreForm extends Component {
 
 		return (
 		 	<Form className='container center' style={{marginTop: '20px'}} >
-				<Header textAlign='center'>Add or Remove Activities</Header>								 	
-		 		<ActivitiesDropList 
+				<Header textAlign='center'>Add or Remove Activities</Header>
+		 		<ActivitiesDropList
 		 			inactiveActivities={inactiveActivities}
 		 			activeActivities={activeActivities}
 		 			updateActivity={updateActivity}
 		 			activityListSubmitData={activityListSubmitData}
 		 		/>
 		 		<Header size='large' textAlign='center'>Bonuses</Header>
-	 			<Bonuses 
-					bonuses={activities.bonuses} 
-					double={double} 
+	 			<Bonuses
+					bonuses={activities.bonuses}
+					double={double}
 					handleSubmit={activitiesSubmitData}
 					activitiesFetchData={activitiesFetchData}
 				/>
 				<Header size='large' textAlign='center'>Activities</Header>
-				<Exercises 
-					exercises={activities.exercises} 
-					double={double} 
+				<Exercises
+					exercises={activities.exercises}
+					double={double}
 					handleSubmit={activitiesSubmitData}
 					defaultActivities={defaultActivities}
 					activitiesFetchData={activitiesFetchData}
@@ -47,9 +47,9 @@ class ScoreForm extends Component {
 }
 
 const mapStateToProps = state => {
-	return { 
+	return {
 		activities: {
-			exercises:state.scoreForm.activities.exercises, 
+			exercises:state.scoreForm.activities.exercises,
 			bonuses: state.scoreForm.activities.bonuses,
 			challenge: state.scoreForm.activities.challenge
 		},
@@ -58,7 +58,7 @@ const mapStateToProps = state => {
 		activeActivities: state.scoreForm.activeActivities,
 		defaultActivities: state.scoreForm.defaultActivities,
 	}
-}	
+}
 
 const mapDispatchToProps = dispatch => {
   const { updateActivity, activityListSubmitData, updateBonus, activitiesFetchData, activitiesSubmitData, activitiesListFetchData } = ScoreFormActions;

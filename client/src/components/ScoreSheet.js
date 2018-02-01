@@ -202,7 +202,7 @@ const SchedulePickerGroup = ({schedule, week, handleSchedulePickerGroup}) => {
 
 const mapStateToProps = (state) => {
 	return { ...state.scoreSheet }
-}	
+}
 
 const mapDispatchToProps = (dispatch) => {
 	const { updateActivity, updateScoreView } = ScoreSheetActions

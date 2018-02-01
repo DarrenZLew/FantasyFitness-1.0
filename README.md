@@ -1,5 +1,7 @@
 # Fantasy Fitness
 
+Deployed on https://fantasyfitness.herokuapp.com/score
+
 ## Development
 
 For development run the client and server on two different applications.

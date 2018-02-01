@@ -15,41 +15,44 @@ let initialState = {
 export default (state = initialState, action) => {
 	switch (action.type) {
 		case (ScoreFormActions.Types.UpdateActivity):
-      if (action.payload.success) {
+			if (action.payload.success) {
 				let newState = JSON.parse(JSON.stringify(state))
-				const { index, type, submitData, newValue } = action.payload	
+				const { index, type, submitData, newValue } = action.payload
 				if (action.payload.source === 'exercise') {
 					switch (type) {
 						case 'interval':
-		        	// newValue = parseFloat(newValue)	
-							newState.activities.exercises[index].value = newValue	
+							// newValue = parseFloat(newValue)
+							newState.activities.exercises[index].value = newValue
 							// update initial value to be new value if submitting data to server, else keep initial value the same
 							if (submitData) {
-								newState.activities.exercises[index].initialValue = newValue										
+								newState.activities.exercises[index].initialValue = newValue
 							}
 							return newState
-						// update hr or minute values when using individual input fields
+
+							// update hr or minute values when using individual input fields
 						case 'hr':
 						case 'min':
 							newState.activities.exercises[index].value[type] = parseFloat(newValue)
 							if (submitData) {
-								newState.activities.exercises[index].initialValue[type] = parseFloat(newValue)					
+								newState.activities.exercises[index].initialValue[type] = parseFloat(newValue)
 							}
 							return newState
-						// update both hr and minute input fields when submitting data	
-						case 'timer':														
+
+							// update both hr and minute input fields when submitting data
+						case 'timer':
 							if (submitData) {
 								newState.activities.exercises[index].initialValue.hr = newValue.hr
-								newState.activities.exercises[index].initialValue.min = newValue.min						
+								newState.activities.exercises[index].initialValue.min = newValue.min
 							}
 							return newState
+
 						default:
 							return state
-					}					
+					}
 				} else if (action.payload.source === 'bonus') {
 					let newState = JSON.parse(JSON.stringify(state))
 					newState.activities.bonuses[index].value = newState.activities.bonuses[index].value === 1 ? null : 1
-					return newState 					
+					return newState
 				}
 			}
 		case (ScoreFormActions.Types.AddActivity):
@@ -124,15 +127,15 @@ export default (state = initialState, action) => {
 						return Object.assign({}, activity, {
 							value: activity.amount,
 							initialValue: activity.amount
-						})						
+						})
 					} else if (activity.source === 'bonus') {
 						// bonus is complete/true
 						return Object.assign({}, activity, {value: activity.amount || null})
 					}
 				}
-			)
+				)
 				if (action.payload.source === 'exercise') {
-					newState.activities.exercises = newActivities			
+					newState.activities.exercises = newActivities
 				} else if (action.payload.source === 'bonus') {
 					newState.activities.bonuses = newActivities
 				}
@@ -151,6 +154,6 @@ export default (state = initialState, action) => {
 				return newState
 			}
 		default:
-			return state	
+			return state
 	}
 }

@@ -9,6 +9,7 @@ import ScoreSheet from '../components/ScoreSheet';
 import Rules from '../components/Rules';
 import ProfileForm from '../components/ProfileForm';
 import HeadToHead from '../components/HeadToHead';
+import LeagueScoreSheet from '../components/LeagueScoreSheet';
 
 class MenuHeader extends Component {
 	constructor(props) {
@@ -155,14 +156,14 @@ const RoutingPaths = () => (
 	<Switch>
 		<Route exact path='/score' render={() => <ScoreForm />} />
 		<Route exact path='/scoresheet' render={() => <ScoreSheet />} />
-
+		<Route exact path='/league' render={() => <LeagueScoreSheet />} />
 		<Route path='/login' render={() => <Login />} />
 
 		<Route path='/matchups' render={() => <HeadToHead />} />
 		<Route path='/profile' render={() => <ProfileForm />} />
 		<Route path='/rules' component={Rules} />
 		<Route path='/404' component={FourOFour} />
-		<Redirect to='/404' />
+		<Redirect to='/scoresheet' />
 	</Switch>
 )
 

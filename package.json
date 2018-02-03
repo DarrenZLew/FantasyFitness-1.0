@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "cd server && npm install && NODE_ENV=production npm start",
-    "heroku-postbuild": "cd client && npm install && npm run build"    
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "repository": {
     "type": "git",

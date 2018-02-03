@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "moment": "^2.19.3",
     "react": "^15.6.1",
+    "react-dates": "^15.5.1",
     "react-dom": "^15.6.1",
     "react-images-upload": "^1.1.1",
     "react-redux": "^5.0.6",

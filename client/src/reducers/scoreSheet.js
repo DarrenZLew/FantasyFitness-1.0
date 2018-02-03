@@ -1,43 +1,152 @@
 import data from './scoreSheet-fakedata.json';
 import { ScoreSheetActions } from '../actions';
 
+const activityList = data.activities.map(activity => ({key: activity.name, text: activity.name, value: activity.name}))
+const indexActivity = data.users[0].activities.findIndex(activity => activity.name === data.currentActivity.name)
+
+let usersData = JSON.parse(JSON.stringify(data.users))
+usersData.map(user => {
+	if (user.activities[indexActivity].amount.hasOwnProperty('hr')) {
+		let hr = user.activities[indexActivity].amount.hr
+		let min = user.activities[indexActivity].amount.min
+		user.activityAmountMin = hr * 60 + min
+		if (hr < 10) {
+			hr = '0' + hr
+		}
+		if (min < 10) {
+			min = '0' + min
+		}
+		user.activityAmount = hr + ':' + min
+	} else {
+		user.activityAmount = user.activities[indexActivity].amount
+	}
+})
+
+if (data.view === 'score') {
+	usersData.map(user => {
+		if (user.hasOwnProperty('activityAmountMin')) {
+			user.activityAmount = user.activityAmountMin / 60 * data.currentActivity.points
+			user.activityAmountMin = undefined
+		} else {
+			user.activityAmount = user.activityAmount * data.currentActivity.points
+		}
+	})
+}
+
+const indexUser = usersData.findIndex(user => user.username === data.username)
+const currentUserAmount = usersData[indexUser].activityAmount
+
 const initialState = {
-	// Default sort by Total score column
-	users: data.users.sort((a,b) => {
-		return b.total - a.total
+	users: usersData.sort((a,b) => {
+		if (a.hasOwnProperty('activityAmountMin') && a.activityAmountMin !== undefined) {
+			return b.activityAmountMin - a.activityAmountMin
+		}
+		return b.activityAmount - a.activityAmount
 	}),
-	activities: data.activities,
-	sort: 'total'
+	currentUser: {
+		name: data.username,
+		amount: currentUserAmount
+	},
+	league: data.league,
+	currentActivity: {
+		name: data.currentActivity.name,
+		points: data.currentActivity.points
+	},
+	activityList
 }
 
 export default (state = initialState, action) => {
 	switch (action.type) {
-		// Sorts columns in scoreSheet
-		case (ScoreSheetActions.Types.SET_SORT):
-			// need to use JSON.parse(JSON.stringify) instead of Object.Assign
-			// Object.Assign only does shallow copy
-			let newState = JSON.parse(JSON.stringify(state))
-				// If the sortKey is an activity name and is in the activities array, sort by the activity value
-				let index = newState.users[0].activities.findIndex(i => i.name === action.sortKey)
-				if (index !== -1) {
-					newState.users.sort((a,b) => {
-						if (b.activities[index].value.hr) {
-							let bTotalMin = b.activities[index].value.hr * 60 + b.activities[index].value.min
-								let aTotalMin = a.activities[index].value.hr * 60 + a.activities[index].value.min
-								return bTotalMin - aTotalMin
+		case (ScoreSheetActions.Types.UpdateActivity):
+			if (action.payload.success) {
+				let newState = JSON.parse(JSON.stringify(state))
+				const indexActivity = data.users[0].activities.findIndex(activity => activity.name === action.payload.activity)
+				newState.users.map(user => {
+					if (user.activities[indexActivity].amount.hasOwnProperty('hr')) {
+						let hr = user.activities[indexActivity].amount.hr
+						let min = user.activities[indexActivity].amount.min
+						user.activityAmountMin = hr * 60 + min
+						if (hr < 10) {
+							hr = '0' + hr
 						}
-						return b.activities[index].value - a.activities[index].value
-					})
-				} else {
-					// Head to Head or Total score columns
-					let sortKey = action.sortKey.toLowerCase()
-						newState.users.sort((a, b) => {
-							return b[sortKey] - a[sortKey]
-						})
+						if (min < 10) {
+							min = '0' + min
+						}
+						user.activityAmount = hr + ':' + min
+					} else {
+						user.activityAmount = user.activities[indexActivity].amount
+						if (user.hasOwnProperty('activityAmountMin')) {
+							user.activityAmountMin = undefined
+						}
+					}
+				})
+				
+				const indexUser = newState.users.findIndex(user => user.username === newState.currentUser.name)
+				newState.currentActivity = {
+					name: action.payload.activity,
+					points: data.activities[indexActivity].value
 				}
-			newState.sort = action.sortKey
-				return newState
+
+				if (data.view === 'score') {
+					newState.users.map(user => {
+						if (user.hasOwnProperty('activityAmountMin')) {
+							user.activityAmount = user.activityAmountMin / 60 * newState.currentActivity.points
+							user.activityAmountMin = undefined
+						} else {
+							user.activityAmount = user.activityAmount * newState.currentActivity.points
+						}
+					})
+				}
+
+				newState.currentUser.amount = newState.users[indexUser].activityAmount
+				
+				newState.users.sort((a,b) => {
+					if (a.hasOwnProperty('activityAmountMin') && a.activityAmountMin !== undefined) {
+						return b.activityAmountMin - a.activityAmountMin
+					}
+					return b.activityAmount - a.activityAmount					
+				})
+
+				return newState 
+			}
+		case (ScoreSheetActions.Types.UpdateScoreView):
+			if (action.payload.success) {
+				let newState = JSON.parse(JSON.stringify(state))
+				if (action.payload.view === 'score') {
+					newState.users.map(user => {
+						if (user.hasOwnProperty('activityAmountMin')) {
+							user.activityAmount = user.activityAmountMin / 60 * newState.currentActivity.points
+							user.activityAmountMin = undefined
+						} else {
+							user.activityAmount = user.activityAmount * newState.currentActivity.points
+						}
+					})
+				} else if (action.payload.view === 'count') {
+					newState.users.map(user => {
+						if (user.hasOwnProperty('activityAmountMin') && user.activityAmountMin === undefined) {
+							user.activityAmountMin = user.activityAmount * 60 / newState.currentActivity.points 							
+							let hr = user.activityAmountMin / 60
+							let min = user.activityAmountMin % 60
+							if (hr < 10) {
+								hr = '0' + hr
+							}
+							if (min < 10) {
+								min = '0' + min
+							}
+							user.activityAmount = hr + ':' + min
+						} else {
+							user.activityAmount = user.activityAmount / newState.currentActivity.points
+						}
+					})
+				}
+				
+				const indexUser = newState.users.findIndex(user => user.username === newState.currentUser.name)
+				newState.currentUser.amount = newState.users[indexUser].activityAmount
+				
+				return newState 				
+			}
 		default:
-				return state
+			return state
 	}
+	return state
 }

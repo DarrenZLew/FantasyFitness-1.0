@@ -5,6 +5,7 @@ import scoreForm from './scoreForm';
 import scoreSheet from './scoreSheet';
 import headToHead from './headToHead';
 import profileForm from './profileForm';
+import leagueScoreSheet from './leagueScoreSheet';
 
 export default combineReducers({
   auth,
@@ -12,6 +13,7 @@ export default combineReducers({
   form: formReducer,
   scoreSheet,
   headToHead,
-  profileForm
+  profileForm,
+  leagueScoreSheet
 });
 

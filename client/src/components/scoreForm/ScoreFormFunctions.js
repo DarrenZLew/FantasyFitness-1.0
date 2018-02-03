@@ -5,9 +5,9 @@ import { Button, Dropdown, Icon } from 'semantic-ui-react';
 export const AddActivitiesList = ({selectInactiveActivity, inactiveActivities, selectedInactiveActivities, updateActivitiesList}) => {
 	return (
 		<div>
-			<Dropdown 
+			<Dropdown
 				onChange={selectInactiveActivity}
-				placeholder='Inactive Activities' 
+				placeholder='Inactive Activities'
 				selection
 				search
 				multiple
@@ -16,8 +16,8 @@ export const AddActivitiesList = ({selectInactiveActivity, inactiveActivities, s
 				options={inactiveActivities}
 				value={selectedInactiveActivities}
 			/>
-			<Button 
-				type='button' 
+			<Button
+				type='button'
 				style={{width: '100%'}}
 				onClick={updateActivitiesList}>
 				<Icon name='plus'/>
@@ -31,9 +31,9 @@ export const AddActivitiesList = ({selectInactiveActivity, inactiveActivities, s
 export const RemoveActivitiesList = ({selectActiveActivity, activeActivities, selectedActiveActivities, updateActivitiesList}) => {
 	return (
 		<div>
-			<Dropdown 
+			<Dropdown
 				onChange={selectActiveActivity}
-				placeholder='Active Activities' 
+				placeholder='Active Activities'
 				selection
 				search
 				multiple
@@ -42,14 +42,14 @@ export const RemoveActivitiesList = ({selectActiveActivity, activeActivities, se
 				options={activeActivities}
 				value={selectedActiveActivities}
 			/>
-			<Button 
+			<Button
 				type='button'
 				style={{width: '100%'}}
 				onClick={updateActivitiesList}>
 				<Icon name='minus'/>
 				Remove
 			</Button>
-		</div>		
+		</div>
 	)
 }
 
@@ -74,9 +74,9 @@ export const netChange = (exercises, type, index) => {
 			} else if (newTotalMin < initialTotalMin) {
 				netChangeValueStyle = {color: 'red'}
 				netChangeValue = '- ' + netChangeValue
-			} 
+			}
 		} else if (type === 'interval') {
-			netChangeValue = exercises[index].value - exercises[index].initialValue 
+			netChangeValue = exercises[index].value - exercises[index].initialValue
 			netChangeValue = netChangeValue.toFixed(1).replace(/[.]0$/, "")
 			if (netChangeValue > 0) {
 				netChangeValueStyle = {color: 'green'}
@@ -84,9 +84,9 @@ export const netChange = (exercises, type, index) => {
 			} else if (netChangeValue < 0) {
 				netChangeValueStyle = {color: 'red'}
 				netChangeValue = '- ' + Math.abs(netChangeValue)
-			}		
+			}
 		}
-	return [netChangeValue, netChangeValueStyle]		
+	return [netChangeValue, netChangeValueStyle]
 }
 
 // Function to display double points
@@ -122,6 +122,6 @@ export const pointsAppendUnits = (points, type, units) => {
 
 export const favoriteActivity = (name, defaultActivities) => {
 	if (defaultActivities.indexOf(name) !== -1) {
-		return <Icon name='star' color='yellow'/>	
-	}		
+		return <Icon name='star' color='yellow'/>
+	}
 }

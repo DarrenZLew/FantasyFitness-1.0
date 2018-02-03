@@ -10,10 +10,22 @@ import Rules from '../components/Rules';
 import ProfileForm from '../components/ProfileForm';
 import HeadToHead from '../components/HeadToHead';
 import LeagueScoreSheet from '../components/LeagueScoreSheet';
+import { conf } from '../App';
+
 
 class MenuHeader extends Component {
 	constructor(props) {
-		super(props)
+		super(props);
+
+		conf.onNetworkError = () => {
+			this.doRoute(LOGIN_PATH); // TODO: make this path a constant
+		};
+
+		// primt the pump
+		fetch('/api')
+			.then(res => res.json())
+			.catch(conf.onNetworkError);
+
 
 		// attempt to properly set the activeItem based on the current page
 		this.state = {
@@ -22,6 +34,8 @@ class MenuHeader extends Component {
 			visible: false,
 			dimmed: false
 		}
+
+
 	}
 
 	toggleMobileMenu = activeMenu => {
@@ -31,6 +45,10 @@ class MenuHeader extends Component {
 	}
 
 	handleItemClick = (e, { name, to }) => {
+		this.doRoute(to);
+	}
+
+	doRoute = (to) => {
 		this.props.history.push(to);
 		this.setState({ activeItem: to, visible: false, dimmed: false });
 	}
@@ -86,6 +104,8 @@ class MenuHeader extends Component {
 }
 
 
+const LOGIN_PATH = '/login';
+
 const menuItems = [
 	{
 		path: '/score',
@@ -124,7 +144,7 @@ const menuItems = [
 	},
 
 	{
-		path: '/login',
+		path: LOGIN_PATH,
 		name: 'sign in',
 		displayName: 'Sign In'
 	}

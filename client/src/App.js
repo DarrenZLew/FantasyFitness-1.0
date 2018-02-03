@@ -4,13 +4,6 @@ import MenuHeader from './components/MenuHeader';
 import 'react-dates/initialize';
 
 class App extends Component {
-
-	componentDidMount() {
-		fetch('/api')
-			.then(res => res.json())
-			.catch(err => console.log(err))
-	}
-
 	render() {
 		return (
 				<Router>
@@ -19,5 +12,10 @@ class App extends Component {
 			   )
 	}
 }
+
+export const conf = {
+	onNetworkError: (err) => {}
+}
+
 
 export default App;

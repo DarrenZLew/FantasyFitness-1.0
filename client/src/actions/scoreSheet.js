@@ -1,3 +1,4 @@
+
 export const Types = {
 	UpdateActivity: 'UPDATE_ACTIVITY',
 	UpdateScoreView: 'UPDATE_SCORE_VIEW'

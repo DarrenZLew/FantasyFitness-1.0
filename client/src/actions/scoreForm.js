@@ -1,3 +1,5 @@
+import { conf } from '../App';
+
 export const Types = {
 	UpdateActivity: 'FORM_UPDATE_ACTIVITY',
 	AddActivity: 'FORM_ADD_ACTIVITY',
@@ -6,36 +8,38 @@ export const Types = {
 	ActivitiesListFetchDataSuccess: 'FORM_FETCH_ACTIVITIESLIST_SUCCESS'
 }
 
+
 export function activityListSubmitData(activities, ids, date, action) {
 	return dispatch => {
-		// TODO: this can be null, right?
-		// TODO: this should be an each, yeah? Test to make sure
-		//activities.each((activity, index) => {
-		activities.map((activity, index) => {
-			let active = action === 'add' ? true : false
-				fetch('/user/1/activitylist/record', {
-					credentials: 'same-origin',
-					method: 'post',
-					headers: {
-						"Content-Type": "application/json"
-					},
-					body: JSON.stringify({
-						activity: ids[index],
-						day: date,
-						active
+			// TODO: this can be null, right?
+			// TODO: this should be an each, yeah? Test to make sure
+			//activities.each((activity, index) => {
+			activities.map((activity, index) => {
+				let active = action === 'add' ? true : false
+					fetch('/user/1/activitylist/record', {
+						credentials: 'same-origin',
+						method: 'post',
+						headers: {
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify({
+							activity: ids[index],
+							day: date,
+							active
+						})
 					})
+				.then((response) => {
+					if (!response.ok) {
+						throw Error(response.statusText);
+					}
+					return response;
 				})
-			.then((response) => {
-				if (!response.ok) {
-					throw Error(response.statusText);
-				}
-				return response;
-			})
-			.then((response) => response.json())
-				.then((response) => dispatch(updateActivityList(date, activities, action, ids[index])))
-				.catch((err) => console.log(err))
-		})
-	}
+				.catch(conf.onNetworkError) // TODO: is this the right place for this?
+				.then((response) => response.json())
+					.then((response) => dispatch(updateActivityList(date, activities, action, ids[index])))
+					.catch((err) => console.log(err))
+			});
+		}
 	}
 
 	export function updateActivityList(date, activities, action, activity) {
@@ -81,7 +85,7 @@ export function activityListSubmitData(activities, ids, date, action) {
 							})
 						}
 				})
-			.catch((err) => console.log(err))
+			.catch(conf.onNetworkError);
 		}
 	}
 
@@ -134,7 +138,7 @@ export function activityListSubmitData(activities, ids, date, action) {
 			})
 			.then((response) => response.json())
 				.then((response) => dispatch(activitiesFetchDataSuccess(response, source)))
-				.catch((err) => console.log(err))
+				.catch(conf.onNetworkError);
 		};
 	}
 
@@ -184,7 +188,7 @@ export function activityListSubmitData(activities, ids, date, action) {
 				})
 				.then((response) => response.json())
 					.then((activities) => dispatch(updateActivity(source, index, type, initialValue, newValue, true)))
-					.catch((err) => console.log(err))
+					.catch(conf.onNetworkError);
 			};
 		}
 	}
@@ -210,12 +214,7 @@ export function activityListSubmitData(activities, ids, date, action) {
 			})
 			.then((response) => response.json())
 				.then((response) => dispatch(activitiesListFetchDataSuccess(response)))
-				.catch((err) => {
-					// the idea is to redirect to login if something went wrong.
-					// TODO: make less wrong
-					document.querySelector('a[to="/login"]').click();
-					console.log(err)
-				});
+				.catch(conf.onNetworkError);
 		};
 	}
 

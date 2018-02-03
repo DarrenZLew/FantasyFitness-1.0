@@ -19,9 +19,9 @@ function getUser(userID) {
 }
 
 function setNewUser(args) {
-	let {userID, hash, email, salt} = args;
-	return db.none(`INSERT INTO users ("name", email, hash, salt) VALUES
-		($[userID], $[email], $[hash], $[salt])`, args);
+	let {userID, hash, email} = args;
+	return db.none(`INSERT INTO users ("name", email, hash) VALUES
+		($[userID], $[email], $[hash])`, args);
 }
 
 

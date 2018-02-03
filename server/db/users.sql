@@ -1,8 +1,8 @@
-INSERT INTO users (id, name, email, hash, salt) VALUES
-(1, 'Alex', 'faff@faff.faff', 'stuff', ''),
-(2, 'Darren', 'not@an.email', 'puff', ''),
-(3, 'Michael', 'like@an.email', 'stuffin', ''),
-(4, 'Ryan', 'ruhruhruh@an.email', 'puffin', '');
+INSERT INTO users (id, name, email, hash) VALUES
+(1, 'Alex', 'faff@faff.faff', 'stuff'),
+(2, 'Darren', 'not@an.email', 'puff'),
+(3, 'Michael', 'like@an.email', 'stuffin'),
+(4, 'Ryan', 'ruhruhruh@an.email', 'puffin');
 
 --Don't collide the manually defined user ids
 ALTER SEQUENCE users_id_seq RESTART WITH 100;

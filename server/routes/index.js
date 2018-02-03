@@ -50,8 +50,7 @@ router.post('/auth/signup', function(req, res, next) {
 	        args.userID = userID;
 			args.hash = hash;
 			args.email = email;
-			args.salt = salt;
-
+			
 			console.log(args);
 		    Route(db.setNewUser(args), res, next);
 		});	

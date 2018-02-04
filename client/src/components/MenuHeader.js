@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import ScoreForm from '../components/scoreForm/ScoreForm';
 import Login from '../components/Login';
 import SignUp from '../components/SignUp';
+import Logout from '../components/Logout';
 import FourOFour from '../components/404';
 import ScoreSheet from '../components/ScoreSheet';
 import Rules from '../components/Rules';
@@ -205,6 +206,7 @@ const RoutingPaths = () => (
 		<Route exact path='/league' render={() => <LeagueScoreSheet />} />
 		<Route path='/login' render={() => <Login />} />
 		<Route path='/signup' render={() => <SignUp />} />
+		<Route path='/logout' render={() => <Logout />} />
 
 		<Route path='/matchups' render={() => <HeadToHead />} />
 		<Route path='/profile' render={() => <ProfileForm />} />

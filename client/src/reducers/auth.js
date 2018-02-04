@@ -15,6 +15,7 @@ const localStorage = global.localStorage;
 
 const initialState = {
 	username: null,
+	loggedIn: false,
 	token: (localStorage.getItem('token') ? localStorage.getItem('token') : null),
 };
 
@@ -24,7 +25,7 @@ export default (state = initialState, action) => {
 		case (Auth.Types.Login):
 			if (action.payload.success) {
 				const { username, token } = action.payload;
-				return { ...state, username, token };
+				return { ...state, username, token, loggedIn: true };
 			}
 			return { ...state, username: null, loginErrors: action.payload.errors };
 

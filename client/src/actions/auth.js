@@ -35,16 +35,15 @@ export function login({ username, password }) {
 				document.querySelector('a[to="/score"]').click();
 
 				// TODO: do we need to do anything here? Maybe redirect to somewhere?
-				//console.log(res.data);
 				//localStorage.setItem('token', 'res.data.token');
-				//dispatch({
-					//type: Types.Login,
-					//payload: {
-						//success: true,
-						//username,
+				dispatch({
+					type: Types.Login,
+					payload: {
+						success: true,
+						username,
 						//token: res.data.token,
-					//},
-				//});
+					},
+				});
 			})
 			.catch((errors) => {
 				// NOTE: this never gets hit. We just try/fail to redirect to FAILURE page, which doesn't exist

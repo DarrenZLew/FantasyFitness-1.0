@@ -60,13 +60,14 @@ class MenuHeader extends Component {
 
 	render () {
 		const { activeItem, visible, dimmed } = this.state
+
 		return (
 			<Grid>
 				<Grid.Row only='computer'>
 					<Grid.Column>
 						<Menu color='blue' inverted pointing secondary>
 							<Menu.Item header	name='Fantasy Fitness' />
-							<MenuItemsRouting activeItem={activeItem} handleItemClick={this.handleItemClick} mobile={false} />
+							<MenuItemsRouting activeItem={activeItem} handleItemClick={this.handleItemClick} mobile={false} isLoggedIn={this.props.loggedIn} />
 						</Menu>
 						<RoutingPaths />
 					</Grid.Column>
@@ -147,15 +148,23 @@ const menuItems = [
 		name: 'profile',
 		displayName: 'Profile'
 	},
-
-	{
-		path: LOGIN_PATH,
-		name: 'sign in',
-		displayName: 'Sign In'
-	}
 ];
 
-const MenuItemsRouting = ({activeItem, handleItemClick, mobile, handleToggleMobileMenu, style}) => (
+
+const loginMenuItem = {
+	path: LOGIN_PATH,
+	name: 'login',
+	displayName: 'Login'
+};
+
+const logoutMenuItem = {
+	path: '/logout',
+	name: 'logout',
+	displayName: 'Logout'
+};
+
+
+const MenuItemsRouting = ({activeItem, handleItemClick, mobile, handleToggleMobileMenu, style, isLoggedIn}) => (
 	<Menu.Menu position='right'>
 		{mobile &&
 				<Menu.Item onClick={() => handleToggleMobileMenu(true)} style={{padding: '15px', marginBottom: '15px'}}>
@@ -164,18 +173,30 @@ const MenuItemsRouting = ({activeItem, handleItemClick, mobile, handleToggleMobi
 				</Menu.Item>
 		}
 
-		{menuItems.map((menuItem, index) => // using index is silly here and will result in problems if ever we make menu items dynamic
-			<Menu.Item to={menuItem.path}
-				name={menuItem.name}
-				active={activeItem === menuItem.path}
-				onClick={handleItemClick}
-				key={index} // TODO: make less worse
-				style={style}>
-				{menuItem.displayName}
-			</Menu.Item>
-		)}
+		{/* using index is silly here and will result in problems if ever we make menu items dynamic */}
+		{menuItems.map((menuItem, index) => renderMenuItem({ activeItem, handleItemClick, mobile, style, menuItem }))}
+		{renderSignupMenuItem({ activeItem, handleItemClick, mobile, style, isLoggedIn })}
+
 	</Menu.Menu>
 )
+
+const renderSignupMenuItem = ({ activeItem, handleItemClick, mobile, style, isLoggedIn }) => {
+	let menuItem = (isLoggedIn ? logoutMenuItem : loginMenuItem);
+	return renderMenuItem({ activeItem, handleItemClick, mobile, style, menuItem });
+}
+
+const renderMenuItem = ({ activeItem, handleItemClick, mobile, style, menuItem }) => {
+	return (
+		<Menu.Item to={menuItem.path}
+			name={menuItem.name}
+			active={activeItem === menuItem.path}
+			onClick={handleItemClick}
+			style={style}>
+			{menuItem.displayName}
+		</Menu.Item>
+	)
+}
+
 
 const RoutingPaths = () => (
 	<Switch>

@@ -1,7 +1,7 @@
 INSERT INTO users (id, name, email, hash, salt) VALUES
-(1, 'Alex', 'faff@faff.faff', '', ''),
-(2, 'Darren', 'not@an.email', '', ''),
-(3, 'Michael', 'like@an.email', '', '');
+(1, 'Alex', 'faff@faff.faff',  ''),
+(2, 'Darren', 'not@an.email',  ''),
+(3, 'Michael', 'like@an.email',  '');
 
 INSERT INTO activities (id, name, points, type, units, source) VALUES
 (1, 'Push Ups', 10, 'interval', NULL, 'exercise'),

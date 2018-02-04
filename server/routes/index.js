@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 var db = require('../queries/queries');
 var isAuthenticated = require('./helpers').isAuthenticated;
+const passport = require('../app').passport;
+const bcrypt = require('../app').bcrypt;
 
 
 function Route(def, res, next) {
@@ -50,7 +52,6 @@ router.post('/user/:userid/activity', isAuthenticated, function(req, res, next) 
 });
 
 router.post('/user/:userid/activity/record', isAuthenticated, function(req, res, next) {
-	console.log("nolo");
 	let userID = parseInt(req.params.userid);
 	let args = {
 		userID: userID,
@@ -100,5 +101,42 @@ router.post('/user/:userid/activitylist/record', isAuthenticated, function(req, 
 	}
 	Route(db.recordUserActivityList(args), res, next);
 });
+
+router.post('/auth/login', passport.authenticate('local', {
+	successRedirect: '/',
+	failureRedirect: '/FAILURE', // TODO: make better/work
+	//failureFlash: true
+}));
+
+router.post('/auth/signup', function(req, res, next) {
+	let userID = req.body.username;
+	let password = req.body.password;
+	let email = req.body.email;
+	const saltRounds = 5;
+
+	bcrypt.genSalt(saltRounds, function(err, salt) {
+		bcrypt.hash(password, salt, function(err, hash) {
+			let args = {
+				userID: userID,
+				hash: hash,
+				email: email
+			};
+
+			Route(db.setNewUser(args), res, next);
+		});
+	});
+});
+
+router.post('/user/:userid/password/:password/record', function(req, res, next) {
+	let userID = parseInt(req.params.userid);
+	let password = parseInt(req.params.password);
+
+	let args = {
+		userID: userID,
+		password: password
+	}
+	Route(db.recordUserActivityList(args), res, next);
+});
+
 
 module.exports = router;

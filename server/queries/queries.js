@@ -2,6 +2,8 @@ const bodyParser = require('body-parser');
 const pgp = require('pg-promise')();
 const {users, activities, activity_league, uad, user_league} =
 	require('./db_schema');
+const bcrypt = require('../app').bcrypt;
+//const bcrypt = require('bcrypt');
 
 let connection = 'postgres://postgres:pass123@localhost:5432/ffitness';
 let CAST = uad.id.cast().__proto__.constructor;
@@ -26,18 +28,28 @@ function getUser(userID) {
 		});
 }
 
+function setNewUser(args) {
+	let {userID, hash, email} = args;
+	return db.none(`INSERT INTO users (name, email, hash) VALUES
+			($[userID], $[email], $[hash])`, args);
+}
+
 function setUser(userID, userData) {
 	return db.none('UPDATE users SET bio=$2 WHERE id = $1',
 		[userID, userData.bio]);
 }
 
 // TODO: this is mostly untested. Also, I'm conflating username and email
-function getUserByUserName(username) {
+function getUserByUserName(username, password) {
 	return db.one('SELECT * FROM users WHERE email = $1', username)
 		.then(function (user) {
-			// TODO: what is this?
-			unSafeUserKeys.forEach((key) => delete user[key]);
-			return user;
+			if (bcrypt.compareSync(password, user.hash)) {
+				unSafeUserKeys.forEach((key) => delete user[key]);
+				return user;
+			}
+			else {
+				return null;
+			}
 		});
 }
 
@@ -45,7 +57,8 @@ function getUserActivities(args) {
 	let {startDay, endDay, activity, source} = args;
 	let query = `SELECT activities.id as activity, activities.*, uad.id, uad.user, uad.day, uad.amount, uad.active FROM activities
 	             LEFT JOIN user_activity_day uad ON uad.activity = activities.id
-	             WHERE (uad.active IS NULL OR ("user" = $[userID] AND uad.active = true`;
+	             WHERE
+				 (uad.active IS NULL OR ("user" = $[userID] AND uad.active = true`;
 	if(endDay)
 		query += ' and day <= $[endDay]::date';
 	if(startDay)
@@ -108,6 +121,7 @@ module.exports = {
   getUser: getUser,
   getUserByUserName: getUserByUserName,
   setUser: setUser,
+  setNewUser: setNewUser,
   getUserActivities: getUserActivities,
   recordUserActivity: recordUserActivity,
   getActivityList: getActivityList,

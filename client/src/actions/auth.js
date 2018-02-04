@@ -62,11 +62,23 @@ export function login({ username, password }) {
 
 export function signup({ username, password, email }) {
 	return (dispatch) => {
-		fetch(signupPath, {
+		/*fetch(signupPath, {
 			username,
 			password,
 			email,
-		})
+		})*/
+    fetch(signupPath, {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json"
+      },
+        body: JSON.stringify({
+          username,
+          password,
+          email,
+        })
+      })
 			.then(res => {
 				debugger;
 				return res.json();
@@ -101,4 +113,3 @@ export function logout() {
 		});
 	};
 }
-

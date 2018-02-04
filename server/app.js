@@ -4,8 +4,14 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
-const db = require('./queries/queries');
+const bcrypt = require('bcrypt')
 
+module.exports = {
+	bcrypt: bcrypt,
+	passport: passport
+};
+
+const db = require('./queries/queries');
 
 // Serve static files from the React app in production. During development, run client app separately
 if (process.env.NODE_ENV === 'production') {
@@ -21,9 +27,12 @@ app.use(function(req, res, next) {
 
 
 
-// TODO: use this, or something like it, for hashing passwords
-//const bcrypt = require('bcrypt')
-
+// global helper function - will try really hard to print whatever you give it to stdout
+global.puts = function() {
+	for (let el of arguments) {
+		console.log(el);
+	}
+}
 
 
 // Configure the local strategy for use by Passport.
@@ -34,12 +43,15 @@ app.use(function(req, res, next) {
 // will be set at `req.user` in route handlers after authentication.
 passport.use(new Strategy(
 	function(username, password, cb) {
-		return db.getUserByUserName(username)
+		return db.getUserByUserName(username, password)
 			.then(function(user, err) {
 				// NOTE: currently doesn't ever return err
 
 				if (err) { return cb(err); }
 				if (!user) { return cb(null, false); }
+
+				// TODO: take out
+				//return cb(null, false);
 
 				// Also, we should add password checking. Currently that's disabled
 				//if (user.password != password) { return cb(null, false); }
@@ -105,11 +117,11 @@ app.use(passport.session());
 
 // login routing
 //app.use(flash());
-app.post('/auth/login', passport.authenticate('local', {
-	successRedirect: '/',
-	failureRedirect: '/FAILURE', // TODO: make better/work
+//app.post('/auth/login', passport.authenticate('local', {
+	//successRedirect: '/',
+	//failureRedirect: '/FAILURE', // TODO: make better/work
 	//failureFlash: true
-}));
+//}));
 
 
 // Routing

@@ -9,7 +9,6 @@ CREATE TABLE "users" (
 	"name" TEXT NOT NULL,
 	"email" TEXT NOT NULL,
 	"hash" TEXT NOT NULL,
-	"salt" TEXT NOT NULL,
 	"bio" TEXT
 );
 

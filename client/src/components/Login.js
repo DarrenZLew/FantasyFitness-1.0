@@ -3,6 +3,7 @@ import React from 'react';
 import { Segment, Container, Header, Form, Input, Message, Grid, Button } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { Auth } from '../actions';
 
 class Login extends React.Component {
@@ -82,7 +83,7 @@ class Login extends React.Component {
 							</Form>
 
 							<Message>
-								New to us? <a href='#'>Sign Up</a>
+								New to us? <a href='#' onClick={ () => this.props.history.push('/signup') }>Sign Up</a>
 							</Message>
 						</Grid.Column>
 					</Grid>
@@ -102,4 +103,5 @@ const mapDispatchToProps = (dispatch) => {
 	return bindActionCreators({ login }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+//export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));

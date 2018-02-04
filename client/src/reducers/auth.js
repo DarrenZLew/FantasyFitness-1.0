@@ -30,13 +30,14 @@ export default (state = initialState, action) => {
 
 			// Signup
 		case (Auth.Types.Signup):
-			if (action.payload.success)
-				return { ...state, username: action.payload.username };
+			if (action.payload.success) {
+				return { ...state, username: action.payload.username, loggedIn: true };
+			}
 			return { ...state, username: null, signupErrors: action.payload.errors };
 
-			// Logout - remove token in local storage
+			// Logout - remove token from local storage
 		case (Auth.Types.Logout):
-			return { ...state, token: null };
+			return { ...state, token: null, loggedIn: false };
 
 		default:
 			return state;

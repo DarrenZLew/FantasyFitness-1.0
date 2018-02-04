@@ -79,29 +79,29 @@ export function signup({ username, password, email }) {
           email,
         })
       })
-			.then(res => {
-				debugger;
-				return res.json();
-			})
-			.then((res) => {
-				dispatch({
-					type: Types.Signup,
-					payload: {
-						success: true,
-						username,
-					},
-				});
-			})
-			.catch((errors) => {
-				dispatch({
-					type: Types.Signup,
-					payload: {
-						success: false,
-						username,
-						errors,
-					},
-				});
-			});
+	  .then(res => {
+		  debugger;
+		  return res.json();
+	  })
+	  .then((res) => {
+		  dispatch({
+			  type: Types.Signup,
+			  payload: {
+				  success: true,
+				  username,
+			  },
+		  });
+	  })
+	  .catch((errors) => {
+		  dispatch({
+			  type: Types.Signup,
+			  payload: {
+				  success: false,
+				  username,
+				  errors,
+			  },
+		  });
+	  });
 	};
 }
 

@@ -11,7 +11,10 @@ import Rules from '../components/Rules';
 import ProfileForm from '../components/ProfileForm';
 import HeadToHead from '../components/HeadToHead';
 import LeagueScoreSheet from '../components/LeagueScoreSheet';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { conf } from '../App';
+import { Auth } from '../actions';
 
 
 class MenuHeader extends Component {
@@ -19,7 +22,8 @@ class MenuHeader extends Component {
 		super(props);
 
 		conf.onNetworkError = () => {
-			this.doRoute(LOGIN_PATH); // TODO: make this path a constant
+			this.doRoute(LOGIN_PATH);
+			this.props.logout();
 		};
 
 		// primt the pump
@@ -189,5 +193,17 @@ const RoutingPaths = () => (
 	</Switch>
 )
 
+
+const mapStateToProps = (state) => {
+	return { ...state.auth };
+}
+
+const mapDispatchToProps = (dispatch) => {
+	const { logout } = Auth;
+	return bindActionCreators({ logout }, dispatch);
+}
+
+
 // withRouter injects history props to trigger routing
-export default withRouter(MenuHeader);
+//export default withRouter(MenuHeader);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MenuHeader));

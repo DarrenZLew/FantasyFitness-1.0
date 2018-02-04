@@ -48,6 +48,17 @@ class SignUp extends React.Component {
 		render() {
 			const { username, password, email} = this.state;
 			const { signup, login } = this.props;
+
+			if (this.props.loggedIn) {
+				return (
+					<div>
+						<h1 textAlign='center'>
+							Success, boyo!
+						</h1>
+					</div>
+				)
+			}
+
 			return (
 				<div>
 					<div style={{ height: '100vh' }}>
@@ -96,16 +107,16 @@ class SignUp extends React.Component {
 				</div>
 			)
 		}
-	}
+}
 
 
-	const mapStateToProps = (state) => {
-		return { ...state.auth };
-	}
+const mapStateToProps = (state) => {
+	return { ...state.auth };
+}
 
-	const mapDispatchToProps = (dispatch) => {
-		const { login, signup } = Auth;
-		return bindActionCreators({ login, signup }, dispatch);
-	}
+const mapDispatchToProps = (dispatch) => {
+	const { login, signup } = Auth;
+	return bindActionCreators({ login, signup }, dispatch);
+}
 
-	export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

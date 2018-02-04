@@ -7,7 +7,7 @@ CREATE DATABASE ffitness;
 CREATE TABLE "users" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"name" TEXT NOT NULL,
-	"email" TEXT NOT NULL,
+	"email" TEXT NOT NULL UNIQUE,
 	"hash" TEXT NOT NULL,
 	"bio" TEXT
 );

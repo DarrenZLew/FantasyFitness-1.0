@@ -1,6 +1,6 @@
 const bodyParser = require('body-parser');
 const pgp = require('pg-promise')();
-const {users, activities, activity_league, uad, user_league} =
+const { users, activities, activity_league, uad, user_league } =
 	require('./db_schema');
 
 let connection = 'postgres://postgres:pass123@localhost:5432/ffitness';
@@ -11,9 +11,36 @@ let PARAMETER = uad.id.equals("faff").right.__proto__.constructor;
 if (process.env.NODE_ENV === 'production') {
 	connection = process.env.DATABASE_URL;
 }
-let	db = pgp(connection);
+let db = pgp(connection);
+
+function parseInSet(in_set, keys) {
+	return in_set.map((val, i, arr) => {
+		if (val instanceof Object) {
+			let key = keys.find((key) => key in val);
+			return val[key];
+		}
+		return val;
+	});
+}
 
 let unSafeUserKeys = ['hash', 'salt'];
+function getUsers(args) {
+	let { user, league, in_set } = args;
+	var q = users.select(users.star())
+		.from(users.join(user_league).on(users.id.equals(user_league.user)));
+	if (league) {
+		q = q.where(user_league.league.equals(league));	
+	}
+	if (user) {
+		q = q.where(users.id.equals(user));
+	}
+	q = q.toQuery()
+	return db.any(q.text, q.values)
+		.then(function (user) {
+			unSafeUserKeys.forEach((key) => delete user[key]);
+			return user;
+		});
+}
 function getUser(userID) {
 	var q = users.select(users.star())
 		.from(users)
@@ -42,20 +69,25 @@ function getUserByUserName(username) {
 }
 
 function getUserActivities(args) {
-	let {startDay, endDay, activity, source} = args;
-	let query = `SELECT activities.id as activity, activities.*, uad.id, uad.user, uad.day, uad.amount, uad.active FROM activities
-	             LEFT JOIN user_activity_day uad ON uad.activity = activities.id
-	             WHERE (uad.active IS NULL OR ("user" = $[userID] AND uad.active = true`;
-	if(endDay)
-		query += ' and day <= $[endDay]::date';
-	if(startDay)
-		query += ' and day >= $[startDay]::date';
-	query += '))';
-	if(activity)
-		query += ' and activity = $[activity]';
-	if(source)
-		query += ' and source = $[source]';
-	return db.any(query, args);
+	let { startDay, endDay, activity, source, user_in, activity_in } = args;
+	let query = uad.select(uad.star()).from(uad);
+	if (startDay)
+		query = query.where(uad.day.gte(new CAST(new PARAMETER(startDay), 'date')));
+	if (endDay)
+		query = query.where(uad.day.lte(new CAST(new PARAMETER(endDay), 'date')));
+	if (activity)
+		query = query.where(uad.activity.equals(activity))
+	if (user_in) {
+		user_inset = parseInSet(user_in, ['id']);
+		query = query.where(uad.user.in(user_inset));
+	}
+	if (activity_in) {
+		activity_inset = parseInSet(activity_in, ['id']);
+		query = query.where(uad.activity.in(activity_inset));
+	}
+	query.order(uad.user).order(uad.activity);
+	query = query.toQuery();
+	return db.any(query.text, query.values);
 }
 
 function recordUserActivity(args) {
@@ -64,19 +96,23 @@ function recordUserActivity(args) {
 		DO UPDATE set amount = $[amount] RETURNING amount`, args);
 }
 
-function getActivityList(args) {
-	let {day, activity, source} = args;
-	let query = `SELECT activities.id as activity, activities.*, uad.id, uad.user, uad.day, uad.amount, uad.active FROM activities
-							 LEFT JOIN user_activity_day uad ON uad.activity = activities.id
-							 WHERE (uad.active is NULL OR ("user" = $[userID]`;
-	if(day)
-		query += ' and day = $[day]::date';
-	query += '))';
-	if (activity)
-		query += ' and activity = $[activity]';
+function getActivities(args) {
+	let { type, in_set, league, source } = args;
+	let query = activities.select(activities.star())
+		.from(activities.join(activity_league).on(activity_league.activity.equals(activities.id)));
+	if (type)
+		query = query.where(activities.type.equals(type));
+	if (in_set) {
+		in_set = parseInSet(in_set, ['activity']);
+		query = query.where(activities.id.in(in_set));
+	}
 	if (source)
-		query += ' and source = $[source]';
-	return db.any(query, args);
+		query = query.where(activities.source.equals(source));
+	if (league) {
+		query = query.where(activity_league.league.equals(league));
+	}
+	query = query.toQuery();
+	return db.any(query.text, query.values);
 }
 
 function recordUserActivityList(args) {
@@ -86,31 +122,31 @@ function recordUserActivityList(args) {
 }
 
 function getLeagueScores(args) {
-	let {leagueID, startDay, endDay} = args;
+	let { leagueID, startDay, endDay } = args;
 	var qWhere = activity_league.league.equals(leagueID);
-	if(startDay)
+	if (startDay)
 		qWhere = qWhere.and(uad.day.gte(new CAST(new PARAMETER(startDay), 'date')));
-	if(endDay)
+	if (endDay)
 		qWhere = qWhere.and(uad.day.lte(new CAST(new PARAMETER(endDay), 'date')));
 	let q = uad
 		.select(uad.star())
 		.from(user_league
 			.join(activity_league).on(user_league.league.equals(activity_league.league))
 			.join(uad).on(user_league.user.equals(uad.user).and(uad.activity.equals(activity_league.activity)))
-			)
+		)
 		.where(qWhere)
 		.toQuery();
-	console.log(q.text);
 	return db.any(q.text, q.values);
 }
 
 module.exports = {
-  getUser: getUser,
-  getUserByUserName: getUserByUserName,
-  setUser: setUser,
-  getUserActivities: getUserActivities,
-  recordUserActivity: recordUserActivity,
-  getActivityList: getActivityList,
-  recordUserActivityList: recordUserActivityList,
-  getLeagueScores: getLeagueScores
+	getUsers,
+	getUser,
+	getUserByUserName,
+	setUser,
+	getUserActivities,
+	recordUserActivity,
+	getActivities,
+	recordUserActivityList,
+	getLeagueScores
 };

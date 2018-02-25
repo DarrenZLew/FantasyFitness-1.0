@@ -17,8 +17,8 @@ export default (state = initialState, action) => {
 		case (ScoreFormActions.Types.UpdateActivity):
 			if (action.payload.success) {
 				let newState = JSON.parse(JSON.stringify(state))
-				const { index, type, submitData, newValue } = action.payload
-				if (action.payload.source === 'exercise') {
+				const { index, type, submitData, newValue, source } = action.payload
+				if (source === 'exercise') {
 					switch (type) {
 						case 'interval':
 							// newValue = parseFloat(newValue)
@@ -49,7 +49,7 @@ export default (state = initialState, action) => {
 						default:
 							return state
 					}
-				} else if (action.payload.source === 'bonus') {
+				} else if (source === 'bonus') {
 					let newState = JSON.parse(JSON.stringify(state))
 					newState.activities.bonuses[index].value = newState.activities.bonuses[index].value === 1 ? null : 1
 					return newState
@@ -88,6 +88,7 @@ export default (state = initialState, action) => {
 			}
 		case (ScoreFormActions.Types.RemoveActivity):
 			if (action.payload.success) {
+				console.log('helo')
 				const { activeActivity, id } = action.payload
 				let newState = JSON.parse(JSON.stringify(state))
 				const idx = newState.activeActivities.findIndex(active => active.value === activeActivity)
@@ -104,42 +105,49 @@ export default (state = initialState, action) => {
 		case (ScoreFormActions.Types.ActivitiesFetchDataSuccess):
 			if (action.payload.success) {
 				// individual user activity scores
-				const activities = action.payload.activities.data
-				let newState = JSON.parse(JSON.stringify(state))
+				const userActivities = action.payload.activities.data.user_activities;
+				const activities = action.payload.activities.data.activities;
+				let newState = JSON.parse(JSON.stringify(state));
+				let newExercises = [];
+				let newBonuses = [];
+				debugger
 				// Update initial values of activity to newly submitted value
-				let newActivities = activities.map(activity => {
-					if (activity.source === 'exercise') {
-						if (activity.type === 'timer') {
-							const min = activity.amount % 60
-							const hr = Math.floor(activity.amount / 60)
-							const newValues = {
-								value: {
-									hr: hr,
-									min: min
-								},
-								initialValue: {
-									hr: hr,
-									min: min
-								}
+				activities.forEach(activity => {
+					// Check if the user has record of the activity in the league
+					let currActIndex = userActivities.findIndex(currAct => currAct.activity === activity.id);
+					if (currActIndex !== -1 && userActivities[currActIndex].active) {
+						if (activity.source === 'exercise') {
+							if (activity.type === 'timer') {
+								const min = userActivities[currActIndex].amount % 60;
+								const hr = Math.floor(userActivities[currActIndex].amount / 60);
+								const newValues = {
+									value: { hr, min },
+									initialValue: { hr, min }
+								};
+								newExercises.push({
+									...activity,
+									value: { hr, min },
+									initialValue: { hr, min }
+								});
+							} else {
+								newExercises.push({
+									...activity,
+									value: userActivities[currActIndex].amount,
+									initialValue: userActivities[currActIndex].amount
+								});
 							}
-							return Object.assign({}, activity, newValues)
+						} else if (activity.source === 'bonus') {
+							// bonus is complete/true
+							newBonuses.push({
+								...activity,
+								value: userActivities[currActIndex].amount
+							});
 						}
-						return Object.assign({}, activity, {
-							value: activity.amount,
-							initialValue: activity.amount
-						})
-					} else if (activity.source === 'bonus') {
-						// bonus is complete/true
-						return Object.assign({}, activity, {value: activity.amount || null})
 					}
-				}
-				)
-				if (action.payload.source === 'exercise') {
-					newState.activities.exercises = newActivities
-				} else if (action.payload.source === 'bonus') {
-					newState.activities.bonuses = newActivities
-				}
-				return newState
+				});
+				newState.activities.exercises = newExercises;
+				newState.activities.bonuses = newBonuses;
+				return newState;
 			}
 		case (ScoreFormActions.Types.ActivitiesListFetchDataSuccess):
 			if (action.payload.success) {

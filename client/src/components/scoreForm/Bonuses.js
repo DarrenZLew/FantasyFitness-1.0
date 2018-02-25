@@ -10,11 +10,6 @@ class Bonuses extends Component {
 		this.setState({ activeIndexDetails })
 	}
 
-	// Call action to load initial exercises when component renders
-	componentDidMount = () => {
-		this.props.activitiesFetchData('20171105','bonus')
-	}
-
 	render() {
 		const { activeIndexDetails } = this.state
 		const { bonuses, double, handleSubmit } = this.props
@@ -25,7 +20,7 @@ class Bonuses extends Component {
 					<Grid.Column>
 						{bonuses.map((bonus, index) => {
 							const detailsVisible = activeIndexDetails === index ? true : false
-							const { activity, name, value, points } = {...bonus}
+							const { id, name, value, points } = {...bonus}
 							let [submitColor, iconName] = value === 1 ? ['green', 'thumbs up'] : ['red', 'thumbs down']
 							return (
 								<Sidebar.Pushable
@@ -36,7 +31,7 @@ class Bonuses extends Component {
 									<Sidebar
 										as={Button}
 										type='button'
-										onClick={() => handleSubmit(activity, index, 'bonus', '20171105', value)}
+										onClick={() => handleSubmit(id, index, 'bonus', '20171105', value)}
 										animation='overlay'
 										direction='right'
 										style={{width: '100px'}}

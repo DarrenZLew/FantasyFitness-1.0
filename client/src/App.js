@@ -5,12 +5,6 @@ import 'react-dates/initialize';
 
 class App extends Component {
 
-	componentDidMount() {
-		fetch('/api')
-			.then(res => res.json())
-			.catch(err => console.log(err))
-	}
-
 	render() {
 		return (
 				<Router>

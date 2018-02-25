@@ -21,16 +21,14 @@ INSERT INTO activities (id, name, points, type, units, source) VALUES
 (15, 'Tabata', 1500, NULL, NULL, 'bonus');
 
 INSERT INTO user_activity_day ("user", activity, day, amount, active) VALUES
-(1, 2, to_date('20171104', 'YYYYMMDD'), 100, true),
-(1, 1, to_date('20171103', 'YYYYMMDD'), 10, true),
-(1, 1, to_date('20171124', 'YYYYMMDD'), 10, true),
-(1, 2, to_date('20171105', 'YYYYMMDD'), 10, false),
-(1, 4, to_date('20171105', 'YYYYMMDD'), 2, false),
-(1, 5, to_date('20171105', 'YYYYMMDD'), 10, false),
+(1, 2, to_date('20171105', 'YYYYMMDD'), 2, true),
+(1, 3, to_date('20171105', 'YYYYMMDD'), 10, true),
+(1, 4, to_date('20171105', 'YYYYMMDD'), 2, true),
+(1, 5, to_date('20171105', 'YYYYMMDD'), 10, true),
 (1, 6, to_date('20171105', 'YYYYMMDD'), 50, true),
-(1, 7, to_date('20171105', 'YYYYMMDD'), 50, false),
+(1, 7, to_date('20171105', 'YYYYMMDD'), 50, true),
 (1, 9, to_date('20171105', 'YYYYMMDD'), 50, true),
-(1, 10, to_date('20171105', 'YYYYMMDD'), 50, false),
+(1, 10, to_date('20171105', 'YYYYMMDD'), 50, true),
 (1, 11, to_date('20171105', 'YYYYMMDD'), 10, true),
 (1, 12, to_date('20171105', 'YYYYMMDD'), 70, true),
 (1, 13, to_date('20171105', 'YYYYMMDD'), 0, true),
@@ -41,10 +39,21 @@ INSERT INTO leagues (startdate, name) VALUES
 (NOW(), 'Test League2');
 
 INSERT INTO activity_league (league, activity) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
 (1, 5),
 (1, 6),
-(2, 7),
-(2, 8);
+(1, 7),
+(1, 8),
+(1, 9),
+(1, 10),
+(1, 11),
+(1, 12),
+(1, 13),
+(1, 14),
+(1, 15);
 
 INSERT INTO user_league (league, "user") VALUES
 (1, 1),

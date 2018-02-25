@@ -35,7 +35,7 @@ router.post('/user/:userid', isAuthenticated, function (req, res, next) {
 	Route(db.setUser(userID, req.body), res, next);
 });
 
-router.post('/user/:userid/activity', isAuthenticated, function (req, res, next) {
+router.post('/user/:userid/activity', function (req, res, next) {
 	let userID = parseInt(req.params.userid);
 	let args = {
 		userID: userID,
@@ -43,8 +43,7 @@ router.post('/user/:userid/activity', isAuthenticated, function (req, res, next)
 		endDay: req.body.day || req.body.endDay,
 		activity: req.body.activity,
 		limit: req.body.limit || 20,
-		page: req.body.page || 0,
-		source: req.body.source,
+		page: req.body.page || 0
 	}
 
 	Route(async function () {
@@ -54,7 +53,7 @@ router.post('/user/:userid/activity', isAuthenticated, function (req, res, next)
 	}(), res, next);
 });
 
-router.post('/user/:userid/activity/record', isAuthenticated, function (req, res, next) {
+router.post('/user/:userid/activity/record', function (req, res, next) {
 	let userID = parseInt(req.params.userid);
 	let args = {
 		userID: userID,

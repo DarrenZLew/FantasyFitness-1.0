@@ -29,7 +29,7 @@ function getUsers(args) {
 	var q = users.select(users.star())
 		.from(users.join(user_league).on(users.id.equals(user_league.user)));
 	if (league) {
-		q = q.where(user_league.league.equals(league));	
+		q = q.where(user_league.league.equals(league));
 	}
 	if (user) {
 		q = q.where(users.id.equals(user));
@@ -76,7 +76,7 @@ function getUserActivities(args) {
 	if (endDay)
 		query = query.where(uad.day.lte(new CAST(new PARAMETER(endDay), 'date')));
 	if (activity)
-		query = query.where(uad.activity.equals(activity))
+		query = query.where(uad.activity.equals(activity));
 	if (user_in) {
 		user_inset = parseInSet(user_in, ['id']);
 		query = query.where(uad.user.in(user_inset));
@@ -106,8 +106,6 @@ function getActivities(args) {
 		in_set = parseInSet(in_set, ['activity']);
 		query = query.where(activities.id.in(in_set));
 	}
-	if (source)
-		query = query.where(activities.source.equals(source));
 	if (league) {
 		query = query.where(activity_league.league.equals(league));
 	}

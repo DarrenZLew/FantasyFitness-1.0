@@ -8,7 +8,15 @@ import Challenge from './Challenge';
 import Bonuses from './Bonuses';
 import ActivitiesDropList from './ActivitiesDropList';
 
+const date = '20171105';
+
 class ScoreForm extends Component {
+
+	// Call action to load initial exercises when component renders
+	componentDidMount = () => {
+		this.props.activitiesFetchData(date);
+		// this.props.activitiesListFetchData(date, source)
+	}
 
 	render() {
 		const { double, activities } = this.props
@@ -29,7 +37,6 @@ class ScoreForm extends Component {
 					bonuses={activities.bonuses}
 					double={double}
 					handleSubmit={activitiesSubmitData}
-					activitiesFetchData={activitiesFetchData}
 				/>
 				<Header size='large' textAlign='center'>Activities</Header>
 				<Exercises
@@ -37,7 +44,6 @@ class ScoreForm extends Component {
 					double={double}
 					handleSubmit={activitiesSubmitData}
 					defaultActivities={defaultActivities}
-					activitiesFetchData={activitiesFetchData}
 					updateActivity={updateActivity}
 					activitiesListFetchData={activitiesListFetchData}
 				/>

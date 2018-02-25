@@ -2,9 +2,15 @@ import React, { Component } from 'react';
 import { Table, Form, Icon, Popup, Grid, Segment, Sidebar, Button } from 'semantic-ui-react';
 import { netChange, pointsAppendUnits, doublePoints, favoriteActivity } from './ScoreFormFunctions';
 
+const date = '20171105';
+const source = 'exercise';
+
 class Exercises extends Component {
 
-	state = { activeIndexSubmit: -1, activeIndexDetails: -1 } 
+	state = {
+		activeIndexSubmit: -1,
+		activeIndexDetails: -1
+	}
 
 	toggleVisibilitySubmit = (activeIndexSubmit) => {
 		this.setState({ activeIndexSubmit, activeIndexDetails: -1 })}
@@ -14,15 +20,9 @@ class Exercises extends Component {
 		this.setState({ activeIndexDetails, activeIndexSubmit: -1})
 	}
 
-	// Call action to load initial exercises when component renders
-	componentDidMount = () => {
-		this.props.activitiesFetchData('20171105','exercise')
-		this.props.activitiesListFetchData('20171105','exercise')
-	}
-
 	render() {
 		const { activeIndexSubmit, activeIndexDetails } = this.state
-		const { exercises, double, handleSubmit, defaultActivities } = this.props 
+		const { exercises, double, handleSubmit, defaultActivities, updateActivity } = this.props
 
 		return (
 			<Grid>
@@ -32,10 +32,10 @@ class Exercises extends Component {
 						{exercises.map((exercise, index) => {
 							const submitVisible = activeIndexSubmit === index ? true : false
 							const detailsVisible = activeIndexDetails === index ? true : false
-							let { activity, name, points, units, type, initialValue, value } = {...exercise}
+							let { id, name, points, units, type, initialValue, value } = {...exercise}
 							initialValue = initialValue || (type === "interval" ? 0 : {hr: 0, min: 0});
 							let [netChangeValue, netChangeStyle] = netChange(exercises, type, index)
-							let favorite = favoriteActivity(name, defaultActivities)													
+							let favorite = favoriteActivity(name, defaultActivities)
 							let [formatPoints, formatName] = doublePoints(name, double, points)
 							formatPoints = pointsAppendUnits(formatPoints, type, units)
 							let step
@@ -48,52 +48,52 @@ class Exercises extends Component {
 									step = 0.5
 									break;
 								default:
-									step = 1		
+									step = 1
 							}
 
 							let activityInput = type === 'interval' ?
 								<Form.Input
 									type='number'
-									defaultValue={initialValue} 
-									width={8} 
-									min={0} 
+									defaultValue={initialValue}
+									width={8}
+									min={0}
 									max={9999}
 									step={step}
-									onChange={(e) => this.props.updateActivity('exercise', index, type, initialValue, e.target.value)}
+									onChange={(e) => updateActivity(source, index, type, initialValue, e.target.value)}
 									onFocus={() => this.toggleVisibilitySubmit(index)}
-								/>							
+								/>
 							:
 								<Form.Group>
-									<Form.Input 
+									<Form.Input
 										type='number'
-										defaultValue={initialValue.hr} 
-										min={0} 
+										defaultValue={initialValue.hr}
+										min={0}
 										max={99}
-										onChange={(e) => this.props.updateActivity('exercise', index, 'hr', initialValue, e.target.value)}
+										onChange={(e) => updateActivity(source, index, 'hr', initialValue, e.target.value)}
 										onFocus={() => this.toggleVisibilitySubmit(index)}
 									/>
-									<Form.Input 
+									<Form.Input
 										type='number'
-										defaultValue={initialValue.min} 
-										min={0} 
+										defaultValue={initialValue.min}
+										min={0}
 										max={59}
-										onChange={(e) => this.props.updateActivity('exercise', index, 'min', initialValue, e.target.value)}
+										onChange={(e) => updateActivity(source, index, 'min', initialValue, e.target.value)}
 										onFocus={() => this.toggleVisibilitySubmit(index)}
-									/>									
+									/>
 								</Form.Group>
 							return (
-								<Sidebar.Pushable 
-									as={Segment} 
+								<Sidebar.Pushable
+									as={Segment}
 									key={name}
 									style={{boxShadow: '2px 2px 5px 3px rgba(34,36,38,.15)', border: 'none'}}
 								>
-									<Sidebar 
-										as={Button} 
-										type='button' 
-										onClick={() => handleSubmit(activity, index, 'exercise', '20171105', initialValue, value, type)}
-										animation='overlay' 
-										direction='right' 
-										style={{width: '100px'}} 
+									<Sidebar
+										as={Button}
+										type='button'
+										onClick={() => handleSubmit(id, index, source, date, initialValue, value, type)}
+										animation='overlay'
+										direction='right'
+										style={{width: '100px'}}
 										visible={submitVisible}>
 										Submit
 									</Sidebar>
@@ -113,18 +113,18 @@ class Exercises extends Component {
 											Other stuff - links?
 										</div>
 										<div>
-											Week's Total:  
+											Week's Total:
 										</div>
 									</Sidebar>
 									<Sidebar.Pusher>
 										<Segment>
 											<div style={{padding: '10px', fontSize: '1.3em'}}>
 												<span onClick={() => this.toggleVisibilityDetails(index)}>
-													{name} 
+													{name}
 													{!detailsVisible && <Icon name='caret down' />}
 													{detailsVisible && <Icon name='caret right' />}
-												</span> 
-												{netChangeValue !== '0' && netChangeValue !== '0 Mins' && 
+												</span>
+												{netChangeValue !== '0' && netChangeValue !== '0 Mins' &&
 													<span	style={netChangeStyle}>
 														{netChangeValue}
 													</span>
@@ -136,13 +136,13 @@ class Exercises extends Component {
 										</Segment>
 									</Sidebar.Pusher>
 								</Sidebar.Pushable>
-							)									
+							)
 						})}
 					</Grid.Column>
-				</Grid.Row>	
+				</Grid.Row>
 				{/* Computer score Form */}
 				<Grid.Row only='computer'>
-					<Grid.Column>		
+					<Grid.Column>
 						<Table selectable size='small'>
 							<Table.Header>
 								<Table.Row>
@@ -172,62 +172,62 @@ class Exercises extends Component {
 							</Table.Header>
 							<Table.Body>
 								{exercises.map((exercise, index) => {
-									let { activity, name, initialValue, points, units, type, value } = {...exercise}
+									let { id, name, initialValue, points, units, type, value } = {...exercise}
 									let [netChangeValue, netChangeStyle] = netChange(exercises, type, index)
-									let favorite = favoriteActivity(name, defaultActivities)							
+									let favorite = favoriteActivity(name, defaultActivities)
 									let [formatPoints, formatName] = doublePoints(name, double, points)
 									initialValue = initialValue || (type === "interval" ? 0 : {hr: 0, min: 0});
 									formatPoints = pointsAppendUnits(formatPoints, type, units)
 									return (
 										<Table.Row key={index}>
 											<Table.Cell>
-												{name} 
+												{name}
 											</Table.Cell>
 											<Table.Cell>
 												{points}
 											</Table.Cell>
-											{type === 'interval' && 
+											{type === 'interval' &&
 											<Table.Cell>
 												{initialValue} {units}
 											</Table.Cell>
 											}
-											{type === 'interval' && 
+											{type === 'interval' &&
 											<Table.Cell>
 												<Form.Input
 													type='number'
-													defaultValue={initialValue} 
-													width={8} 
-													min={0} 
+													defaultValue={initialValue}
+													width={8}
+													min={0}
 													max={9999}
-													onChange={(e) => this.props.updateActivity('exercise', index, type, initialValue, e.target.value)}
+													onChange={(e) => updateActivity(source, index, type, initialValue, e.target.value)}
 													onFocus={() => this.toggleVisibilitySubmit(index)}
-												/>	
+												/>
 											</Table.Cell>
 											}
-											{type === 'timer' && 
+											{type === 'timer' &&
 											<Table.Cell>
 												{initialValue.hr} Hrs {initialValue.min} Min
 											</Table.Cell>
 											}
-											{type === 'timer' && 
+											{type === 'timer' &&
 											<Table.Cell>
 												<Form.Group>
-													<Form.Input 
+													<Form.Input
 														type='number'
-														defaultValue={initialValue.hr} 
-														min={0} 
+														defaultValue={initialValue.hr}
+														min={0}
 														max={99}
 														label='Hrs'
-														onChange={(e) => this.props.updateActivity('exercise', index, 'hr', initialValue, e.target.value)}
+														onChange={(e) => updateActivity(source, index, 'hr', initialValue, e.target.value)}
 														onFocus={() => this.toggleVisibilitySubmit(index)}
 													/>
-													<Form.Input 
+													<Form.Input
 														type='number'
-														defaultValue={initialValue.min} 
-														min={0} 
+														defaultValue={initialValue.min}
+														min={0}
 														max={59}
 														label='Mins'
-														onChange={(e) => this.props.updateActivity('exercise', index, 'min', initialValue, e.target.value)}
+														onChange={(e) => updateActivity(source, index, 'min', initialValue, e.target.value)}
 														onFocus={() => this.toggleVisibilitySubmit(index)}
 													/>
 												</Form.Group>
@@ -236,16 +236,16 @@ class Exercises extends Component {
 												{netChangeValue}
 											</Table.Cell>
 											<Table.Cell>
-												<Button 
+												<Button
 													type='button'
-													onClick={() => handleSubmit(activity, index, 'exercise', '20171105', initialValue, value, type)} 
-												>													
+													onClick={() => handleSubmit(id, index, source, date, initialValue, value, type)}
+												>
 													Submit
 												</Button>
-											</Table.Cell>										
+											</Table.Cell>
 										</Table.Row>
 									)
-								})}	
+								})}
 							</Table.Body>
 						</Table>
 					</Grid.Column>

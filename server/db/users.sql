@@ -32,7 +32,10 @@ INSERT INTO user_activity_day ("user", activity, day, amount, active) VALUES
 (1, 11, to_date('20171105', 'YYYYMMDD'), 10, true),
 (1, 12, to_date('20171105', 'YYYYMMDD'), 70, true),
 (1, 13, to_date('20171105', 'YYYYMMDD'), 0, true),
-(1, 15, to_date('20171105', 'YYYYMMDD'), 0, true);
+(1, 15, to_date('20171105', 'YYYYMMDD'), 0, true),
+(2, 2, to_date('20171105', 'YYYYMMDD'), 20, true),
+(2, 3, to_date('20171105', 'YYYYMMDD'), 5, true),
+(2, 3, to_date('20171113', 'YYYYMMDD'), 5, true);
 
 INSERT INTO leagues (startdate, name) VALUES
 (NOW(), 'Test League'),

@@ -1,137 +1,123 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Table, Icon } from 'semantic-ui-react';
-import { LeagueScoreSheetActions } from '../actions';
-import { bindActionCreators } from 'redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Table } from "semantic-ui-react";
+import { LeagueScoreSheetActions, Common } from "../actions";
+import { bindActionCreators } from "redux";
+import { SchedulePickerGroup } from "./common";
 
 class LeagueScoreSheet extends Component {
+  componentDidMount = () => {
+    this.props.leagueScoreFetchData(
+      this.props.schedule.startDay,
+      this.props.schedule.endDay
+    );
+  };
 
-	handleSort = e => {
-		e.preventDefault()
-			if (e.target.id !== 'sortIcon') {
-				this.props.sortLeagueScoreSheet(e.target.id)
-			}
-	}
-
-	render() {
-		const { activities, users } = this.props
-		
-		return (
-			<div style={{overflowX: 'scroll'}}>
-				<Table
-					style={{margin: '2% auto'}}
-					celled size='large'
-					definition
-					textAlign='center'
-				>
-					<Table.Header>
-						<Table.Row>
-							<Table.HeaderCell />
-							{activities.map(activity =>
-								<Table.HeaderCell
-									key={activity.name}
-									verticalAlign='top'
-									onClick={this.handleSort}
-									id={activity.name}
-								>
-								{activity.name}
-								<br />
-								{this.props.sort === activity.name && 
-								<Icon 
-									name='triangle down'
-									id='sortIcon'
-									size='big'/>
-								}
-								</Table.HeaderCell>)
-							}
-							<Table.HeaderCell
-								onClick={this.handleSort}
-								id='headtohead'>
-								Head to Head
-								{this.props.sort === 'headtohead' &&
-								<Icon
-									name='triangle down'
-									id='sortIcon'
-									size='big'/>
-								}
-							</Table.HeaderCell>
-							<Table.HeaderCell
-								onClick={this.handleSort}
-								id='total'
-							>
-								Total
-								{this.props.sort === 'total' &&
-								<Icon
-									name='triangle down'
-									id='sortIcon'
-									size='big'
-								/>
-								}
-							</Table.HeaderCell>
-						</Table.Row>
-						<Table.Row>
-							<Table.HeaderCell />
-								{activities.map((activity, index) => 
-									<Table.HeaderCell 
-										key={activity.name + index}
-									>
-									{activity.value}
-									</Table.HeaderCell>)
-								}
-							<Table.HeaderCell />
-						<Table.HeaderCell />
-					</Table.Row>
-				</Table.Header>
-					<Table.Body>
-						{users.map(user => (
-							<Table.Row key={user.id}>
-								<Table.Cell 
-									textAlign='center'>
-									{user.username}
-								</Table.Cell>
-								{user.activities.map(activity => {
-									if (activity.value.hasOwnProperty('hr')) {
-										let hr = activity.value.hr
-										let min = activity.value.min
-										if (hr < 10) {
-											hr = '0' + hr
-										}
-										if (min < 10) {
-											min = '0' + min
-										}
-										return (
-											<Table.Cell key={activity.name}>
-												{hr}:{min}
-											</Table.Cell>
-										)
-									} else {
-										return (
-											<Table.Cell 
-												key={activity.name}>
-												{activity.value}
-											</Table.Cell>
-										)
-									}
-								})}
-								<Table.Cell>{user.headtohead}</Table.Cell>
-								<Table.Cell>{user.total}</Table.Cell>
-							</Table.Row>
-						))}
-					</Table.Body>
-				</Table>
-			</div>
-		)
-	}
+  render() {
+    const {
+      activities,
+      users,
+      leagueActivities,
+      schedule,
+      updateWeek,
+      globalSchedule
+    } = this.props;
+    return (
+      <div style={{ height: "100vh", overflowX: "scroll" }}>
+        <SchedulePickerGroup
+          schedule={globalSchedule}
+          week={schedule.week}
+          updateWeek={updateWeek}
+        />
+        <Table
+          style={{ margin: "2% auto" }}
+          celled
+          size="large"
+          definition
+          textAlign="center"
+        >
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell />
+              {leagueActivities.map(activity => (
+                <Table.HeaderCell
+                  key={activity.name}
+                  verticalAlign="top"
+                  id={activity.name}
+                >
+                  {activity.name}
+                  <br />
+                </Table.HeaderCell>
+              ))}
+              <Table.HeaderCell id="total">
+                Total
+              </Table.HeaderCell>
+            </Table.Row>
+            <Table.Row>
+              <Table.HeaderCell />
+              {leagueActivities.map((activity, index) => (
+                <Table.HeaderCell key={activity.name + index}>
+                  {activity.points}
+                </Table.HeaderCell>
+              ))}
+              <Table.HeaderCell />
+              <Table.HeaderCell />
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {users.map(user => (
+              <Table.Row key={user.id}>
+                <Table.Cell textAlign="center">{user.name}</Table.Cell>
+                {user.activities.map(activity => {
+                  if (activity.type === "timer") {
+                    let hr = Math.floor(activity.amount / 60);
+                    let min = activity.amount % 60;
+                    hr = hr < 10 ? "0" + hr : hr;
+                    min = min < 10 ? "0" + min : min;
+                    return (
+                      <Table.Cell key={activity.name}>
+                        {hr}:{min}
+                      </Table.Cell>
+                    );
+                  } else {
+                    return (
+                      <Table.Cell key={activity.name}>
+                        {activity.amount}
+                      </Table.Cell>
+                    );
+                  }
+                })}
+                <Table.Cell>{user.total}</Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = (state) => {
-	console.log(state)
-	return { ...state.leagueScoreSheet }
-}
+const mapStateToProps = state => {
+  return {
+    ...state.leagueScoreSheet,
+    ...state.common
+  };
+};
 
-const mapDispatchToProps = (dispatch) => {
-	const { sortLeagueScoreSheet } = LeagueScoreSheetActions
-		return bindActionCreators({ sortLeagueScoreSheet }, dispatch)
-}
+const mapDispatchToProps = dispatch => {
+  const {
+    sortLeagueScoreSheet,
+    leagueScoreFetchData,
+    updateWeek
+  } = LeagueScoreSheetActions;
+  return bindActionCreators(
+    {
+      sortLeagueScoreSheet,
+      leagueScoreFetchData,
+      updateWeek
+    },
+    dispatch
+  );
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(LeagueScoreSheet)
+export default connect(mapStateToProps, mapDispatchToProps)(LeagueScoreSheet);

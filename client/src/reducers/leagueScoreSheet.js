@@ -1,43 +1,79 @@
-import data from './leagueScoreSheet-fakedata.json';
-import { LeagueScoreSheetActions } from '../actions';
+// import data from '../fakeData/leagueScoreSheet-fakedata.json';
+import { LeagueScoreSheetActions } from "../actions";
+import { round } from "../utils/round";
 
 const initialState = {
-	// Default sort by Total score column
-	users: data.users.sort((a,b) => {
-		return b.total - a.total
-	}),
-	activities: data.activities,
-	sort: 'total'
-}
+  users: [],
+  leagueActivities: [],
+  activities: [],
+  schedule: {
+    week: 1,
+    weekLabel: "Week 1",
+    startDay: "20171105",
+    endDay: "20171111"
+  }
+};
 
 export default (state = initialState, action) => {
-	switch (action.type) {
-		// Sorts columns in scoreSheet
-		case (LeagueScoreSheetActions.Types.SET_SORT):
-			// need to use JSON.parse(JSON.stringify) instead of Object.Assign
-			// Object.Assign only does shallow copy
-			let newState = JSON.parse(JSON.stringify(state))
-				// If the sortKey is an activity name and is in the activities array, sort by the activity value
-				let index = newState.users[0].activities.findIndex(i => i.name === action.sortKey)
-				if (index !== -1) {
-					newState.users.sort((a,b) => {
-						if (b.activities[index].value.hr) {
-							let bTotalMin = b.activities[index].value.hr * 60 + b.activities[index].value.min
-								let aTotalMin = a.activities[index].value.hr * 60 + a.activities[index].value.min
-								return bTotalMin - aTotalMin
-						}
-						return b.activities[index].value - a.activities[index].value
-					})
-				} else {
-					// Head to Head or Total score columns
-					let sortKey = action.sortKey.toLowerCase()
-						newState.users.sort((a, b) => {
-							return b[sortKey] - a[sortKey]
-						})
-				}
-			newState.sort = action.sortKey
-				return newState
-		default:
-				return state
-	}
-}
+  switch (action.type) {
+    case LeagueScoreSheetActions.Types.LeagueScoreFetchDataSuccess:
+      if (action.payload.success) {
+        const { leagueActivities, activities, users } = action.payload;
+        let newState = JSON.parse(JSON.stringify(state));
+        let newActivities = leagueActivities.map(activity => ({
+          name: activity.name,
+          id: activity.id,
+          type: activity.type
+        }));
+        let newUsers = users.map(user => {
+          let total = 0;
+          let userActivities = newActivities.map(activity => {
+            let amount = 0;
+            activities.forEach((e, index) => {
+              if (e.activity === activity.id && user.id === e.user) {
+                amount += activities[index].amount;
+                if (activity.type === "timer") {
+                  total +=
+                    round(amount / 60, 2) *
+                    leagueActivities[activities[index].activity - 1].points;
+                } else {
+                  total +=
+                    amount *
+                    leagueActivities[activities[index].activity - 1].points;
+                }
+              }
+            });
+            return {
+              name: activity.name,
+              amount,
+              type: activity.type
+            };
+          });
+          return {
+            ...user,
+            activities: userActivities,
+            total
+          };
+        });
+        newState = {
+          ...newState,
+          leagueActivities,
+          users: newUsers
+        };
+        return newState;
+      }
+    case LeagueScoreSheetActions.Types.UpdateWeek:
+      if (action.payload.success) {
+        const { week, weekLabel, startDay, endDay } = action.payload;
+        const schedule = {
+          week,
+          weekLabel,
+          startDay,
+          endDay
+        };
+        return { ...state, schedule };
+      }
+    default:
+      return state;
+  }
+};

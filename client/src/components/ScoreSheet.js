@@ -7,13 +7,14 @@ import { bindActionCreators } from 'redux';
 import { SingleDatePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 import moment from 'moment';
+import { SchedulePickerGroup } from './common';
 
 class ScoreSheet extends Component {
 
 	state = {
 		date: moment(),
 		datePickerGroup: 'day',
-		schedulePickerGroup: 'Week 1',
+		week: 'Week 1',
 		view: 'count'
 	}
 
@@ -57,8 +58,12 @@ class ScoreSheet extends Component {
 								hideKeyboardShortcutsPanel
 							/>
 						}
-						{this.state.datePickerGroup === 'week' && 
-							<SchedulePickerGroup schedule={schedule} week={this.state.schedulePickerGroup} handleSchedulePickerGroup={this.handleSchedulePickerGroup} />
+						{this.state.datePickerGroup === 'week' &&
+							<SchedulePickerGroup
+								schedule={schedule}
+								week={this.state.week}
+								handleSchedulePickerGroup={this.handleSchedulePickerGroup}
+							/>
 						}
 
 					</Grid.Column>
@@ -84,8 +89,8 @@ class ScoreSheet extends Component {
 							{this.state.view === 'score' && <span>Switch to Count</span>}
 						</Button>
 					</Grid.Column>
-				</Grid.Row>			
-				<Divider />				
+				</Grid.Row>
+				<Divider />
 				<Grid.Row>
 					<Header as='h1'>
 						{currentActivity.name}
@@ -109,7 +114,7 @@ class ScoreSheet extends Component {
 						<Header as='h4'>
 							Your Score
 						</Header>
-					</Grid.Column>		
+					</Grid.Column>
 				</Grid.Row>
 				<Grid.Row style={{padding: 0, marginBottom: '20px'}}>
 					<Grid.Column>
@@ -129,7 +134,7 @@ class ScoreSheet extends Component {
 							{league}
 						</Header>
 					</Grid.Column>
-				</Grid.Row>				
+				</Grid.Row>
 				{users.map(user => {
 					const { username, activityAmount } = {...user}
 					return (
@@ -174,31 +179,8 @@ const	DatePickerGroup = ({date, handleDatePickerGroup}) => (
 				/>
 			</Form.Field>
 		</Form.Group>
-	</Form>		
+	</Form>
 )
-
-const SchedulePickerGroup = ({schedule, week, handleSchedulePickerGroup}) => {
-	const scheduleGroup = schedule.map(e => {
-		return (
-			<Radio
-				key={e}
-				label={e}
-				name='schedulePickerGroup'
-				value={e}
-				checked={week === e}
-				onChange={handleSchedulePickerGroup}
-			/>
-		)
-	})
-
-	return (
-		<Form>
-			<Form.Group inline>
-				{scheduleGroup}
-			</Form.Group>
-		</Form>
-	)	
-}
 
 const mapStateToProps = (state) => {
 	return { ...state.scoreSheet }

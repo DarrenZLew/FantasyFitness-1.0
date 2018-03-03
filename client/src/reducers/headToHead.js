@@ -1,4 +1,4 @@
-import fakeData from './headToHeadFakeData.json';
+import fakeData from '../fakeData/headToHeadFakeData.json';
 
 const initialState = {
   user: 'Sanda',
